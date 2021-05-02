@@ -1,0 +1,49 @@
+Download Oracle 18 from 
+https://www.oracle.com/in/database/technologies/xe-downloads.html
+
+choose your respective operating system and download. Extract the zip file and run the setup
+
+
+Open command line and login to sqlplus
+
+substitute XXX for your password 
+
+
+sqlplus -l system/XXXX@localhost/xepdb1
+
+At the SQL> prompt enter the following statements (here the username is demopython change it with the appropriate username or use the same):
+
+
+define USERNAME = demopython
+
+create user &USERNAME;
+
+alter user &USERNAME
+    default tablespace users
+    temporary tablespace temp
+    quota unlimited on users;
+
+grant create session,
+    create view,
+    create sequence,
+    create procedure,
+    create table,
+    create trigger,
+    create type,
+    create materialized view
+    to &USERNAME;
+
+
+Still in SQL*Plus set a paswword for USERNAME. Replace YYYY with the password and run:
+
+alter user &USERNAME identified by YYYY
+
+
+Exit SQL*Plus 
+
+quit 
+
+
+
+The above is a one time setup
+

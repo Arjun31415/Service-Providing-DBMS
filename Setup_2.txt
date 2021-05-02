@@ -1,0 +1,46 @@
+install PYTHON 3 or later
+
+
+ensure that python and pip is installed and present in the user/system path 
+
+install cx_Oracle:
+python -m pip install cx_Oracle --upgrade --user
+
+
+The setup is finsihed
+After this just create a python file
+refer test.py
+
+
+In vscode Oracle tools extension for connecting to database enter
+
+connection type:basic
+database host name : LAPTOP-IVAN8D34
+Port Number:1521
+Service name: xepdb1(for demopython or XE for system login)
+Role: default
+User name: Demopython
+Password:<whatever it is>
+
+
+To get the various details first login in to sql plus as demopython
+
+for Service Name:
+
+select sys_context('userenv','service_name') from dual;
+
+
+for host name:
+login as SYSDBA:
+
+(in terminal)
+sqlplus / as sysdba
+
+(inside sql*plus)
+	conn /as sysdba
+
+and then execute:
+
+	SELECT UTL_INADDR.get_host_name FROM dual;
+
+paste that host name in vscode
