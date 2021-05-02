@@ -85,11 +85,45 @@ class Login:
     # ----------------------------------------------------------------
     def __init__(self, master=None):
         self.root = master
-        self.root.title("Login")
+
         self.root.geometry(str(w)+"x"+str(h))
-        label = Label(self.root, text="This is a new Window")
-        label.pack()
+        self.make_widgets()
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
+
+    # ----------------------------------------------------------------
+    def make_widgets(self):
+        self.root.title("Login")
+        heading = Label(self.root, text="This is a new Window")
+        heading.pack()
+        username = Entry(self.root, bg='white', font=('Times New Roman', 12))
+        username.place(x=150/400 * w, y=h/6)
+        usr_label = Label(self.root, text="Enter Username:",
+                          font=("Time New Roman", 12),
+                          anchor='center'
+                          )
+        usr_label.place(x=25/400*w, y=h/6)
+
+        # Password label
+        Label(self.root, text="Enter Password:",
+              font=("Time New Roman", 12),
+              anchor='center'
+              ).place(x=25, y=150)
+        password = Entry(self.root, bg='white',
+                         font=('Times New Roman', 12),
+                         show='*',
+                         )
+        password.place(x=150/400*w, y=150/600*h)
+
+        Submit = Button(self.root, text='Submit')
+        Submit.place(x=0.75*w, y=h/2)
+        Submit.bind('<Button-1>', self.authenticate)
+
+    # ----------------------------------------------------------------
+
+    def authenticate(self, event):
+        """
+        authenticate the login
+        """
 
     # ----------------------------------------------------------------
 
