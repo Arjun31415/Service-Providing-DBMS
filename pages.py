@@ -2,6 +2,7 @@ from tkinter import*
 from pubsub import pub
 from tkinter import messagebox
 
+##################################################################################
 #  Height and width of our window
 
 h = 600
@@ -10,13 +11,17 @@ w = 400
 # a global variable to keep track of the login window
 login = None
 
+##################################################################################
+
 
 class WelcomeWindow:
-
+    # ----------------------------------------------------------------
     def __init__(self, parent=None):
         self.parent = parent
         # self.pack()
         self.make_widgets()
+
+    # ----------------------------------------------------------------
 
     def make_widgets(self):
 
@@ -42,18 +47,26 @@ class WelcomeWindow:
         self.btn1.place(x=100, y=150)
         self.btn2.place(x=200, y=150)
 
+    # ----------------------------------------------------------------
+
     def listner(self, arg1, arg2=None):
         """
         pubsub listener - opens main frame when otherFrame closes
         """
         self.show()
 
+    # ----------------------------------------------------------------
+
     def hide(self):
         self.parent.withdraw()
+
+    # ----------------------------------------------------------------
 
     def show(self):
         self.parent.update()
         self.parent.deiconify()
+
+    # ----------------------------------------------------------------
 
     def login(self, event):
         global login
@@ -65,9 +78,11 @@ class WelcomeWindow:
         else:
             login.focus()
 
+##################################################################################
+
 
 class Login:
-
+    # ----------------------------------------------------------------
     def __init__(self, master=None):
         self.root = master
         self.root.title("Login")
@@ -75,6 +90,8 @@ class Login:
         label = Label(self.root, text="This is a new Window")
         label.pack()
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
+
+    # ----------------------------------------------------------------
 
     def on_closing(self):
         global login
@@ -86,6 +103,8 @@ class Login:
             closes the window and sends a message to the main window
         """
         pub.sendMessage("LoginWindowClosed", arg1="data")
+
+# ----------------------------------------------------------------
 
 
 if __name__ == '__main__':
