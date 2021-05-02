@@ -1,4 +1,5 @@
 from tkinter import*
+from pubsub import pub
 from tkinter import messagebox
 
 #  Height and width of our window
@@ -32,16 +33,33 @@ class WelcomeWindow:
         # bind left click on the login button to open the login screen
         self.btn1.bind('<Button-1>', self.login)
 
+        # Create a listner for the even "login Window closed"
+        pub.subscribe(self.listner, "LoginWindowClosed")
+
         # place the widgets
         self.heading.place(x=w/2, y=2/30*h, anchor='center')
         self.lbl1.place(x=w/2, y=75, anchor='center')
         self.btn1.place(x=100, y=150)
         self.btn2.place(x=200, y=150)
 
+    def listner(self, arg1, arg2=None):
+        """
+        pubsub listener - opens main frame when otherFrame closes
+        """
+        self.show()
+
+    def hide(self):
+        self.parent.withdraw()
+
+    def show(self):
+        self.parent.update()
+        self.parent.deiconify()
+
     def login(self, event):
         global login
         # if login is not null then create a login window otherwise focus the login window
         if not login:
+            self.hide()
             login = Toplevel(self.parent)
             LoginWindow = Login(login)
         else:
@@ -60,9 +78,14 @@ class Login:
 
     def on_closing(self):
         global login
-        if messagebox.askokcancel("Quit", "Do you want to quit?"):
-            self.root.destroy()
-            login = None
+        global root
+        # if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        self.root.destroy()
+        login = None
+        """
+            closes the window and sends a message to the main window
+        """
+        pub.sendMessage("LoginWindowClosed", arg1="data")
 
 
 if __name__ == '__main__':
