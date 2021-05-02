@@ -138,8 +138,8 @@ class Login:
         """
         pub.sendMessage("LoginWindowClosed", arg1="data")
 
-# ----------------------------------------------------------------
 
+##################################################################################
 
 if __name__ == '__main__':
     #  a global variable to keep track of the root window
