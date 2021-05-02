@@ -10,6 +10,7 @@ w = 400
 
 # a global variable to keep track of the login window
 login = None
+signup = None
 
 ##################################################################################
 
@@ -38,7 +39,7 @@ class WelcomeWindow:
         # bind left click on the login button to open the login screen
         self.btn1.bind('<Button-1>', self.login)
 
-        # Create a listner for the even "login Window closed"
+        # Create a listner for the event "login Window closed"
         pub.subscribe(self.listner, "LoginWindowClosed")
 
         # place the widgets
@@ -93,7 +94,7 @@ class Login:
     # ----------------------------------------------------------------
     def make_widgets(self):
         self.root.title("Login")
-        heading = Label(self.root, text="This is a new Window")
+        heading = Label(self.root, text="Login Window")
         heading.pack()
         username = Entry(self.root, bg='white', font=('Times New Roman', 12))
         username.place(x=150/400 * w, y=h/6)
