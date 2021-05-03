@@ -2,7 +2,7 @@ import cx_Oracle
 
 connection = cx_Oracle.connect(
     user="demopython",
-    password="5678",
+    password="jonu123",
     dsn="localhost/xepdb1"
 )
 
@@ -33,17 +33,38 @@ cursor.execute("""
     end;""")
 cursor.execute("""
     begin
+        execute immediate 'drop table cust_avails_service';
+        exception when others then if sqlcode <> -942 then raise; end if;
+    end;""")
+cursor.execute("""
+    begin
+        execute immediate 'drop table emp_perf_service';
+        exception when others then if sqlcode <> -942 then raise; end if;
+    end;""")
+
+cursor.execute("""
+    begin
+        execute immediate 'drop table bill2';
+        exception when others then if sqlcode <> -942 then raise; end if;
+    end;""")
+cursor.execute("""
+    begin
+        execute immediate 'drop table bill1';
+        exception when others then if sqlcode <> -942 then raise; end if;
+    end;""")
+cursor.execute("""
+    begin
+        execute immediate 'drop table service';
+        exception when others then if sqlcode <> -942 then raise; end if;
+    end;""")
+cursor.execute("""
+    begin
         execute immediate 'drop table employee';
         exception when others then if sqlcode <> -942 then raise; end if;
     end;""")
 cursor.execute("""
     begin
         execute immediate 'drop table Customer';
-        exception when others then if sqlcode <> -942 then raise; end if;
-    end;""")
-cursor.execute("""
-    begin
-        execute immediate 'drop table service';
         exception when others then if sqlcode <> -942 then raise; end if;
     end;""")
 cursor.execute("""
@@ -65,7 +86,7 @@ cursor.execute("""
                )
 
 # Insert
-data = [("a", "123", "e"), ("b", "567", "c"), ("c", "789", "a")]
+data = [("A", "100001", "e"), ("B", "100002", "c"), ("C", "100003", "a"),("D","100004","e"),("E","100005","c"),("F","100006","c")]
 cursor.executemany(
     "insert into Alogin values(:1, :2,:3)",
     data)
@@ -85,7 +106,7 @@ cursor.execute("""
      Alogin(email_id)""")
 
 # Insert
-admindata = [("65456", "a"), ("12567", "b"), ("20789", "c")]
+admindata = [("10001", "A"), ("10002", "B"), ("10003", "C"),("10004", "D"), ("10005", "E"), ("10006", "F"),("10007", "A"), ("10008", "F"), ("10009", "C")]
 cursor.executemany(
     "insert into admin (admin_id,email_id) values(:1,:2)",
     admindata)
@@ -105,7 +126,7 @@ cursor.execute("""
                )
 
 # Insert
-empdata = [("1001", "a"), ("1002", "b"), ("1003", "c")]
+empdata = [("1001", "A"), ("1002", "C"), ("1003", "D"),("1004", "B"), ("1005", "E"), ("1006", "F"),("1007", "B"),("1008", "B")]
 cursor.executemany(
     "insert into employee (emp_id,email_id) values(:1,:2)",
     empdata)
@@ -146,7 +167,8 @@ cursor.execute("""
                )
 
 # Insert
-custdata = [("2001", "a"), ("2002", "b"), ("2003", "c")]
+custdata = [("2001", "A"), ("2002", "B"), ("2003", "C"),("2004", "D"), ("2005", "E"), ("2006", "F"),("2007", "E"), ("2008", "F"),
+ ("2009", "F"),("2010", "A"), ("2011", "C"), ("2012", "C")]
 cursor.executemany(
     "insert into Customer (cust_id,email_id) values(:1,:2)",
     custdata)
@@ -210,11 +232,79 @@ cursor.execute("""
                )
 
 # Insert
-servicedata = [("a101", "Something"), ("b102", "A2"), ("c103", "Mopping")]
+servicedata = [("a101", "sweeping"), ("b101", "vaccumming"), ("a102", "Mopping"),("c101","Sofa cleaning"),
+("a103", "a3"), ("b102", "b2"), ("a104", "a4"),("c102","c2")]
 cursor.executemany(
     "insert into service(service_id,service_name) values (:1,:2)",
     servicedata)
 print(cursor.rowcount, "Rows Inserted")
+
+connection.commit()
+
+# CUSTOMER AVAILS SERVICE TABLE
+# Create
+cursor.execute("""
+    create table cust_avails_service (service_id varchar2(10),cust_id number(7,0), constraint fk_serviceid foreign key(service_id) 
+    references service(service_id),constraint fk_custid1 foreign key(cust_id) references Customer(cust_id))"""
+               )
+
+# Insert
+# custservdata = [("a101", "2001"), ("b101", "2012"), ("a102", "2003"),("c101","2010"),("a103", "2004"), ("b102", "2002"),
+#  ("a104", "2005"),("c102","2006")]
+# cursor.executemany(
+#     "insert into service(service_id,service_name) values (:1,:2)",
+#     servicedata)
+# print(cursor.rowcount, "Rows Inserted")
+
+connection.commit()
+
+# EMPLOYEE PERFORMS SERVICE TABLE
+# Create
+cursor.execute("""
+    create table emp_perf_service (service_id varchar2(10),emp_id number(7,0) ,salary number(7,0), constraint fk_serviceid1 foreign key(service_id) 
+    references service(service_id),constraint fk_empid1 foreign key(emp_id) references employee(emp_id))"""
+               )
+
+# Insert
+# custservdata = [("a101", "2001"), ("b101", "2012"), ("a102", "2003"),("c101","2010"),("a103", "2004"), ("b102", "2002"),
+#  ("a104", "2005"),("c102","2006")]
+# cursor.executemany(
+#     "insert into service(service_id,service_name) values (:1,:2)",
+#     servicedata)
+# print(cursor.rowcount, "Rows Inserted")
+
+connection.commit()
+
+# BILL 1 TABLE
+# Create
+cursor.execute("""
+    create table bill1 (bill_id varchar2(10),email_id varchar2(40),cust_id number(7,0),emp_id number(7,0),service_date date , constraint fk_emailid4 foreign key(email_id) 
+    references Alogin(email_id),constraint fk_custid2 foreign key(cust_id) references Customer(cust_id))"""
+               )
+
+ # Insert
+# custservdata = [("a101", "2001"), ("b101", "2012"), ("a102", "2003"),("c101","2010"),("a103", "a3"), ("b102", "2002"),
+#  ("a104", "2005"),("c102","2006"),("a101", "2007"), ("b101", "2008"), ("a102", "2009"),("c101","2011")]
+# cursor.executemany(
+#     "insert into service(service_id,service_name) values (:1,:2)",
+#     servicedata)
+# print(cursor.rowcount, "Rows Inserted")
+
+connection.commit()
+# BILL 2 TABLE
+# Create
+# cursor.execute("""
+#     create table bill2 (bill_id varchar2(10),service_id varchar2(10),email_id varchar2(40) , constraint fk_serviceid2 foreign key(service_id) 
+#     references service(service_id),constraint fk_emailid5 foreign key(email_id) references Alogin(email_id), constraint fk_billid foreign key(bill_id) references bill1(bill_id))"""
+#                )
+
+ # Insert
+# custservdata = [("a101", "2001"), ("b101", "2012"), ("a102", "2003"),("c101","2010"),("a103", "a3"), ("b102", "2002"),
+#  ("a104", "2005"),("c102","2006"),("a101", "2007"), ("b101", "2008"), ("a102", "2009"),("c101","2011")]
+# cursor.executemany(
+#     "insert into service(service_id,service_name) values (:1,:2)",
+#     servicedata)
+# print(cursor.rowcount, "Rows Inserted")
 
 connection.commit()
 
