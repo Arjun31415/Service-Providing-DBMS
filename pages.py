@@ -38,9 +38,13 @@ class WelcomeWindow:
 
         # bind left click on the login button to open the login screen
         self.btn1.bind('<Button-1>', self.login)
+        self.btn2.bind('<Button-1>', self.signup)
 
         # Create a listner for the event "login Window closed"
         pub.subscribe(self.listner, "LoginWindowClosed")
+
+        # Create a listner for the event "login Window closed"
+        pub.subscribe(self.listner, "SignupWindowClosed")
 
         # place the widgets
         self.heading.place(x=w/2, y=2/30*h, anchor='center')
@@ -78,6 +82,16 @@ class WelcomeWindow:
             LoginWindow = Login(login)
         else:
             login.focus()
+    
+    def signup(self, event):
+        global signup
+        # if signup is not null then create a signup window otherwise focus the sign window
+        if not signup:
+            self.hide()
+            signup = Toplevel(self.parent)
+            SignupWindow = Signup(signup)
+        else:
+            signup.focus()
 
 ##################################################################################
 
@@ -94,7 +108,7 @@ class Login:
     # ----------------------------------------------------------------
     def make_widgets(self):
         self.root.title("Login")
-        heading = Label(self.root, text="Login Window", font=("Arial", 20))
+        heading = Label(self.root, text="Login Window", font=("Arial", 16))
         heading.pack()
         username = Entry(self.root, bg='white', font=("Arail", 14))
         username.place(x=160/400 * w, y=h/6)
@@ -138,6 +152,78 @@ class Login:
             closes the window and sends a message to the main window
         """
         pub.sendMessage("LoginWindowClosed", arg1="data")
+
+##################################################################################
+
+
+class Signup:
+    # ----------------------------------------------------------------
+    def __init__(self, child=None):
+        self.sgup = child
+
+        self.sgup.geometry(str(w)+"x"+str(h))
+        self.make_widgets()
+        self.sgup.protocol("WM_DELETE_WINDOW", self.on_closing)
+
+    # ----------------------------------------------------------------
+    def make_widgets(self):
+        self.sgup.title("Login")
+        heading = Label(self.sgup, text="Signup Window", font=("Arial", 16))
+        heading.pack()
+        username = Entry(self.sgup, bg='white', font=("Arail", 14))
+        username.place(x=160/400 * w, y=h/6)
+        usr_label = Label(self.sgup, text="Enter Username:",
+                          font=("Times", 14),
+                          anchor='center'
+                          )
+        usr_label.place(x=25/400*w, y=h/6)
+
+        # Password label
+        Label(self.sgup, text="Enter Password:",
+              font=("Times", 14),
+              anchor='center'
+              ).place(x=25, y=150)
+        password = Entry(self.sgup, bg='white',
+                         font=('Arial', 14),
+                         show='*',
+                         )
+        password.place(x=160/400*w, y=150/600*h)
+
+        #Confirm Password label
+        Label(self.sgup, text="Confirm Password:",
+              font=("Times", 14),
+              anchor='center'
+              ).place(x=8, y=200)
+        password = Entry(self.sgup, bg='white',
+                         font=('Arial', 14),
+                         show='*',
+                         )
+        password.place(x=160/400*w, y=200/600*h)
+
+
+        Submit = Button(self.sgup, text='Submit')
+        Submit.place(x=0.75*w, y=h/2)
+        Submit.bind('<Button-1>', self.authenticate)
+
+    # ----------------------------------------------------------------
+
+    def authenticate(self, event):
+        """
+        authenticate the signup
+        """
+
+    # ----------------------------------------------------------------
+
+    def on_closing(self):
+        global signup
+        global root
+        # if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        self.sgup.destroy()
+        signup = None
+        """
+            closes the window and sends a message to the main window
+        """
+        pub.sendMessage("SignupWindowClosed", arg1="data")
 
 
 ##################################################################################
