@@ -82,7 +82,9 @@ class WelcomeWindow:
             LoginWindow = Login(login)
         else:
             login.focus()
-    
+
+    # ----------------------------------------------------------------
+
     def signup(self, event):
         global signup
         # if signup is not null then create a signup window otherwise focus the sign window
@@ -158,8 +160,8 @@ class Login:
 
 class Signup:
     # ----------------------------------------------------------------
-    def __init__(self, child=None):
-        self.sgup = child
+    def __init__(self, master=None):
+        self.sgup = master
 
         self.sgup.geometry(str(w)+"x"+str(h))
         self.make_widgets()
@@ -189,7 +191,7 @@ class Signup:
                          )
         password.place(x=160/400*w, y=150/600*h)
 
-        #Confirm Password label
+        # Confirm Password label
         Label(self.sgup, text="Confirm Password:",
               font=("Times", 14),
               anchor='center'
@@ -199,7 +201,6 @@ class Signup:
                          show='*',
                          )
         password.place(x=160/400*w, y=200/600*h)
-
 
         Submit = Button(self.sgup, text='Submit')
         Submit.place(x=0.75*w, y=h/2)
