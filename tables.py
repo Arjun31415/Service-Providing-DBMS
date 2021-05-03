@@ -2,7 +2,7 @@ import cx_Oracle
 
 connection = cx_Oracle.connect(
     user="demopython",
-    password="5678",
+    password="jonu123",
     dsn="localhost/xepdb1"
 )
 
@@ -60,14 +60,14 @@ cursor.execute("""
 # ALOGIN TABLE
 # Create
 cursor.execute("""
-    create table Alogin (email_id varchar2(40) ,password varchar2(20),constraint pk_emailid 
+    create table Alogin (email_id varchar2(40) ,password varchar2(20),type char(1) not null,constraint pk_emailid 
     primary key(email_id))"""
                )
 
 # Insert
-data = [("a", "123"), ("b", "567"), ("c", "789")]
+data = [("a", "123","e"), ("b", "567","c"), ("c", "789","a")]
 cursor.executemany(
-    "insert into Alogin (email_id, password) values(:1, :2)",
+    "insert into Alogin values(:1, :2,:3)",
     data)
 print(cursor.rowcount, "Rows Inserted")
 
