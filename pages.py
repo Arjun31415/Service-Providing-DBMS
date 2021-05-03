@@ -94,26 +94,26 @@ class Login:
     # ----------------------------------------------------------------
     def make_widgets(self):
         self.root.title("Login")
-        heading = Label(self.root, text="Login Window")
+        heading = Label(self.root, text="Login Window", font=("Arial", 20))
         heading.pack()
-        username = Entry(self.root, bg='white', font=('Times New Roman', 12))
-        username.place(x=150/400 * w, y=h/6)
+        username = Entry(self.root, bg='white', font=("Arail", 14))
+        username.place(x=160/400 * w, y=h/6)
         usr_label = Label(self.root, text="Enter Username:",
-                          font=("Time New Roman", 12),
+                          font=("Times", 14),
                           anchor='center'
                           )
         usr_label.place(x=25/400*w, y=h/6)
 
         # Password label
         Label(self.root, text="Enter Password:",
-              font=("Time New Roman", 12),
+              font=("Times", 14),
               anchor='center'
               ).place(x=25, y=150)
         password = Entry(self.root, bg='white',
-                         font=('Times New Roman', 12),
+                         font=('Arial', 14),
                          show='*',
                          )
-        password.place(x=150/400*w, y=150/600*h)
+        password.place(x=160/400*w, y=150/600*h)
 
         Submit = Button(self.root, text='Submit')
         Submit.place(x=0.75*w, y=h/2)
