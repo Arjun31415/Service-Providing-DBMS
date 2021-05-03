@@ -2,7 +2,7 @@ import cx_Oracle
 
 connection = cx_Oracle.connect(
     user="demopython",
-    password="jonu123",
+    password="5678",
     dsn="localhost/xepdb1"
 )
 
@@ -65,7 +65,7 @@ cursor.execute("""
                )
 
 # Insert
-data = [("a", "123","e"), ("b", "567","c"), ("c", "789","a")]
+data = [("a", "123", "e"), ("b", "567", "c"), ("c", "789", "a")]
 cursor.executemany(
     "insert into Alogin values(:1, :2,:3)",
     data)
@@ -218,6 +218,19 @@ print(cursor.rowcount, "Rows Inserted")
 
 connection.commit()
 
+
+def get_login(email, password):
+    """ 
+        given a username and password return
+         whether it is valid or not 
+    """
+    cursor.execute(
+        """select * from Alogin 
+            where email_id='%s' and password='%s'"""
+        % (email, password)
+    )
+    data = cursor.fetchall()
+    print(data)
 
 # Now query the rows back
 

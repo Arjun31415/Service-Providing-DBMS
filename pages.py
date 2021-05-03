@@ -1,7 +1,7 @@
 from tkinter import*
 from pubsub import pub
 from tkinter import messagebox
-
+import tables as tb
 ##################################################################################
 #  Height and width of our window
 
@@ -141,6 +141,7 @@ class Login:
         """
         authenticate the login
         """
+        tb.get_login('a', 123)
 
     # ----------------------------------------------------------------
 
