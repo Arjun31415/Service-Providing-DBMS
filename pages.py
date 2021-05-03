@@ -49,7 +49,7 @@ class WelcomeWindow:
         # place the widgets
         self.heading.place(x=w/2, y=2/30*h, anchor='center')
         self.lbl1.place(x=w/2, y=75, anchor='center')
-        self.btn1.place(x=100, y=150)
+        self.btn1.place(x=140, y=150)
         self.btn2.place(x=200, y=150)
 
     # ----------------------------------------------------------------
