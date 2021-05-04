@@ -112,8 +112,10 @@ class Login:
         self.root.title("Login")
         heading = Label(self.root, text="Login Window", font=("Arial", 16))
         heading.pack()
-        username = Entry(self.root, bg='white', font=("Arail", 14))
-        username.place(x=160/400 * w, y=h/6)
+        self.username = Entry(self.root, bg='white', font=("Arail", 14))
+
+        # username Entry field
+        self.username.place(x=160/400 * w, y=h/6)
         usr_label = Label(self.root, text="Enter Username:",
                           font=("Times", 14),
                           anchor='center'
@@ -125,11 +127,13 @@ class Login:
               font=("Times", 14),
               anchor='center'
               ).place(x=25, y=150)
-        password = Entry(self.root, bg='white',
-                         font=('Arial', 14),
-                         show='*',
-                         )
-        password.place(x=160/400*w, y=150/600*h)
+
+        # password entry field
+        self.password = Entry(self.root, bg='white',
+                              font=('Arial', 14),
+                              show='*',
+                              )
+        self.password.place(x=160/400*w, y=150/600*h)
 
         Submit = Button(self.root, text='Submit')
         Submit.place(x=0.75*w, y=h/2)
@@ -141,9 +145,14 @@ class Login:
         """
         authenticate the login
         """
-        tb.get_login('a', 123)
+        # the result of the entered details
+        res = tb.auth_login(self.username.get(), self.password.get())
+        if not res:
+            messagebox.showinfo("Error", "Username/Password is incorrect")
+        else:
+            messagebox.showinfo("Success", "Login Successful")
 
-    # ----------------------------------------------------------------
+        # ----------------------------------------------------------------
 
     def on_closing(self):
         global login
@@ -159,6 +168,12 @@ class Login:
 ##################################################################################
 
 
+""" 
+    ONLY CUSTOMERS CAN SIGN UP
+    EMPLOYEE SIGNUP WILL BE MANAGED BY ADMIN
+"""
+
+
 class Signup:
     # ----------------------------------------------------------------
     def __init__(self, master=None):
@@ -170,11 +185,11 @@ class Signup:
 
     # ----------------------------------------------------------------
     def make_widgets(self):
-        self.sgup.title("Login")
+        self.sgup.title("Sign-Up")
         heading = Label(self.sgup, text="Signup Window", font=("Arial", 16))
         heading.pack()
-        username = Entry(self.sgup, bg='white', font=("Arail", 14))
-        username.place(x=160/400 * w, y=h/6)
+        self.username = Entry(self.sgup, bg='white', font=("Arail", 14))
+        self.username.place(x=160/400 * w, y=h/6)
         usr_label = Label(self.sgup, text="Enter Username:",
                           font=("Times", 14),
                           anchor='center'
@@ -186,22 +201,22 @@ class Signup:
               font=("Times", 14),
               anchor='center'
               ).place(x=25, y=150)
-        password = Entry(self.sgup, bg='white',
-                         font=('Arial', 14),
-                         show='*',
-                         )
-        password.place(x=160/400*w, y=150/600*h)
+        self.password = Entry(self.sgup, bg='white',
+                              font=('Arial', 14),
+                              show='*',
+                              )
+        self.password.place(x=160/400*w, y=150/600*h)
 
         # Confirm Password label
         Label(self.sgup, text="Confirm Password:",
               font=("Times", 14),
               anchor='center'
               ).place(x=8, y=200)
-        password = Entry(self.sgup, bg='white',
-                         font=('Arial', 14),
-                         show='*',
-                         )
-        password.place(x=160/400*w, y=200/600*h)
+        self.conf_password = Entry(self.sgup, bg='white',
+                                   font=('Arial', 14),
+                                   show='*',
+                                   )
+        self.conf_password.place(x=160/400*w, y=200/600*h)
 
         Submit = Button(self.sgup, text='Submit')
         Submit.place(x=0.75*w, y=h/2)
@@ -213,6 +228,16 @@ class Signup:
         """
         authenticate the signup
         """
+        # the result of the entered details
+        if self.password.get() != self.conf_password.get():
+            messagebox.showinfo("Error", "Password fields do not match")
+
+        res = tb.auth_signup(self.username.get(),
+                             self.password.get(), "e")
+        if not res:
+            messagebox.showinfo("Error", "Account already Exists")
+        else:
+            messagebox.showinfo("Success", "Account Created")
 
     # ----------------------------------------------------------------
 
