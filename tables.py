@@ -329,10 +329,17 @@ def auth_login(email, password):
     if(data[0][1] != password):
         return 0
     else:
-        return 1
+        return data[0][2]
 
 
-def auth_signup(email, password, Type="e"):
+""" 
+    ONLY THE CUSTOMER CAN SIGNUP
+    IF an employee or admin account is to be made
+    then it will be done by the existing admin account
+"""
+
+
+def auth_signup(email, password, Type="c"):
     """
         given a email and password
         check if this account already exists

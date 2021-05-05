@@ -2,6 +2,7 @@ from tkinter import*
 from pubsub import pub
 from tkinter import messagebox
 import tables as tb
+from entity_pages_1 import*
 ##################################################################################
 #  Height and width of our window
 
@@ -12,11 +13,13 @@ w = 400
 login = None
 signup = None
 
+
 ##################################################################################
 
 
 class WelcomeWindow:
     # ----------------------------------------------------------------
+
     def __init__(self, parent=None):
         self.parent = parent
         # self.pack()
@@ -45,6 +48,9 @@ class WelcomeWindow:
 
         # Create a listner for the event "login Window closed"
         pub.subscribe(self.listner, "SignupWindowClosed")
+        pub.subscribe(self.listner, "CustomerWindowClosed")
+        pub.subscribe(self.listner, "EmployeeWindowClosed")
+        pub.subscribe(self.listner, "AdminWindowClosed")
 
         # place the widgets
         self.heading.place(x=w/2, y=2/30*h, anchor='center')
@@ -106,8 +112,12 @@ class Login:
         self.root.geometry(str(w)+"x"+str(h))
         self.make_widgets()
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
+        pub.subscribe(self.force_close, "CustomerWindowClosed")
+        pub.subscribe(self.force_close, "EmployeeWindowClosed")
+        pub.subscribe(self.force_close, "AdminWindowClosed")
 
     # ----------------------------------------------------------------
+
     def make_widgets(self):
         self.root.title("Login")
         heading = Label(self.root, text="Login Window", font=("Arial", 16))
@@ -141,6 +151,15 @@ class Login:
 
     # ----------------------------------------------------------------
 
+    def hide(self):
+        self.root.withdraw()
+
+    # ----------------------------------------------------------------
+
+    def show(self):
+        self.root.update()
+        self.root.deiconify()
+
     def authenticate(self, event):
         """
         authenticate the login
@@ -150,13 +169,27 @@ class Login:
         if not res:
             messagebox.showinfo("Error", "Username/Password is incorrect")
         else:
-            messagebox.showinfo("Success", "Login Successful")
+            self.next_page(person=res)
 
-        # ----------------------------------------------------------------
+    # ----------------------------------------------------------------
+
+    def next_page(self, person):
+        global CustomerPage
+        print(CustomerPage)
+        if(person == "c"):
+            # if signup is not null then create a signup window otherwise focus the sign window
+            if not CustomerPage:
+                self.hide()
+                CustomerPage = Toplevel(self.root)
+                CustomerWindow = Customer(CustomerPage)
+            else:
+                CustomerPage.focus()
+
+    # ----------------------------------------------------------------
 
     def on_closing(self):
         global login
-        global root
+
         # if messagebox.askokcancel("Quit", "Do you want to quit?"):
         self.root.destroy()
         login = None
@@ -165,9 +198,21 @@ class Login:
         """
         pub.sendMessage("LoginWindowClosed", arg1="data")
 
+    # ----------------------------------------------------------------
+
+    def force_close(self, arg1, arg2="None"):
+        self.on_closing()
+
+    # ----------------------------------------------------------------
+
+    def listner(self, arg1, arg2=None):
+        """
+        pubsub listener - opens main frame when otherFrame closes
+        """
+        self.show()
+
+
 ##################################################################################
-
-
 """ 
     ONLY CUSTOMERS CAN SIGN UP
     EMPLOYEE SIGNUP WILL BE MANAGED BY ADMIN
@@ -233,7 +278,7 @@ class Signup:
             messagebox.showinfo("Error", "Password fields do not match")
 
         res = tb.auth_signup(self.username.get(),
-                             self.password.get(), "e")
+                             self.password.get(), "c")
         if not res:
             messagebox.showinfo("Error", "Account already Exists")
         else:
@@ -243,7 +288,7 @@ class Signup:
 
     def on_closing(self):
         global signup
-        global root
+
         # if messagebox.askokcancel("Quit", "Do you want to quit?"):
         self.sgup.destroy()
         signup = None
@@ -255,6 +300,7 @@ class Signup:
 
 ##################################################################################
 
+
 if __name__ == '__main__':
     #  a global variable to keep track of the root window
     global root
@@ -263,3 +309,5 @@ if __name__ == '__main__':
     Project = WelcomeWindow(root)
 
     root.mainloop()
+
+##################################################################################
