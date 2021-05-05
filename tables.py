@@ -2,7 +2,7 @@ import cx_Oracle
 
 connection = cx_Oracle.connect(
     user="demopython",
-    password="5678",
+    password="jonu123",
     dsn="localhost/xepdb1"
 )
 
@@ -282,7 +282,7 @@ connection.commit()
 # Create
 cursor.execute("""
     create table bill1 (bill_id varchar2(10),email_id varchar2(40),cust_id number(7,0),emp_id number(7,0),service_date date , constraint fk_emailid4 foreign key(email_id)
-    references Alogin(email_id),constraint fk_custid2 foreign key(cust_id) references Customer(cust_id))"""
+    references Alogin(email_id),constraint fk_custid2 foreign key(cust_id) references Customer(cust_id), constraint pk_billid primary key(bill_id))"""
                )
 
 # Insert
@@ -296,10 +296,11 @@ cursor.execute("""
 connection.commit()
 # BILL 2 TABLE
 # Create
-# cursor.execute("""
-#     create table bill2 (bill_id varchar2(10),service_id varchar2(10),email_id varchar2(40) , constraint fk_serviceid2 foreign key(service_id)
-#     references service(service_id),constraint fk_emailid5 foreign key(email_id) references Alogin(email_id), constraint fk_billid foreign key(bill_id) references bill1(bill_id))"""
-#                )
+cursor.execute("""
+    create table bill2 (bill_id varchar2(10),service_id varchar2(10),email_id varchar2(40) , constraint fk_serviceid2 
+    foreign key(service_id) references service(service_id),constraint fk_emailid5 foreign key(email_id) references Alogin(email_id), 
+    constraint fk_billid foreign key(bill_id) references bill1(bill_id))"""
+               )
 
 # Insert
 # custservdata = [("a101", "2001"), ("b101", "2012"), ("a102", "2003"),("c101","2010"),("a103", "a3"), ("b102", "2002"),
