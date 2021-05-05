@@ -1,8 +1,8 @@
 import cx_Oracle
-
+f = open("database-user.txt", "r")
 connection = cx_Oracle.connect(
-    user="demopython",
-    password="jonu123",
+    user=((f.readline()).strip('\n')),
+    password=(f.readline().strip('\n')),
     dsn="localhost/xepdb1"
 )
 
