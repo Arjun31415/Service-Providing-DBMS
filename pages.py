@@ -115,8 +115,16 @@ class Login:
         pub.subscribe(self.force_close, "CustomerWindowClosed")
         pub.subscribe(self.force_close, "EmployeeWindowClosed")
         pub.subscribe(self.force_close, "AdminWindowClosed")
+        # pub.subscribe(self.listner, "CustomerWindowClosed")
+        # pub.subscribe(self.listner, "EmployeeWindowClosed")
+        # pub.subscribe(self.listner, "AdminWindowClosed")
 
     # ----------------------------------------------------------------
+    def listner(self, arg1, arg2=None):
+        """
+        pubsub listener - opens main frame when otherFrame closes
+        """
+        self.show()
 
     def make_widgets(self):
         self.root.title("Login")
@@ -175,15 +183,13 @@ class Login:
 
     def next_page(self, person):
         global CustomerPage
-        print(CustomerPage)
+        print("Person= ", person)
+        print("Customer Page= ", (CustomerPage))
         if(person == "c"):
-            # if signup is not null then create a signup window otherwise focus the sign window
-            if not CustomerPage:
-                self.hide()
-                CustomerPage = Toplevel(self.root)
-                CustomerWindow = Customer(CustomerPage)
-            else:
-                CustomerPage.focus()
+            self.hide()
+            CustomerPage = Toplevel(self.root)
+            CustomerWindow = Customer(CustomerPage)
+            # CustomerPage.focus()
 
     # ----------------------------------------------------------------
 
@@ -201,15 +207,13 @@ class Login:
     # ----------------------------------------------------------------
 
     def force_close(self, arg1, arg2="None"):
-        self.on_closing()
+        global login
+
+        # if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        self.root.destroy()
+        login = None
 
     # ----------------------------------------------------------------
-
-    def listner(self, arg1, arg2=None):
-        """
-        pubsub listener - opens main frame when otherFrame closes
-        """
-        self.show()
 
 
 ##################################################################################

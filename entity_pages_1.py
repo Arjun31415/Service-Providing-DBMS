@@ -29,10 +29,11 @@ class Customer:
 
     def on_closing(self):
         global CustomerPage
-        if messagebox.askokcancel("Quit", "Do you want to signout?"):
-            self.parent.destroy()
+        # if messagebox.askokcancel("Quit", "Do you want to signout?"):
+        self.parent.destroy()
         CustomerPage = None
         """
-            closes the window and sends a message to the main window
+                closes the window and sends a message to the main window
         """
+        print(CustomerPage)
         pub.sendMessage("CustomerWindowClosed", arg1="data")
