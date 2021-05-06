@@ -170,7 +170,7 @@ class Login:
 
     def authenticate(self, event):
         """
-        authenticate the login
+            authenticate the login
         """
         # the result of the entered details
         res = tb.auth_login(self.username.get(), self.password.get())
@@ -182,13 +182,11 @@ class Login:
     # ----------------------------------------------------------------
 
     def next_page(self, person):
-        global CustomerPage
+
         print("Person= ", person)
-        print("Customer Page= ", (CustomerPage))
         if(person == "c"):
             self.hide()
-            CustomerPage = Toplevel(self.root)
-            CustomerWindow = Customer(CustomerPage)
+            CustomerWindow = Customer(Toplevel(self.root))
             # CustomerPage.focus()
 
     # ----------------------------------------------------------------
