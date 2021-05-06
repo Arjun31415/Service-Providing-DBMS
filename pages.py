@@ -6,7 +6,7 @@ from entity_pages_1 import*
 ##################################################################################
 #  Height and width of our window
 
-h = 600
+h = 400
 w = 400
 
 # a global variable to keep track of the login window
@@ -144,14 +144,14 @@ class Login:
         Label(self.root, text="Enter Password:",
               font=("Times", 14),
               anchor='center'
-              ).place(x=25, y=150)
+              ).place(x=25, y=(h/6)+35)
 
         # password entry field
         self.password = Entry(self.root, bg='white',
                               font=('Arial', 14),
                               show='*',
                               )
-        self.password.place(x=160/400*w, y=150/600*h)
+        self.password.place(x=160/400*w, y=(h/6)+35)
 
         Submit = Button(self.root, text='Submit')
         Submit.place(x=0.75*w, y=h/2)
@@ -249,23 +249,23 @@ class Signup:
         Label(self.sgup, text="Enter Password:",
               font=("Times", 14),
               anchor='center'
-              ).place(x=25, y=150)
+              ).place(x=25, y=(h/6)+35)
         self.password = Entry(self.sgup, bg='white',
                               font=('Arial', 14),
                               show='*',
                               )
-        self.password.place(x=160/400*w, y=150/600*h)
+        self.password.place(x=160/400*w, y=(h/6)+35)
 
         # Confirm Password label
         Label(self.sgup, text="Confirm Password:",
               font=("Times", 14),
               anchor='center'
-              ).place(x=8, y=200)
+              ).place(x=8, y=(h/6)+70)
         self.conf_password = Entry(self.sgup, bg='white',
                                    font=('Arial', 14),
                                    show='*',
                                    )
-        self.conf_password.place(x=160/400*w, y=200/600*h)
+        self.conf_password.place(x=160/400*w, y=(h/6)+70)
 
         Submit = Button(self.sgup, text='Submit')
         Submit.place(x=0.75*w, y=h/2)
