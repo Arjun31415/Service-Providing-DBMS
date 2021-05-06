@@ -1,14 +1,15 @@
 # Service-Providing-DBMS
 ## CSE2004 DBMS Project
 
-This is a DBMS project done in 1st year.<br>
+This is a DBMS project done in 1st year of college.<br></br>
 Minimum Software Requirements: <br>
 - python 3.9 
 - Oracle Database 18c 
 - SQL*Plus: Release 18.0.0.0.0 
 - Tkinter 8.6
-- cx_Oracle
+- cx_Oracle 8.1.0
 - pypubsub 4.0.3
+- pandas 1.2.4
 
 ## Setup:
 1. [Download](https://www.oracle.com/in/database/technologies/xe-downloads.html "Download Oracle 18") Oracle 18 for the respective operating system
@@ -58,6 +59,9 @@ Minimum Software Requirements: <br>
     ```powershell
     pip install pypubsub
     ```
-
+12. For manipulating data into .csv and .xlx files pandas is needed<br>
+    ```powershell
+    pip install pandas
+    ```
 
             
