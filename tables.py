@@ -12,42 +12,47 @@ cursor = connection.cursor()
 
 
 # Create Alogin table if it doesn't already exist
+# ----------------------------------------------------------------
 
 cursor.execute("""
-declare 
+declare
     table_exists number:=0;
 begin
-     select count(table_name) into table_exists from USER_TABLES where table_name='ALOGIN'; 
-    
+     select count(table_name) into table_exists from USER_TABLES where table_name='ALOGIN';
+
     if (table_exists = 0) then
         execute immediate 'create table Alogin (email_id varchar2(40) ,password varchar2(20),type char(1) not null,constraint pk_emailid
     primary key(email_id))';
     end if;
 end;
 """)
+# ----------------------------------------------------------------
+
 # Create Admin table if it does not already exist
 cursor.execute("""
-declare 
+declare
     table_exists number:=0;
 begin
-     select count(table_name) into table_exists from USER_TABLES where table_name='ADMIN'; 
-    
+     select count(table_name) into table_exists from USER_TABLES where table_name='ADMIN';
+
     if (table_exists = 0) then
         execute immediate 'create table admin(admin_id number(7, 0), email_id varchar2(40), admin_name varchar2(20),
-                   address varchar2(50), 
+                   address varchar2(50),
                    constraint pk_adminid primary key(admin_id)),
                    constraint fk_email1 foreign key(email_id) references Alogin(email_id)';
     end if;
 end;
 """)
+# ----------------------------------------------------------------
 
 # Create the employee table if it does not already exist
+# ----------------------------------------------------------------
 cursor.execute("""
-declare 
+declare
     table_exists number:=0;
 begin
-     select count(table_name) into table_exists from USER_TABLES where table_name='EMPLOYEE'; 
-    
+     select count(table_name) into table_exists from USER_TABLES where table_name='EMPLOYEE';
+
     if (table_exists = 0) then
         execute immediate 'create table employee (emp_id number(7,0),email_id varchar2(40) ,emp_name varchar2(20),
     address varchar2(50),constraint pk_empid primary key(emp_id)),
@@ -56,28 +61,34 @@ begin
     end if;
 end;
 """)
+# ----------------------------------------------------------------
 
 # Create the loyalty table if it does not already exist
+# ----------------------------------------------------------------
+
 cursor.execute("""
-declare 
+declare
     table_exists number:=0;
 begin
-     select count(table_name) into table_exists from USER_TABLES where table_name='LOYALTY'; 
-    
+     select count(table_name) into table_exists from USER_TABLES where table_name='LOYALTY';
+
     if (table_exists = 0) then
         execute immediate 'create table loyalty(loyalty_id number(7,0),loyalty_name varchar2(20),constraint pk_custid
      primary key(loyalty_id))';
     end if;
 end;
 """)
+# ----------------------------------------------------------------
 
 # Create the Customer table if it does not already exist
+# ----------------------------------------------------------------
+
 cursor.execute("""
-declare 
+declare
     table_exists number:=0;
 begin
-     select count(table_name) into table_exists from USER_TABLES where table_name='CUSTOMER'; 
-    
+     select count(table_name) into table_exists from USER_TABLES where table_name='CUSTOMER';
+
     if (table_exists = 0) then
         execute immediate 'create table Customer(cust_id number(7,0),email_id varchar2(40) ,cust_name varchar2(20),
     address varchar2(50),loyalty_id number(7,0),
@@ -91,88 +102,102 @@ begin
 end;
 """)
 
+# ----------------------------------------------------------------
+
 # create the adminphone table
 # if it does not already exist
+# ----------------------------------------------------------------
 
 cursor.execute("""
-declare 
+declare
     table_exists number:=0;
 begin
-     select count(table_name) into table_exists from USER_TABLES where table_name='ADMINPHONE'; 
-    
+     select count(table_name) into table_exists from USER_TABLES where table_name='ADMINPHONE';
+
     if (table_exists = 0) then
         execute immediate 'create table adminphone (admin_id number(7,0),phone_no number(10,0),constraint fk_adminid
      foreign key(admin_id) references admin(admin_id))';
     end if;
 end;
 """)
+# ----------------------------------------------------------------
 
 # Create the emphone table if it does not already exist
+# ----------------------------------------------------------------
 
 cursor.execute("""
-declare 
+declare
     table_exists number:=0;
 begin
-     select count(table_name) into table_exists from USER_TABLES where table_name='EMPPHONE'; 
-    
+     select count(table_name) into table_exists from USER_TABLES where table_name='EMPPHONE';
+
     if (table_exists = 0) then
         execute immediate 'create table empphone (emp_id number(7,0),phone_no number(10,0),constraint fk_empid
      foreign key(emp_id) references employee(emp_id))';
     end if;
 end;
 """)
+# ----------------------------------------------------------------
 
 # Create the table custphone if it does not already exist
-
+# ----------------------------------------------------------------
 cursor.execute("""
-declare 
+declare
     table_exists number:=0;
 begin
-     select count(table_name) into table_exists from USER_TABLES where table_name='CUSTPHONE'; 
-    
+     select count(table_name) into table_exists from USER_TABLES where table_name='CUSTPHONE';
+
     if (table_exists = 0) then
         execute immediate 'create table custphone (cust_id number(7,0),phone_no number(10,0),constraint fk_custid
      foreign key(cust_id) references Customer(cust_id))';
     end if;
 end;
 """)
+# ----------------------------------------------------------------
+
 # Create the Service table if it does not already exist
+# ----------------------------------------------------------------
+
 cursor.execute("""
-declare 
+declare
     table_exists number:=0;
 begin
-     select count(table_name) into table_exists from USER_TABLES where table_name='SERVICE'; 
-    
+     select count(table_name) into table_exists from USER_TABLES where table_name='SERVICE';
+
     if (table_exists = 0) then
         execute immediate 'create table service (service_id varchar2(10) ,service_name varchar2(20),
     service_cost number(5,0),constraint pk_serviceid primary key(service_id))';
     end if;
 end;
 """)
+# ----------------------------------------------------------------
 
 # Create cust_avails_service table if it does not already exist
+# ----------------------------------------------------------------
 
 cursor.execute("""
-declare 
+declare
     table_exists number:=0;
 begin
-     select count(table_name) into table_exists from USER_TABLES where table_name='CUST_AVAILS_SERVICE'; 
-    
+     select count(table_name) into table_exists from USER_TABLES where table_name='CUST_AVAILS_SERVICE';
+
     if (table_exists = 0) then
         execute immediate 'create table cust_avails_service (service_id varchar2(10),cust_id number(7,0), constraint fk_serviceid foreign key(service_id)
     references service(service_id),constraint fk_custid1 foreign key(cust_id) references Customer(cust_id))';
     end if;
 end;
 """)
+# ----------------------------------------------------------------
 
 # Create the EMPLOYEE PERFORMS SERVICE TABLE if it does not already exist
+# ----------------------------------------------------------------
 
 cursor.execute("""
-declare 
+declare
     table_exists number:=0;
 begin
-     select count(table_name) into table_exists from USER_TABLES where table_name='EMP_PERF_SERVICE'; 
-    
+     select count(table_name) into table_exists from USER_TABLES where table_name='EMP_PERF_SERVICE';
+
     if (table_exists = 0) then
         execute immediate ' create table emp_perf_service (service_id varchar2(10),emp_id number(7,0) ,salary number(7,0), constraint fk_serviceid1 foreign key(service_id)
     references service(service_id),constraint fk_empid1 foreign key(emp_id) references employee(emp_id))';
@@ -180,13 +205,17 @@ begin
 end;
 """)
 
+# ----------------------------------------------------------------
+
 # Create the BILL 1 table if it does not already exist
+# ----------------------------------------------------------------
+
 cursor.execute("""
-declare 
+declare
     table_exists number:=0;
 begin
-     select count(table_name) into table_exists from USER_TABLES where table_name='BILL1'; 
-    
+     select count(table_name) into table_exists from USER_TABLES where table_name='BILL1';
+
     if (table_exists = 0) then
         execute immediate 'create table bill1 (bill_id varchar2(10),email_id varchar2(40),cust_id number(7,0),emp_id number(7,0),service_date date , constraint fk_emailid4 foreign key(email_id)
     references Alogin(email_id),constraint fk_custid2 foreign key(cust_id) references Customer(cust_id), constraint pk_billid primary key(bill_id))';
@@ -194,21 +223,26 @@ begin
 end;
 """)
 
+# ----------------------------------------------------------------
+
 # Create the BILL 2 table if it does not already exist
+# ----------------------------------------------------------------
 
 cursor.execute("""
-declare 
+declare
     table_exists number:=0;
 begin
-     select count(table_name) into table_exists from USER_TABLES where table_name='BILL2'; 
-    
+     select count(table_name) into table_exists from USER_TABLES where table_name='BILL2';
+
     if (table_exists = 0) then
-        execute immediate 'create table bill2 (bill_id varchar2(10),service_id varchar2(10),email_id varchar2(40) , constraint fk_serviceid2 
-    foreign key(service_id) references service(service_id),constraint fk_emailid5 foreign key(email_id) references Alogin(email_id), 
+        execute immediate 'create table bill2 (bill_id varchar2(10),service_id varchar2(10),email_id varchar2(40) , constraint fk_serviceid2
+    foreign key(service_id) references service(service_id),constraint fk_emailid5 foreign key(email_id) references Alogin(email_id),
     constraint fk_billid foreign key(bill_id) references bill1(bill_id))';
     end if;
 end;
 """)
+
+# ----------------------------------------------------------------
 
 # Insert
 data = [("A", "100001", "e"), ("B", "100002", "c"), ("C", "100003", "a"),
@@ -218,7 +252,11 @@ cursor.executemany(
     data)
 print(cursor.rowcount, "Rows Inserted")
 
+# ----------------------------------------------------------------
+
 # Insert
+# ----------------------------------------------------------------
+
 admindata = [("10001", "A"), ("10002", "B"), ("10003", "C"), ("10004", "D"),
              ("10005", "E"), ("10006", "F"), ("10007", "A"), ("10008", "F"), ("10009", "C")]
 cursor.executemany(
@@ -227,21 +265,27 @@ cursor.executemany(
 print(cursor.rowcount, "Rows Inserted")
 
 # Insert
+# ----------------------------------------------------------------
 empdata = [("1001", "A"), ("1002", "C"), ("1003", "D"), ("1004", "B"),
            ("1005", "E"), ("1006", "F"), ("1007", "B"), ("1008", "B")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(EMPLOYEE(emp_id)) */ into employee (emp_id,email_id) values(:1,:2)",
     empdata)
 print(cursor.rowcount, "Rows Inserted")
+# ----------------------------------------------------------------
 
 # Insert
+# ----------------------------------------------------------------
 loyaltydata = [("101", "p"), ("102", "q"), ("103", "r")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(LOYALTY(loyalty_id)) */into loyalty (loyalty_id,loyalty_name) values(:1,:2)",
     loyaltydata)
 print(cursor.rowcount, "Rows Inserted")
+# ----------------------------------------------------------------
 
 # Insert
+# ----------------------------------------------------------------
+
 custdata = [("2001", "A"), ("2002", "B"), ("2003", "C"), ("2004", "D"), ("2005", "E"), ("2006", "F"), ("2007", "E"), ("2008", "F"),
             ("2009", "F"), ("2010", "A"), ("2011", "C"), ("2012", "C")]
 cursor.executemany(
@@ -249,16 +293,25 @@ cursor.executemany(
     custdata)
 print(cursor.rowcount, "Rows Inserted")
 
+# ----------------------------------------------------------------
 
 # Insert
+# ----------------------------------------------------------------
+
 servicedata = [("a101", "sweeping"), ("b101", "vacuumming"), ("a102", "Mopping"), ("c101", "Sofa cleaning"),
                ("a103", "a3"), ("b102", "b2"), ("a104", "a4"), ("c102", "c2")]
 cursor.executemany(
-    "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(SERVICE(service_id)) */ into service(service_id,service_name) values (:1,:2)",
+    """insert 
+        /*+ IGNORE_ROW_ON_DUPKEY_INDEX(SERVICE(service_id)) */ 
+        into service(service_id,service_name) values (:1,:2)""",
     servicedata)
 print(cursor.rowcount, "Rows Inserted")
 
+# ----------------------------------------------------------------------------------------------
+
 connection.commit()
+
+# ----------------------------------------------------------------------------------------------
 
 
 def auth_login(email, password):
@@ -279,12 +332,52 @@ def auth_login(email, password):
     else:
         return data[0][2]
 
+# ----------------------------------------------------------------------------------------------
+
+
+conv = {"c": "CUSTOMER", "e": "EMPLOYEE", "a": "ADMIN"}
+
+# ----------------------------------------------------------------------------------------------
+
+
+def get_details(email, person="c"):
+    tb = conv[person]
+    cursor.execute(
+        """select * from %s
+            where email_id='%s'"""
+        % (tb, email)
+    )
+    temp = cursor.fetchall()
+    temp = list(temp[0])
+    data = dict(zip(["ID", "Email", "Name", "Address"], temp))
+    print(data)
+    return data
+
+# ----------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------
+
+
+def get_loyalty(email):
+    cursor.execute(
+        """select A.*,B.loyalty_name from %s A, loyalty B
+            where email_id='%s' and B.loyalty_id=A.loyalty_id"""
+        % ("CUSTOMER", email)
+    )
+    data = cursor.fetchall()
+
+    print(data)
+    return data
+
 
 """ 
     ONLY THE CUSTOMER CAN SIGNUP
     IF an employee or admin account is to be made
     then it will be done by the existing admin account
 """
+# ----------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------
 
 
 def auth_signup(email, password, Type="c"):
@@ -309,3 +402,9 @@ def auth_signup(email, password, Type="c"):
         print(cursor.rowcount, "Rows Inserted")
         connection.commit()
     return 1
+
+# ----------------------------------------------------------------------------------------------
+
+
+get_details('A', 'e')
+get_loyalty('B')

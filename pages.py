@@ -1,6 +1,3 @@
-from tkinter import*
-from pubsub import pub
-from tkinter import messagebox
 import tables as tb
 from entity_pages_1 import*
 ##################################################################################
