@@ -276,11 +276,13 @@ class Signup:
         # the result of the entered details
         if self.password.get() != self.conf_password.get():
             messagebox.showinfo("Error", "Password fields do not match")
+            return
 
         res = tb.auth_signup(self.username.get(),
                              self.password.get(), "c")
         if not res:
             messagebox.showinfo("Error", "Account already Exists")
+            return
         else:
             messagebox.showinfo("Success", "Account Created")
 
