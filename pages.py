@@ -174,6 +174,7 @@ class Login:
         if not res:
             messagebox.showinfo("Error", "Username/Password is incorrect")
         else:
+            self.login_username = self.username.get()
             self.next_page(person=res)
 
     # ----------------------------------------------------------------
@@ -183,7 +184,7 @@ class Login:
         print("Person= ", person)
         if(person == "c"):
             self.hide()
-            CustomerWindow = Customer(Toplevel(self.root))
+            CustomerWindow = Customer(Toplevel(self.root), self.login_username)
             # CustomerPage.focus()
 
     # ----------------------------------------------------------------

@@ -11,12 +11,14 @@ w = 400
 
 class Customer:
 
-    def __init__(self, master=None):
+    def __init__(self, master, username):
         self.parent = master
         self.parent.geometry(str(w)+"x"+str(h))
-        self.make_widgets()
+        self.email = username
         self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
         pub.subscribe(self.listner, "BookserviceWindowClosed")
+        # Make the page widgets
+        self.make_widgets()
 
     # ----------------------------------------------------------------
 
@@ -26,15 +28,16 @@ class Customer:
         heading = Label(self.parent, text="Welcome", font=("Arial", 16))
         heading.pack()
 
+        data = tb.get_details(self.email, person="c")
         # username
-        usr_label = Label(self.parent, text="Username:",
+        usr_label = Label(self.parent, text="Username: %s" % (self.email),
                           font=("Times", 11),
                           anchor='center'
                           )
         usr_label.place(x=25/400*w, y=(h/8))
 
         # Cust_id
-        id_label = Label(self.parent, text="Identification No:",
+        id_label = Label(self.parent, text="Identification No: %s" % (data["ID"]),
                          font=("Times", 11),
                          anchor='center'
                          )
@@ -72,7 +75,7 @@ class Customer:
         idk_label.place(x=25/43*w, y=(h/8)+95)
         idk = Button(self.parent, text='View')
         idk.place(x=25/38*w, y=(h/8)+120)
-        #idk.bind('<Button-1>', self.authenticate)
+        # idk.bind('<Button-1>', self.authenticate)
 
         # payment
         pay_label = Label(self.parent, text="Payment:",

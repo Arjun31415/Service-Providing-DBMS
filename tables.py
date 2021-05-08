@@ -90,7 +90,7 @@ begin
      select count(table_name) into table_exists from USER_TABLES where table_name='CUSTOMER';
 
     if (table_exists = 0) then
-        execute immediate 'create table Customer(cust_id number(7,0),email_id varchar2(40) ,cust_name varchar2(20),
+        execute immediate 'create table Customer(cust_id number(7,0) generated always as identity,email_id varchar2(40) ,cust_name varchar2(20),
     address varchar2(50),loyalty_id number(7,0),
     constraint pk_customerid primary key(cust_id)),
     constraint fk_email3 foreign key(email_id) references
@@ -330,6 +330,7 @@ def auth_login(email, password):
     if(data[0][1] != password):
         return 0
     else:
+        # data[0][2] is the person type
         return data[0][2]
 
 # ----------------------------------------------------------------------------------------------
@@ -348,6 +349,7 @@ def get_details(email, person="c"):
         % (tb, email)
     )
     temp = cursor.fetchall()
+    print(temp)
     temp = list(temp[0])
     data = dict(zip(["ID", "Email", "Name", "Address"], temp))
     print(data)
@@ -399,6 +401,8 @@ def auth_signup(email, password, Type="c"):
         data = [(str(email), str(password), str(Type))]
         print(data)
         cursor.executemany("insert into Alogin values(:1, :2,:3)", data)
+        cursor.executemany(
+            "insert into CUSTOMER(email_id) values(:1) ", list(tuple(str(email))))
         print(cursor.rowcount, "Rows Inserted")
         connection.commit()
     return 1
