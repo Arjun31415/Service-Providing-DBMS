@@ -44,7 +44,7 @@ class Customer:
         id_label.place(x=25/400*w, y=(h/8)+20)
 
         # address
-        Add_label = Label(self.parent, text="Address:",
+        Add_label = Label(self.parent, text="Address:  %s" % (data["Address"]),
                           font=("Times", 11),
                           anchor='center'
                           )
@@ -152,7 +152,7 @@ class Bookservice:
                   font=("Times New Roman", 12)).grid(row=0, column=1)
 
         # label
-        ttk.Label(self.parent, text="Select the Month :",
+        ttk.Label(self.parent, text="Select the service :",
                   font=("Times New Roman", 10)).grid(column=0,
                                                      row=5, padx=10, pady=25)
 
@@ -161,7 +161,7 @@ class Bookservice:
         monthchoosen = ttk.Combobox(self.parent, width=27, textvariable=n)
 
         # Adding combobox drop down list
-        monthchoosen['values'] = ('')
+        monthchoosen['values'] = (tb.get_services())
 
         monthchoosen.grid(column=1, row=5)
         monthchoosen.current()
