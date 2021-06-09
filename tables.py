@@ -245,10 +245,12 @@ end;
 # ----------------------------------------------------------------
 
 # Insert
-data = [("A", "100001", "e"), ("B", "100002", "c"), ("C", "100003", "a"),("D", "100004", "e"), ("E", "100005", "c"), ("F", "100006", "a"),
-        ("G", "100007", "e"), ("H", "100008", "c"), ("I", "100009", "a"),("J", "1000010", "e"), ("K", "100011", "c"), ("L", "100012", "a"),
-        ("M", "100013", "e"), ("N", "100014", "c"), ("O", "1000015", "a"),("P", "100004", "e"), ("Q", "100005", "c"), ("R", "100006", "a"),
-        ("S", "100007", "e"), ("T", "100008", "c"), ("U", "100009", "a"),("V", "1000010", "e"), ("W", "100011", "c"), ("X", "100012", "a")]
+data = [("A", "100001", "e"), ("B", "100002", "c"), ("C", "100003", "a"), ("D", "100004", "e"), ("E", "100005", "c"), ("F", "100006", "a"),
+        ("G", "100007", "e"), ("H", "100008", "c"), ("I", "100009", "a"), ("J",
+                                                                           "1000010", "e"), ("K", "100011", "c"), ("L", "100012", "a"),
+        ("M", "100013", "e"), ("N", "100014", "c"), ("O", "1000015",
+                                                     "a"), ("P", "100004", "e"), ("Q", "100005", "c"), ("R", "100006", "a"),
+        ("S", "100007", "e"), ("T", "100008", "c"), ("U", "100009", "a"), ("V", "1000010", "e"), ("W", "100011", "c"), ("X", "100012", "a")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(Alogin(email_id)) */  into Alogin values(:1, :2,:3)",
     data)
@@ -259,8 +261,8 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 
-admindata = [("3001", "C","c","addc"), ("3002", "I","i","addi"), ("3003", "O","o","addo"), ("3004", "U","u","addu"),
-             ("3005", "L","l","addl"), ("3006", "F","f","addf"),("3007", "R","r","addr"), ("3008", "X","x","addx")]
+admindata = [("3001", "C", "c", "addc"), ("3002", "I", "i", "addi"), ("3003", "O", "o", "addo"), ("3004", "U", "u", "addu"),
+             ("3005", "L", "l", "addl"), ("3006", "F", "f", "addf"), ("3007", "R", "r", "addr"), ("3008", "X", "x", "addx")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(ADMIN(admin_id)) */  into admin values(:1,:2,:3,:4)",
     admindata)
@@ -268,8 +270,8 @@ print(cursor.rowcount, "Rows Inserted")
 
 # Insert
 # ----------------------------------------------------------------
-empdata = [("1001", "A","a","adda"), ("1002", "G","g","addg"), ("1003", "M","m","addm"), ("1004", "S","s","adds"),
-           ("1005", "D","d","addd"), ("1006", "J","j","addj"),("1005", "P","p","addp"), ("1006", "V","v","addv")]
+empdata = [("1001", "A", "a", "adda"), ("1002", "G", "g", "addg"), ("1003", "M", "m", "addm"), ("1004", "S", "s", "adds"),
+           ("1005", "D", "d", "addd"), ("1006", "J", "j", "addj"), ("1005", "P", "p", "addp"), ("1006", "V", "v", "addv")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(EMPLOYEE(emp_id)) */ into employee values(:1,:2,:3,:4)",
     empdata)
@@ -288,8 +290,8 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 
-custdata = [("2001", "B","b","addb","101"), ("2002", "H","h","addh","102"), ("2003", "N","n","addn","103"),("2004", "T","t","addt","101"),
-            ("2005", "E","e","adde","102"), ("2006", "K","k","addk","103"), ("2007", "Q","q","addq","101"),("2008", "W","w","addw","101")]
+custdata = [("2001", "B", "b", "addb", "101"), ("2002", "H", "h", "addh", "102"), ("2003", "N", "n", "addn", "103"), ("2004", "T", "t", "addt", "101"),
+            ("2005", "E", "e", "adde", "102"), ("2006", "K", "k", "addk", "103"), ("2007", "Q", "q", "addq", "101"), ("2008", "W", "w", "addw", "101")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into Customer values(:1,:2,:3,:4,:5)",
     custdata)
@@ -415,18 +417,19 @@ def auth_signup(email, password, Type="c"):
 get_details('A', 'e')
 get_loyalty('B')
 
-def change_custdetails(cust_id,email=None, address=None):
+
+def change_custdetails(cust_id, email=None, address=None):
     """
         if email or address are entered
         replace given value 
     """
-    if email !=None:
+    if email != None:
         def auth_login(email, password):
             cursor.execute(
-            """select * from Alogin
+                """select * from Alogin
              where email_id='%s' """
-            % (email)
-    )
+                % (email)
+            )
     data = cursor.fetchall()
     if(data == []):
         return 0
@@ -435,14 +438,15 @@ def change_custdetails(cust_id,email=None, address=None):
         cursor.execute(
             """update Customer set email_id=%s
             where cust_id='%s'"""
-        % (email,cust_id)
-    )
-    if address !=None:
+            % (email, cust_id)
+        )
+    if address != None:
         cursor.execute(
             """update Customer set address=%s
             where cust_id='%s'"""
-        % (address,cust_id)
+            % (address, cust_id)
         )
+
 
 def get_services():
     cursor.execute(
