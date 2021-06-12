@@ -149,7 +149,7 @@ begin
 
     if (table_exists = 0) then
         execute immediate 'create table custphone (cust_id number(7,0),phone_no number(10,0),constraint fk_custid
-     foreign key(cust_id) references Customer(cust_id))';
+        foreign key(cust_id) references Customer(cust_id))';
     end if;
 end;
 """)
@@ -165,7 +165,7 @@ begin
      select count(table_name) into table_exists from USER_TABLES where table_name='SERVICE';
 
     if (table_exists = 0) then
-        execute immediate 'create table service (service_id varchar2(10) ,service_name varchar2(20),
+        execute immediate 'create table service (service_id varchar2(10) ,service_name varchar2(20) UNIQUE,
     service_cost number(5,0),constraint pk_serviceid primary key(service_id))';
     end if;
 end;
@@ -345,6 +345,12 @@ conv = {"c": "CUSTOMER", "e": "EMPLOYEE", "a": "ADMIN"}
 # ----------------------------------------------------------------------------------------------
 
 
+""" 
+    gets the basic details of an employee,customer and admin
+    It returns only ID,email,Name and address.
+"""
+
+
 def get_details(email, person="c"):
     tb = conv[person]
     cursor.execute(
@@ -361,6 +367,44 @@ def get_details(email, person="c"):
 
 # ----------------------------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------------------------
+
+
+def get_customer_details(email):
+
+    # CUSTOMER
+    cursor.execute(
+        """select * from CUSTOMER
+            where email_id='%s'"""
+        % (email)
+    )
+    temp = list((cursor.fetchall())[0])
+    print("temp= ", temp)
+    data = dict(zip(["ID", "Email", "Name", "Address", "Loyalty_id"], temp))
+    print("data: ", data)
+    # assuming single phone number
+
+    cursor.execute(
+        """
+            select phone_no from CUSTPHONE
+            where cust_id='%s'
+
+        """
+        % (data["ID"])
+    )
+    phone_no = list(cursor.fetchall())
+    if(phone_no == []):
+        data["Mobile"] = None
+        return data
+
+    # phone[0] gives the phone number as a tuple
+    # phone[0][0] gives the phone number as an integer
+    data["Mobile"] = (phone_no[0][0])
+    print(data)
+    return data
+
+
+# ----------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------
 
 
@@ -414,8 +458,10 @@ def auth_signup(email, password, Type="c"):
 # ----------------------------------------------------------------------------------------------
 
 
-get_details('A', 'e')
-get_loyalty('B')
+# get_details('A', 'e')
+# get_loyalty('B')
+
+# ----------------------------------------------------------------------------------------------
 
 
 def change_custdetails(cust_id, old_email=None, address=None):
@@ -445,15 +491,26 @@ def change_custdetails(cust_id, old_email=None, address=None):
         connection.commit()
         return "update successfull"
 
+# ----------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------
+
 
 def get_services():
     cursor.execute(
         """select service_name from service"""
     )
-
     x = cursor.fetchall()
     print(x)
     return x
 
+# ----------------------------------------------------------------------------------------------
 
-change_custdetails(1, 'Arjun', 'frff')
+# ----------------------------------------------------------------------------------------------
+
+
+get_customer_details('Arjun')
+
+# cursor.execute("""insert into custphone values(1,1234567890)""")
+get_customer_details("Arjun")
+connection.commit()
