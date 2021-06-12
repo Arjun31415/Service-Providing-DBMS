@@ -158,13 +158,14 @@ class Bookservice:
 
         # Combobox creation
         n = StringVar()
-        monthchoosen = ttk.Combobox(self.parent, width=27, textvariable=n)
+        service_offered = ttk.Combobox(self.parent, width=27, textvariable=n)
 
         # Adding combobox drop down list
-        monthchoosen['values'] = (tb.get_services())
+        services = tb.get_services()
+        service_offered['values'] = (services)
 
-        monthchoosen.grid(column=1, row=5)
-        monthchoosen.current()
+        service_offered.grid(column=1, row=5)
+        # service_offered.current(0)
         self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
 
     # ----------------------------------------------------------------

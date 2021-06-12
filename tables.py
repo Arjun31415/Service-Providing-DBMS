@@ -418,40 +418,42 @@ get_details('A', 'e')
 get_loyalty('B')
 
 
-def change_custdetails(cust_id, email=None, address=None):
+def change_custdetails(cust_id, old_email=None, address=None):
     """
         if email or address are entered
         replace given value 
     """
-    if email != None:
-        def auth_login(email, password):
-            cursor.execute(
-                """select * from Alogin
-             where email_id='%s' """
-                % (email)
-            )
+
+    cursor.execute(
+        """select * from Customer
+             where cust_id='%s' """
+        % (cust_id)
+    )
     data = cursor.fetchall()
+    print("data: ", data)
     if(data == []):
-        return 0
+        return "No such account exists"
     else:
-        return data[0][2]
-        cursor.execute(
-            """update Customer set email_id=%s
-            where cust_id='%s'"""
-            % (email, cust_id)
-        )
-    if address != None:
-        cursor.execute(
-            """update Customer set address=%s
-            where cust_id='%s'"""
-            % (address, cust_id)
-        )
+        print(data[0][2])
+        # return data[0][2]
+        if address != None:
+            cursor.execute(
+                """update Customer set address='%s'
+                where cust_id='%s'"""
+                % (address, cust_id)
+            )
+        connection.commit()
+        return "update successfull"
 
 
 def get_services():
     cursor.execute(
         """select service_name from service"""
     )
-    all_services = list(cursor.fetchall())
-    print(all_services)
-    return all_services
+
+    x = cursor.fetchall()
+    print(x)
+    return x
+
+
+change_custdetails(1, 'Arjun', 'frff')
