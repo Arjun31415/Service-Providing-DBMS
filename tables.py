@@ -509,8 +509,4 @@ def get_services():
 # ----------------------------------------------------------------------------------------------
 
 
-# get_customer_details('nikhil')
-
-# cursor.execute("""insert into custphone values(1,1234567890)""")
-# get_customer_details("nikhil")
 connection.commit()

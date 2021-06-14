@@ -28,7 +28,7 @@ class Customer:
         heading = Label(self.parent, text="Welcome", font=("Arial", 16))
         heading.pack()
 
-        #data = tb.get_details(self.email, person="c")
+        # data = tb.get_details(self.email, person="c")
         data1 = tb.get_customer_details(self.email)
         # username
         usr_label = Label(self.parent, text="Username: %s" % (self.email),
@@ -203,26 +203,40 @@ class Bookservice:
     def pickdate(self, event):
 
         self.hide()
-        #pickdate = Toplevel(self.parent)
-        #PickdateWindow =Pickdate(pickdate)
+        # pickdate = Toplevel(self.parent)
+        # PickdateWindow =Pickdate(pickdate)
         # Create Object
-        root = Tk()
+        date_window = Tk()
 
        # Set geometry
-        root.geometry("500x250")
+        date_window.geometry("500x400")
 
        # Add Calender
-        cal = Calendar(root, selectmode='day',
+
+        cal = Calendar(date_window, selectmode='day',
                        year=2020, month=5,
-                       day=22)
+                       day=22, date_pattern='dd/MM/yyyy')
 
         cal.pack(pady=20)
 
         # Add Button and Label
-        # Button(root, text="Get Date",
-        #        command=grad_date).pack(pady=20)
+        date = Label(date_window, text="")
 
-        date = Label(root, text="")
+        # def grad_date(cal, date): return date.config(
+        #     text="Selected Date is: " + cal.get_date())
+
+        Button(date_window, text="Get Date",
+               command=lambda: date.config(
+                   text="Selected Date is: " +
+                   cal.get_date()
+               )
+               ).pack(pady=20)
+
+        def destroy_date_window():
+            date_window.destroy()
+            self.show()
+        Button(date_window, text="Confirm",
+               command=destroy_date_window).pack(pady=25)
         date.pack(pady=20)
     # ------------------------------------------------
 
@@ -326,11 +340,11 @@ class Editinfo:
             self.nam.insert(END, data["Mobile"])
         savech = Button(self.parent, text='Save Changes')
         savech.place(x=25/41*w, y=(h/8)+130)
-        #savech.bind('<Button-1>', self.customer)
+        # savech.bind('<Button-1>', self.customer)
 
         canc = Button(self.parent, text='Cancel')
         canc.place(x=25/70*w, y=(h/8)+130)
-        #canc.bind('<Button-1>', self.customer)
+        # canc.bind('<Button-1>', self.customer)
 
     # ------------------------------------------------
 
