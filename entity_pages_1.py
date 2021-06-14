@@ -209,7 +209,7 @@ class Bookservice:
         date_window = Tk()
 
        # Set geometry
-        date_window.geometry("500x400")
+        date_window.geometry("500x450")
 
        # Add Calender
 
@@ -303,41 +303,45 @@ class Editinfo:
                          )
         id_label.place(x=25/400*w, y=(h/8)+23)
 
+        # Name
         name_label = Label(self.parent, text="Name:",
                            font=("Times", 11),
                            anchor='center'
                            )
         name_label.place(x=25/400*w, y=(h/8)+43)
-        self.addr = Entry(self.parent, bg='white', font=("Arail", 8))
-        self.addr.place(x=25/135 * w, y=(h/8)+45)
-        if (data["Name"] == None):
-            self.addr.insert(END, "NA")
-        else:
-            self.addr.insert(END, data["Name"])
 
+        self.nam = Entry(self.parent, bg='white', font=("Arail", 8))
+        self.nam.place(x=25/135 * w, y=(h/8)+45)
+        if (data["Name"] == None):
+            self.nam.insert(END, "NA")
+        else:
+            self.nam.insert(END, data["Name"])
+
+        # Address
         add_label = Label(self.parent, text="Address: ",
                           font=("Times", 11),
                           anchor='center'
                           )
         add_label.place(x=25/400*w, y=(h/8)+63)
-        self.phn = Entry(self.parent, bg='white', font=("Arail", 8))
-        self.phn.place(x=25/120 * w, y=(h/8)+66)
+        self.addr = Entry(self.parent, bg='white', font=("Arail", 8))
+        self.addr.place(x=25/120 * w, y=(h/8)+66)
         if (data["Address"] == None):
-            self.phn.insert(END, "NA")
+            self.addr.insert(END, "NA")
         else:
-            self.phn.insert(END, data["Address"])
+            self.addr.insert(END, data["Address"])
 
+        # Mobile Number
         Phone_label = Label(self.parent, text="Phone No:",
                             font=("Times", 11),
                             anchor='center'
                             )
         Phone_label.place(x=25/400*w, y=(h/8)+83)
-        self.nam = Entry(self.parent, bg='white', font=("Arail", 8))
-        self.nam.place(x=25/108 * w, y=(h/8)+86)
+        self.phn = Entry(self.parent, bg='white', font=("Arail", 8))
+        self.phn.place(x=25/108 * w, y=(h/8)+86)
         if (data["Mobile"] == None):
-            self.nam.insert(END, "NA")
+            self.phn.insert(END, "NA")
         else:
-            self.nam.insert(END, data["Mobile"])
+            self.phn.insert(END, data["Mobile"])
         savech = Button(self.parent, text='Save Changes')
         savech.place(x=25/41*w, y=(h/8)+130)
         # savech.bind('<Button-1>', self.customer)
@@ -375,38 +379,6 @@ class Editinfo:
             closes the window and sends a message to the main window
         """
         pub.sendMessage("EditinfoWindowClosed", arg1="data")
-
-
-class Pickdate:
-
-    def __init__(self, master=None):
-        self.parent = master
-
-    # ------------------------------------------------
-    def hide(self):
-        self.parent.withdraw()
-
     # ----------------------------------------------------------------
 
-    def show(self):
-        self.parent.update()
-        self.parent.deiconify()
-
-    # ----------------------------------------------------------------
-
-    def listner(self, arg1, arg2=None):
-        """
-        pubsub listener - opens main frame when otherFrame closes
-        """
-        self.show()
-
-    # ----------------------------------------------------------------
-
-    def on_closing(self):
-        global pickdate
-        # if messagebox.askokcancel("Quit", "Do you want to signout?"):
-        self.parent.destroy()
-        """
-            closes the window and sends a message to the main window
-        """
-        pub.sendMessage("PickdateWindowClosed", arg1="data")
+################################################################################
