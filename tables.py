@@ -305,8 +305,8 @@ print(cursor.rowcount, "Rows Inserted")
 servicedata = [("a101", "sweeping"), ("b101", "vacuumming"), ("a102", "Mopping"), ("c101", "Sofa cleaning"),
                ("a103", "a3"), ("b102", "b2"), ("a104", "a4"), ("c102", "c2")]
 cursor.executemany(
-    """insert 
-        /*+ IGNORE_ROW_ON_DUPKEY_INDEX(SERVICE(service_id)) */ 
+    """insert
+        /*+ IGNORE_ROW_ON_DUPKEY_INDEX(SERVICE(service_id)) */
         into service(service_id,service_name) values (:1,:2)""",
     servicedata)
 print(cursor.rowcount, "Rows Inserted")
@@ -345,7 +345,7 @@ conv = {"c": "CUSTOMER", "e": "EMPLOYEE", "a": "ADMIN"}
 # ----------------------------------------------------------------------------------------------
 
 
-""" 
+"""
     gets the basic details of an employee,customer and admin
     It returns only ID,email,Name and address.
 """
@@ -420,7 +420,7 @@ def get_loyalty(email):
     return data
 
 
-""" 
+"""
     ONLY THE CUSTOMER CAN SIGNUP
     IF an employee or admin account is to be made
     then it will be done by the existing admin account
@@ -464,15 +464,16 @@ def auth_signup(email, password, Type="c"):
 # ----------------------------------------------------------------------------------------------
 
 
-def change_custdetails(cust_id, old_email=None, address=None):
+def change_custdetails(cust_id, name=None, address=None, mobile=None):
     """
         if email or address are entered
-        replace given value 
+        replace given value
     """
 
     cursor.execute(
-        """select * from Customer
-             where cust_id='%s' """
+        """select Customer.*,phone_no
+                from Customer,Custphone
+                where Customer.cust_id='%s'and CUSTPHONE.cust_id=Customer.cust_id """
         % (cust_id)
     )
     data = cursor.fetchall()
@@ -480,7 +481,7 @@ def change_custdetails(cust_id, old_email=None, address=None):
     if(data == []):
         return "No such account exists"
     else:
-        print(data[0][2])
+        print(data)
         # return data[0][2]
         if address != None:
             cursor.execute(
@@ -488,6 +489,24 @@ def change_custdetails(cust_id, old_email=None, address=None):
                 where cust_id='%s'"""
                 % (address, cust_id)
             )
+        if mobile != None:
+            cursor.execute(
+                """
+            update Custphone
+                 set phone_no='%s'
+                 where cust_id='%s'
+                """
+                % (mobile, cust_id)
+            )
+        if name != None:
+            cursor.execute(
+                """
+                update Customer set cust_name='%s' 
+                    where cust_id='%s'
+                """
+                % (name, cust_id)
+            )
+
         connection.commit()
         return "update successfull"
 
@@ -506,7 +525,8 @@ def get_services():
 
 # ----------------------------------------------------------------------------------------------
 
-# ----------------------------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------------------------
+# change_custdetails(1, address="hwaii", mobile=9431456789, name="YOink")
 
 connection.commit()

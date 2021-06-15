@@ -17,6 +17,7 @@ class Customer:
         self.email = username
         self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
         pub.subscribe(self.listner, "BookserviceWindowClosed")
+        pub.subscribe(self.listner, "EditinfoWindowClosed")
         # Make the page widgets
         self.make_widgets()
 
@@ -110,7 +111,7 @@ class Customer:
 
         self.hide()
         editinfo = Toplevel(self.parent)
-        EditinfoWindow = Editinfo(editinfo)
+        EditinfoWindow = Editinfo(self.email, editinfo)
 
 # ----------------------------------------------------------------
     def on_closing(self):
@@ -260,7 +261,6 @@ class Bookservice:
     # ----------------------------------------------------------------
 
     def on_closing(self, arg1=None, arg2=None):
-        global bookservice
         # if messagebox.askokcancel("Quit", "Do you want to signout?"):
         self.parent.destroy()
         """
@@ -273,12 +273,15 @@ class Bookservice:
 
 class Editinfo:
 
-    def __init__(self, master=None):
+    def __init__(self, email, master=None):
         self.parent = master
         self.parent.title('Edit profile')
         self.parent.geometry('500x250')
-        data1 = tb.get_customer_details('nikhil')
+        self.email = email
+        print("Email of this dude:", str(self.email))
+        self.data = tb.get_customer_details(str(self.email))
         self.make_widgets()
+        self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
 
     # ----------------------------------------------------------------
 
@@ -288,65 +291,74 @@ class Editinfo:
         heading = Label(self.parent, text="Edit Profile", font=("Arial", 16))
         heading.pack()
 
-        data = tb.get_customer_details('nikhil')
-        # username
-        usr_label = Label(self.parent, text="Username: %s" % (data["Email"]),
+        # Email
+        usr_label = Label(self.parent, text="Email: %s" % (self.data["Email"]),
                           font=("Times", 11),
                           anchor='center'
                           )
         usr_label.place(x=25/400*w, y=(h/8))
 
         # Cust_id
-        id_label = Label(self.parent, text="Identification No: %s" % (data["ID"]),
+        id_label = Label(self.parent, text="Identification No: %s" % (self.data["ID"]),
                          font=("Times", 11),
                          anchor='center'
                          )
         id_label.place(x=25/400*w, y=(h/8)+23)
 
-        # Name
-        name_label = Label(self.parent, text="Name:",
-                           font=("Times", 11),
-                           anchor='center'
-                           )
-        name_label.place(x=25/400*w, y=(h/8)+43)
+        def reset():
+            # Name
+            name_label = Label(self.parent, text="Name:",
+                               font=("Times", 11),
+                               anchor='center'
+                               )
+            name_label.place(x=25/400*w, y=(h/8)+43)
 
-        self.nam = Entry(self.parent, bg='white', font=("Arail", 8))
-        self.nam.place(x=25/135 * w, y=(h/8)+45)
-        if (data["Name"] == None):
-            self.nam.insert(END, "NA")
-        else:
-            self.nam.insert(END, data["Name"])
+            self.nam = Entry(self.parent, bg='white', font=("Arail", 8))
+            self.nam.place(x=25/135 * w, y=(h/8)+45)
+            if (self.data["Name"] == None):
+                self.nam.insert(END, "NA")
+            else:
+                self.nam.insert(END, self.data["Name"])
 
-        # Address
-        add_label = Label(self.parent, text="Address: ",
-                          font=("Times", 11),
-                          anchor='center'
-                          )
-        add_label.place(x=25/400*w, y=(h/8)+63)
-        self.addr = Entry(self.parent, bg='white', font=("Arail", 8))
-        self.addr.place(x=25/120 * w, y=(h/8)+66)
-        if (data["Address"] == None):
-            self.addr.insert(END, "NA")
-        else:
-            self.addr.insert(END, data["Address"])
+            # Address
+            add_label = Label(self.parent, text="Address: ",
+                              font=("Times", 11),
+                              anchor='center'
+                              )
+            add_label.place(x=25/400*w, y=(h/8)+63)
+            self.addr = Entry(self.parent, bg='white', font=("Arail", 8))
+            self.addr.place(x=25/120 * w, y=(h/8)+66)
+            if (self.data["Address"] == None):
+                self.addr.insert(END, "NA")
+            else:
+                self.addr.insert(END, self.data["Address"])
 
-        # Mobile Number
-        Phone_label = Label(self.parent, text="Phone No:",
-                            font=("Times", 11),
-                            anchor='center'
-                            )
-        Phone_label.place(x=25/400*w, y=(h/8)+83)
-        self.phn = Entry(self.parent, bg='white', font=("Arail", 8))
-        self.phn.place(x=25/108 * w, y=(h/8)+86)
-        if (data["Mobile"] == None):
-            self.phn.insert(END, "NA")
-        else:
-            self.phn.insert(END, data["Mobile"])
-        savech = Button(self.parent, text='Save Changes')
+            # Mobile Number
+            Phone_label = Label(self.parent, text="Phone No:",
+                                font=("Times", 11),
+                                anchor='center'
+                                )
+            Phone_label.place(x=25/400*w, y=(h/8)+83)
+            self.phn = Entry(self.parent, bg='white', font=("Arail", 8))
+            self.phn.place(x=25/108 * w, y=(h/8)+86)
+            if (self.data["Mobile"] == None):
+                self.phn.insert(END, "NA")
+            else:
+                self.phn.insert(END, self.data["Mobile"])
+
+        def get_changes():
+            tb.change_custdetails(cust_id=self.data["ID"],
+                                  name=self.nam.get(),
+                                  address=self.addr.get(),
+                                  mobile=self.phn.get())
+            self.data = tb.get_customer_details(str(self.email))
+
+        reset()
+        savech = Button(self.parent, text='Save Changes', command=get_changes)
         savech.place(x=25/41*w, y=(h/8)+130)
         # savech.bind('<Button-1>', self.customer)
 
-        canc = Button(self.parent, text='Cancel')
+        canc = Button(self.parent, text='Cancel', command=reset)
         canc.place(x=25/70*w, y=(h/8)+130)
         # canc.bind('<Button-1>', self.customer)
 
@@ -372,7 +384,6 @@ class Editinfo:
     # ----------------------------------------------------------------
 
     def on_closing(self):
-        global editinfo
         # if messagebox.askokcancel("Quit", "Do you want to signout?"):
         self.parent.destroy()
         """
