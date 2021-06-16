@@ -1,5 +1,5 @@
-import tables as tb
-from entity_pages_1 import*
+from customer_pages import*
+from employee_pages import*
 ##################################################################################
 #  Height and width of our window
 
@@ -185,6 +185,12 @@ class Login:
         if(person == "c"):
             self.hide()
             CustomerWindow = Customer(Toplevel(self.root), self.login_username)
+        elif(person == "e"):
+            self.hide()
+            Employee(Toplevel(self.root), self.login_username)
+        # elif(person == "a"):
+        #     self.hide()
+        #     Admin(Toplevel(self.root), self.login_username)
             # CustomerPage.focus()
 
     # ----------------------------------------------------------------

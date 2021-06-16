@@ -122,7 +122,7 @@ end;
 """)
 # ----------------------------------------------------------------
 
-# Create the emphone table if it does not already exist
+# Create the empphone table if it does not already exist
 # ----------------------------------------------------------------
 
 cursor.execute("""
@@ -403,8 +403,42 @@ def get_customer_details(email):
     print(data)
     return data
 
-
 # ----------------------------------------------------------------------------------------------
+
+
+def get_employee_details(email):
+
+    # EMPLOYEE
+    cursor.execute(
+        """select * from EMPLOYEE
+            where email_id='%s'"""
+        % (email)
+    )
+    temp = list((cursor.fetchall())[0])
+    print("temp= ", temp)
+    data = dict(zip(["ID", "Email", "Name", "Address", "Loyalty_id"], temp))
+    print("data: ", data)
+    # assuming single phone number
+
+    cursor.execute(
+        """
+            select phone_no from EMPPHONE
+            where emp_id='%s'
+
+        """
+        % (data["ID"])
+    )
+    phone_no = list(cursor.fetchall())
+    if(phone_no == []):
+        data["Mobile"] = None
+        return data
+
+    # phone[0] gives the phone number as a tuple
+    # phone[0][0] gives the phone number as an integer
+    data["Mobile"] = (phone_no[0][0])
+    print(data)
+    return data
+
 # ----------------------------------------------------------------------------------------------
 
 
@@ -512,6 +546,53 @@ def change_custdetails(cust_id, name=None, address=None, mobile=None):
 
 # ----------------------------------------------------------------------------------------------
 
+
+def change_empdetails(emp_id, name=None, address=None, mobile=None):
+    """
+        if email or address are entered
+        replace given value
+    """
+
+    cursor.execute(
+        """select *
+                from EMPLOYEE
+                where EMPLOYEE.emp_id='%s'"""
+        % (emp_id)
+    )
+    data = cursor.fetchall()
+    print("data: ", data)
+    if(data == []):
+        print("No such account exists")
+        return "No such account exists"
+    else:
+        print(data)
+        # return data[0][2]
+        if address != None:
+            cursor.execute(
+                """update EMPLOYEE set address='%s'
+                where emp_id='%s'"""
+                % (address, emp_id)
+            )
+        if mobile != None:
+            cursor.execute(
+                """
+            update EMPPHONE
+                 set phone_no='%s'
+                 where emp_id='%s'
+                """
+                % (mobile, emp_id)
+            )
+        if name != None:
+            cursor.execute(
+                """
+                update EMPLOYEE set emp_name='%s' 
+                    where emp_id='%s'
+                """
+                % (name, emp_id)
+            )
+
+        connection.commit()
+        return "update successfull"
 # ----------------------------------------------------------------------------------------------
 
 
@@ -527,6 +608,6 @@ def get_services():
 
 
 # ----------------------------------------------------------------------------------------------
-# change_custdetails(1, address="hwaii", mobile=9431456789, name="YOink")
-
+change_empdetails(1001, address="hwaii", mobile=1234567890, name="Ram")
+cursor.execute("""insert into EMPPHONE values(1001,1234567890)""")
 connection.commit()

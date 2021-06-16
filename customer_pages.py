@@ -194,19 +194,11 @@ class Bookservice:
 
     # ----------------------------------------------------------------
 
-    # def customer(self, event):
-
-    #     self.hide()
-    #     customer = Toplevel(self.parent)
-    #     CustomerWindow = Customer(customer)
     # ----------------------------------------------------------------
 
     def pickdate(self, event):
 
         self.hide()
-        # pickdate = Toplevel(self.parent)
-        # PickdateWindow =Pickdate(pickdate)
-        # Create Object
         date_window = Tk()
 
        # Set geometry
@@ -222,9 +214,6 @@ class Bookservice:
 
         # Add Button and Label
         date = Label(date_window, text="")
-
-        # def grad_date(cal, date): return date.config(
-        #     text="Selected Date is: " + cal.get_date())
 
         Button(date_window, text="Get Date",
                command=lambda: date.config(
@@ -273,21 +262,24 @@ class Bookservice:
 
 class Editinfo:
 
-    def __init__(self, email, master=None):
+    def __init__(self, email, person='c', master=None):
         self.parent = master
         self.parent.title('Edit profile')
         self.parent.geometry('500x250')
         self.email = email
         print("Email of this dude:", str(self.email))
-        self.data = tb.get_customer_details(str(self.email))
-        self.make_widgets()
+        if(person == 'c'):
+            self.data = tb.get_customer_details(str(self.email))
+        elif(person == 'e'):
+            self.data = tb.get_employee_details(str(self.email))
+        self.make_widgets(person)
         self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
 
     # ----------------------------------------------------------------
 
-    def make_widgets(self):
+    def make_widgets(self, person='c'):
         # put the widgets
-        self.parent.title("Welcome")
+        self.parent.title("Your Details")
         heading = Label(self.parent, text="Edit Profile", font=("Arial", 16))
         heading.pack()
 
@@ -347,20 +339,25 @@ class Editinfo:
                 self.phn.insert(END, self.data["Mobile"])
 
         def get_changes():
-            tb.change_custdetails(cust_id=self.data["ID"],
-                                  name=self.nam.get(),
-                                  address=self.addr.get(),
-                                  mobile=self.phn.get())
-            self.data = tb.get_customer_details(str(self.email))
+            if(person == 'c'):
+                tb.change_custdetails(cust_id=self.data["ID"],
+                                      name=self.nam.get(),
+                                      address=self.addr.get(),
+                                      mobile=self.phn.get())
+                self.data = tb.get_customer_details(str(self.email))
+            elif(person == 'e'):
+                tb.change_empdetails(emp_id=self.data["ID"],
+                                     name=self.nam.get(),
+                                     address=self.addr.get(),
+                                     mobile=self.phn.get())
+                self.data = tb.get_employee_details(str(self.email))
 
         reset()
         savech = Button(self.parent, text='Save Changes', command=get_changes)
         savech.place(x=25/41*w, y=(h/8)+130)
-        # savech.bind('<Button-1>', self.customer)
 
         canc = Button(self.parent, text='Cancel', command=reset)
         canc.place(x=25/70*w, y=(h/8)+130)
-        # canc.bind('<Button-1>', self.customer)
 
     # ------------------------------------------------
 
