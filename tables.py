@@ -378,6 +378,17 @@ cursor.executemany(
 print(cursor.rowcount, "Rows Inserted")
 
 # ----------------------------------------------------------------
+# Insert
+# ----------------------------------------------------------------
+
+cust_avails_servicedata = [("b101", "2001"), ("c102", "2009"),
+                        ("b103", "2003"), ("a101", "2004"),
+                        ("a104", "2005"), ("c101", "2006"),
+                        ("a102", "2007"), ("b102", "2009")]
+cursor.executemany(
+    "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into cust_avails_service values(:1,:2,:3)",
+    cust_avails_servicedata)
+print(cursor.rowcount, "Rows Inserted")
 
 # Insert
 # ----------------------------------------------------------------
