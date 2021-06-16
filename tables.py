@@ -246,12 +246,18 @@ end;
 
 # Insert
 data = [("mina@gmail.com", "100001", "e"), ("rajiv@yahoo.com", "100002", "c"), ("anusha@gmail.com", "100003", "a"),
-        ("jayendra@yahoo.com", "100004", "e"), ("hema@gmail.com", "100005", "c"), ("mohini@yahoo.com", "100006", "a"),
-        ("amar@gmail.com", "100007", "e"), ("rati@yahoo.com", "100008", "c"), ("sunita@gmail.com", "100009", "a"), 
-        ("punit@yahoo.com","1000010", "e"), ("narasimhan@gmail.com", "100011", "c"), ("shankar@yahoo.com", "100012", "a"),
-        ("durga@gmail.com", "100013", "e"), ("gokul@yahoo.com", "100014", "c"), ("ram@gmail.com", "1000015", "a"),
-        ("sona@yahoo.com", "100004", "e"), ("raj@gmail.com", "100005", "c"), ("yash@yahoo.com", "100006", "a"),
-        ("devansh@gmail.com", "100007", "e"), ("aman@yahoo.com", "100008", "c"), ("kamala@gmail.com", "100009", "a"), 
+        ("jayendra@yahoo.com", "100004", "e"), ("hema@gmail.com",
+                                                "100005", "c"), ("mohini@yahoo.com", "100006", "a"),
+        ("amar@gmail.com", "100007", "e"), ("rati@yahoo.com",
+                                            "100008", "c"), ("sunita@gmail.com", "100009", "a"),
+        ("punit@yahoo.com", "1000010", "e"), ("narasimhan@gmail.com",
+                                              "100011", "c"), ("shankar@yahoo.com", "100012", "a"),
+        ("durga@gmail.com", "100013", "e"), ("gokul@yahoo.com",
+                                             "100014", "c"), ("ram@gmail.com", "1000015", "a"),
+        ("sona@yahoo.com", "100004", "e"), ("raj@gmail.com",
+                                            "100005", "c"), ("yash@yahoo.com", "100006", "a"),
+        ("devansh@gmail.com", "100007", "e"), ("aman@yahoo.com",
+                                               "100008", "c"), ("kamala@gmail.com", "100009", "a"),
         ("rohit@yahoo.com", "100010", "e"), ("jagan@gmail.com", "100011", "c"), ("hari@yahoo.com", "100012", "a")]
 
 cursor.executemany(
@@ -264,9 +270,11 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 
-admindata = [("3001", "anusha@gmail.com", "anusha", "alwarpet"), ("3002", "mohini@yahoo.com", "mohini", "chetpet"), 
-             ("3003", "sunita@gmail.com", "sunitha", "nungambakam"),("3004", "shankar@yahoo.com", "shankar", "egmore"),
-             ("3005", "ram@gmail.com", "ram", "anna nagar"), ("3006", "yash@yahoo.com", "yash", "guindy"),
+admindata = [("3001", "anusha@gmail.com", "anusha", "alwarpet"), ("3002", "mohini@yahoo.com", "mohini", "chetpet"),
+             ("3003", "sunita@gmail.com", "sunitha", "nungambakam"), ("3004",
+                                                                      "shankar@yahoo.com", "shankar", "egmore"),
+             ("3005", "ram@gmail.com", "ram", "anna nagar"), ("3006",
+                                                              "yash@yahoo.com", "yash", "guindy"),
              ("3007", "kamala@gmail.com", "kamala", "adyar"), ("3008", "hari@yahoo.com", "hari", "kilpauk")]
 
 cursor.executemany(
@@ -277,8 +285,10 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 empdata = [("1001", "mina@gmail.com", "mina", "mandaveli"), ("1002", "jayendra@yahoo.com", "jayendra", "perumbakkam"),
-           ("1003", "aman@gmail.com", "aman", "nandanam"), ("1004", "punit@yahoo.com", "punit", "royapettah"),
-           ("1005", "devansh@gmail.com", "devansh", "mudichur"), ("1006", "sona@yahoo.com", "sona", "porur"), 
+           ("1003", "aman@gmail.com", "aman", "nandanam"), ("1004",
+                                                            "punit@yahoo.com", "punit", "royapettah"),
+           ("1005", "devansh@gmail.com", "devansh",
+            "mudichur"), ("1006", "sona@yahoo.com", "sona", "porur"),
            ("1007", "durga@gmail.com", "durga", "perambur"), ("1008", "rohit@yahoo.com", "rohit", "saidapet")]
 
 cursor.executemany(
@@ -300,8 +310,10 @@ print(cursor.rowcount, "Rows Inserted")
 # ----------------------------------------------------------------
 
 custdata = [("2001", "rajiv@yahoo.com", "rajiv", "addb", "101"), ("2002", "hema@gmail.com", "hema", "addh", "102"),
-            ("2003", "rati@yahoo.com", "rati", "addn", "103"), ("2004", "narasimhan@gmail.com", "narasimhan", "addt", "101"),
-            ("2005", "gokul@yahoo.com", "gokul", "adde", "102"), ("2006", "raj@gmail.com", "raj", "addk", "103"),
+            ("2003", "rati@yahoo.com", "rati", "addn", "103"), ("2004",
+                                                                "narasimhan@gmail.com", "narasimhan", "addt", "101"),
+            ("2005", "gokul@yahoo.com", "gokul", "adde",
+             "102"), ("2006", "raj@gmail.com", "raj", "addk", "103"),
             ("2007", "aman@yahoo.com", "aman", "addq", "101"), ("2008", "jagan@gmail.com", "jagan", "addw", "101")]
 
 cursor.executemany(
@@ -314,9 +326,10 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 
-servicedata = [("a101", "office cleaning","2000"), ("b101", "vacuumming","1000"), ("a102", "disinfecting","1500"), 
-         ("c101", "painting","4000"),("a103", "bathroom cleaning","2500"), ("b102", "plumbing","2200"), 
-         ("a104", "household cleaning","5000"), ("c102", "appliance repair","1600")],('b103','pest control',"3700")
+servicedata = [("a101", "office cleaning", "2000"), ("b101", "vacuumming", "1000"), ("a102", "disinfecting", "1500"),
+               ("c101", "painting", "4000"), ("a103", "bathroom cleaning",
+                                              "2500"), ("b102", "plumbing", "2200"),
+               ("a104", "household cleaning", "5000"), ("c102", "appliance repair", "1600")], ('b103', 'pest control', "3700")
 
 cursor.executemany(
     """insert
@@ -329,10 +342,10 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 
-adminphonedata = [("3001", "9392246754"), ("3002", "8966450921"), 
-             ("3003", "7977234510"),("3004", "9932140076"),
-             ("3005", "9850457389"), ("3006", "9126076732"),
-             ("3007", "9650123497"), ("3008", "8935412765")]
+adminphonedata = [("3001", "9392246754"), ("3002", "8966450921"),
+                  ("3003", "7977234510"), ("3004", "9932140076"),
+                  ("3005", "9850457389"), ("3006", "9126076732"),
+                  ("3007", "9650123497"), ("3008", "8935412765")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(ADMIN(admin_id)) */  into adminphone values(:1,:2)",
     adminphonedata)
@@ -343,12 +356,12 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 empphonedata = [("1001", "9766345483"), ("1002", "7893784629"),
-           ("1003", "9352647251"), ("1004", "9083737721"),
-           ("1005", "9874636263"), ("1006", "9352632752"), 
-           ("1007", "9463846010"), ("1008", "8637226377")]
+                ("1003", "9352647251"), ("1004", "9083737721"),
+                ("1005", "9874636263"), ("1006", "9352632752"),
+                ("1007", "9463846010"), ("1008", "8637226377")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(EMPLOYEE(emp_id)) */ into empphone values(:1,:2)",
-    emphonepdata)
+    empphonedata)
 print(cursor.rowcount, "Rows Inserted")
 # ----------------------------------------------------------------
 
@@ -356,9 +369,9 @@ print(cursor.rowcount, "Rows Inserted")
 # ----------------------------------------------------------------
 
 custphonedata = [("2001", "90363732381"), ("2002", "8736361190"),
-            ("2003", "7474939238"), ("2004", "9473188765"),
-            ("2005", "9144537827"), ("2006", "9772621900"),
-            ("2007", "8936211028"), ("2008", "9836271263")]
+                 ("2003", "7474939238"), ("2004", "9473188765"),
+                 ("2005", "9144537827"), ("2006", "9772621900"),
+                 ("2007", "8936211028"), ("2008", "9836271263")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into Custphone values(:1,:2)",
     custphonedata)
@@ -369,10 +382,10 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 
-emp_perf_servicedata = [("b101", "1001","800"), ("c102", "1003","700"),
-            ("b103", "1002","500"), ("a101", "1004","450"),
-            ("a104", "1005","280"), ("c101", "1006","300"),
-            ("a102", "1007","400"), ("b102", "1003","350")]
+emp_perf_servicedata = [("b101", "1001", "800"), ("c102", "1003", "700"),
+                        ("b103", "1002", "500"), ("a101", "1004", "450"),
+                        ("a104", "1005", "280"), ("c101", "1006", "300"),
+                        ("a102", "1007", "400"), ("b102", "1003", "350")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into emp_perf_service values(:1,:2,:3)",
     emp_perf_servicedata)
@@ -381,10 +394,12 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 
-bill1data = [("b001", "2001","1001", "28 mar 20"), ("b005", "2009","1003","13 apr 20"),
-            ("b002", "2003", "1002", "19 jan 21"), ("b006", "2004", "1004","05 may 20"),
-            ("b003", "2005", "1005", "23 sep 20"), ("b007", "2006" ,"1006", "11 dec 20"),
-            ("b004", "2007", "1007", "20 apr 21"), ("b008", "2009", "1003", "30 jun 2020")]
+bill1data = [("b001", "2001", "1001", "28 mar 20"), ("b005", "2009", "1003", "13 apr 20"),
+             ("b002", "2003", "1002", "19 jan 21"), ("b006",
+                                                     "2004", "1004", "05 may 20"),
+             ("b003", "2005", "1005", "23 sep 20"), ("b007",
+                                                     "2006", "1006", "11 dec 20"),
+             ("b004", "2007", "1007", "20 apr 21"), ("b008", "2009", "1003", "30 jun 2020")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into bill1(bill_is,cust_id,emp_id,service_id) values(:1,:2,:3,:4)",
     bill1data)
@@ -395,16 +410,15 @@ print(cursor.rowcount, "Rows Inserted")
 # ----------------------------------------------------------------
 
 bill2data = [("b001", "b101"), ("b005", "c102"),
-            ("b002", "b103"), ("b006", "a101"),
-            ("b003", "a104"), ("b007", "a104"),
-            ("b004", "a102"), ("b008", "b102")]
+             ("b002", "b103"), ("b006", "a101"),
+             ("b003", "a104"), ("b007", "a104"),
+             ("b004", "a102"), ("b008", "b102")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into bill2(bill_id,service_id) values(:1,:2)",
     bill2data)
 print(cursor.rowcount, "Rows Inserted")
 
 # ----------------------------------------------------------------
-
 
 
 connection.commit()
