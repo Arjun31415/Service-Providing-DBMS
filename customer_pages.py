@@ -111,7 +111,8 @@ class Customer:
 
         self.hide()
         editinfo = Toplevel(self.parent)
-        EditinfoWindow = Editinfo(self.email, editinfo)
+        EditinfoWindow = Editinfo(
+            email=self.email, master=editinfo, person='c')
 
 # ----------------------------------------------------------------
     def on_closing(self):
