@@ -338,7 +338,7 @@ cursor.executemany(
     servicedata)
 print(cursor.rowcount, "Rows Inserted")
 
-# ----------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------
 # Insert
 # ----------------------------------------------------------------
 
@@ -351,7 +351,7 @@ cursor.executemany(
     adminphonedata)
 print(cursor.rowcount, "Rows Inserted")
 
-# ----------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------
 
 # Insert
 # ----------------------------------------------------------------
@@ -423,7 +423,7 @@ print(cursor.rowcount, "Rows Inserted")
 
 connection.commit()
 
-# ----------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------
 
 
 def auth_login(email, password):
@@ -524,7 +524,7 @@ def get_employee_details(email):
     )
     temp = list((cursor.fetchall())[0])
     print("temp= ", temp)
-    data = dict(zip(["ID", "Email", "Name", "Address", "Loyalty_id"], temp))
+    data = dict(zip(["ID", "Email", "Name", "Address"], temp))
     print("data: ", data)
     # assuming single phone number
 
@@ -547,6 +547,38 @@ def get_employee_details(email):
     print(data)
     return data
 
+
+def get_admin_details(email):
+
+    # ADMIN
+    cursor.execute(
+        """select * from ADMIN
+            where email_id='%s'"""
+        % (email)
+    )
+    temp = list((cursor.fetchall())[0])
+    print("temp= ", temp)
+    data = dict(zip(["ID", "Email", "Name", "Address"], temp))
+    print("data: ", data)
+    # assuming single phone number
+
+    cursor.execute(
+        """
+            select phone_no from ADMINPHONE
+            where admin_id='%s'
+        """
+        % (data["ID"])
+    )
+    phone_no = list(cursor.fetchall())
+    if(phone_no == []):
+        data["Mobile"] = None
+        return data
+
+    # phone[0] gives the phone number as a tuple
+    # phone[0][0] gives the phone number as an integer
+    data["Mobile"] = (phone_no[0][0])
+    print(data)
+    return data
 # ----------------------------------------------------------------------------------------------
 
 
@@ -598,10 +630,6 @@ def auth_signup(email, password, Type="c"):
     return 1
 
 # ----------------------------------------------------------------------------------------------
-
-
-# get_details('A', 'e')
-# get_loyalty('B')
 
 # ----------------------------------------------------------------------------------------------
 

@@ -26,7 +26,8 @@ class Customer:
     def make_widgets(self):
         # put the widgets
         self.parent.title("Customer Page")
-        heading = Label(self.parent, text="Welcome", font=("Arial", 16))
+        heading = Label(self.parent, text="Customer Dashboard",
+                        font=("Arial", 16))
         heading.pack()
 
         # data = tb.get_details(self.email, person="c")
