@@ -15,8 +15,10 @@ class Employee:
         self.parent.geometry(str(w)+"x"+str(h))
         self.email = username
         self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
+        
         # pub.subscribe(self.listner, "BookserviceWindowClosed")
         pub.subscribe(self.listner, "EditinfoWindowClosed")
+
         # Make the page widgets
         self.make_widgets()
 
