@@ -298,7 +298,7 @@ class Admin:
 #####################################################################################
 class Addemp:
 
-    def __init__(self, email, person='c', master=None):
+    def __init__(self, email, person='e', master=None):
         self.parent = master
         self.parent.title('ADD EMPLOYEE')
         self.parent.geometry('500x250')
@@ -376,11 +376,11 @@ class Addemp:
         reset()
         savech = Button(self.parent, text='ADD', command=get_changes)
         savech.place(x=25/41*w, y=(h/8)+130)
-        savech.bind('<Button-1>', self.on_closing)
+        
 
         canc = Button(self.parent, text='Cancel', command=reset)
         canc.place(x=25/70*w, y=(h/8)+130)
-        canc.bind('<Button-1>', self.on_closing)
+        
 
     # ------------------------------------------------
 
@@ -466,11 +466,11 @@ class Removeemp:
         reset()
         savech = Button(self.parent, text='ADD', command=get_changes)
         savech.place(x=25/41*w, y=(h/8)+130)
-        savech.bind('<Button-1>', self.on_closing)
+        
 
         canc = Button(self.parent, text='Cancel', command=reset)
         canc.place(x=25/70*w, y=(h/8)+130)
-        canc.bind('<Button-1>', self.on_closing)
+       
 
     # ------------------------------------------------
 
@@ -523,7 +523,7 @@ class Addserv:
         heading.pack()
 
         def reset():
-            # Email
+            # serv name
             usr_label = Label(self.parent, text="Service Name:",
                           font=("Times", 11),
                           anchor='center'
@@ -531,7 +531,7 @@ class Addserv:
             usr_label.place(x=25/400*w, y=(h/8))
             self.mail = Entry(self.parent, bg='white', font=("Arail", 8))
             self.mail.place(x=25/135 * w, y=(h/8)+2)
-            # Cust_id
+            # serv_id
             id_label = Label(self.parent, text="Service ID ",
                          font=("Times", 11),
                          anchor='center'
