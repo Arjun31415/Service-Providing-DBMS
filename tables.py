@@ -165,8 +165,9 @@ begin
      select count(table_name) into table_exists from USER_TABLES where table_name='SERVICE';
 
     if (table_exists = 0) then
-        execute immediate 'create table service (service_id varchar2(10) ,service_name varchar2(20) UNIQUE,
-    service_cost number(5,0),constraint pk_serviceid primary key(service_id))';
+        execute immediate 
+        'create table service (service_id varchar2(15) ,service_name varchar2(50) UNIQUE,
+    service_cost number(10,2),constraint pk_serviceid primary key(service_id))';
     end if;
 end;
 """)
@@ -326,15 +327,20 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 
-servicedata = [("a101", "office cleaning", "2000"), ("b101", "vacuumming", "1000"), ("a102", "disinfecting", "1500"),
-               ("c101", "painting", "4000"), ("a103", "bathroom cleaning",
-                                              "2500"), ("b102", "plumbing", "2200"),
-               ("a104", "household cleaning", "5000"), ("c102", "appliance repair", "1600")], ('b103', 'pest control', "3700")
+servicedata = [("a101", "office cleaning", 2000),
+               ("b101", "vacuumming", 1000),
+               ("a102", "disinfecting", 1500),
+               ("c101", "painting", 4000),
+               ("a103", "bathroom cleaning", 2500),
+               ("b102", "plumbing", 2200),
+               ("a104", "household cleaning", 5000),
+               ("c102", "appliance repair", 1600),
+               ('b103', 'pest control', 3700)]
 
 cursor.executemany(
     """insert
         /*+ IGNORE_ROW_ON_DUPKEY_INDEX(SERVICE(service_id)) */
-        into service(service_id,service_name) values (:1,:2)""",
+        into service(service_id,service_name,service_cost) values (:1,:2,:3)""",
     servicedata)
 print(cursor.rowcount, "Rows Inserted")
 
@@ -368,7 +374,7 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 
-custphonedata = [("2001", "90363732381"), ("2002", "8736361190"),
+custphonedata = [("2001", "9036373238"), ("2002", "8736361190"),
                  ("2003", "7474939238"), ("2004", "9473188765"),
                  ("2005", "9144537827"), ("2006", "9772621900"),
                  ("2007", "8936211028"), ("2008", "9836271263")]
@@ -376,17 +382,21 @@ cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into Custphone values(:1,:2)",
     custphonedata)
 print(cursor.rowcount, "Rows Inserted")
-
+connection.commit()
 # ----------------------------------------------------------------
 # Insert
 # ----------------------------------------------------------------
 
-cust_avails_servicedata = [("b101", "2001"), ("c102", "2009"),
-                        ("b103", "2003"), ("a101", "2004"),
-                        ("a104", "2005"), ("c101", "2006"),
-                        ("a102", "2007"), ("b102", "2009")]
+cust_avails_servicedata = [("b101", "2001"),
+                           ("c102", "2008"),
+                           ("b103", "2003"),
+                           ("a101", "2004"),
+                           ("a104", "2005"),
+                           ("c101", "2006"),
+                           ("a102", "2007"),
+                           ("b102", "2008")]
 cursor.executemany(
-    "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into cust_avails_service values(:1,:2,:3)",
+    "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into cust_avails_service values(:1,:2)",
     cust_avails_servicedata)
 print(cursor.rowcount, "Rows Inserted")
 
@@ -405,14 +415,16 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 
-bill1data = [("b001", "2001", "1001", "28 mar 20"), ("b005", "2009", "1003", "13 apr 20"),
-             ("b002", "2003", "1002", "19 jan 21"), ("b006",
-                                                     "2004", "1004", "05 may 20"),
-             ("b003", "2005", "1005", "23 sep 20"), ("b007",
-                                                     "2006", "1006", "11 dec 20"),
-             ("b004", "2007", "1007", "20 apr 21"), ("b008", "2009", "1003", "30 jun 2020")]
+bill1data = [("b001", "2001", "1001", "28 mar 20"),
+             ("b005", "2008", "1003", "13 apr 20"),
+             ("b002", "2003", "1002", "19 jan 21"),
+             ("b006", "2004", "1004", "05 may 20"),
+             ("b003", "2005", "1005", "23 sep 20"),
+             ("b007", "2006", "1006", "11 dec 20"),
+             ("b004", "2007", "1007", "20 apr 21"),
+             ("b008", "2008", "1003", "30 jun 2020")]
 cursor.executemany(
-    "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into bill1(bill_is,cust_id,emp_id,service_id) values(:1,:2,:3,:4)",
+    "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into bill1(bill_id,cust_id,emp_id,service_date) values(:1,:2,:3,:4)",
     bill1data)
 print(cursor.rowcount, "Rows Inserted")
 
