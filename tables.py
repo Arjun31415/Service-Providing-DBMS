@@ -51,13 +51,18 @@ cursor.execute("""
 declare
     table_exists number:=0;
 begin
-     select count(table_name) into table_exists from USER_TABLES where table_name='EMPLOYEE';
+     select count(table_name) into table_exists 
+        from USER_TABLES where table_name='EMPLOYEE';
 
     if (table_exists = 0) then
-        execute immediate 'create table employee (emp_id number(7,0),email_id varchar2(40) ,emp_name varchar2(20),
-    address varchar2(50),constraint pk_empid primary key(emp_id),
+        execute immediate 'create table employee (emp_id number(7,0),
+        email_id varchar2(40) ,
+        emp_name varchar2(20),
+    address varchar2(50),
+    constraint pk_empid primary key(emp_id),
     constraint fk_email2 foreign key(email_id)
-    references Alogin(email_id))';
+    references Alogin(email_id)
+    )';
     end if;
 end;
 """)
@@ -246,20 +251,31 @@ end;
 # ----------------------------------------------------------------
 
 # Insert
-data = [("mina@gmail.com", "100001", "e"), ("rajiv@yahoo.com", "100002", "c"), ("anusha@gmail.com", "100003", "a"),
-        ("jayendra@yahoo.com", "100004", "e"), ("hema@gmail.com",
-                                                "100005", "c"), ("mohini@yahoo.com", "100006", "a"),
-        ("amar@gmail.com", "100007", "e"), ("rati@yahoo.com",
-                                            "100008", "c"), ("sunita@gmail.com", "100009", "a"),
-        ("punit@yahoo.com", "1000010", "e"), ("narasimhan@gmail.com",
-                                              "100011", "c"), ("shankar@yahoo.com", "100012", "a"),
-        ("durga@gmail.com", "100013", "e"), ("gokul@yahoo.com",
-                                             "100014", "c"), ("ram@gmail.com", "1000015", "a"),
-        ("sona@yahoo.com", "100004", "e"), ("raj@gmail.com",
-                                            "100005", "c"), ("yash@yahoo.com", "100006", "a"),
-        ("devansh@gmail.com", "100007", "e"), ("aman@yahoo.com",
-                                               "100008", "c"), ("kamala@gmail.com", "100009", "a"),
-        ("rohit@yahoo.com", "100010", "e"), ("jagan@gmail.com", "100011", "c"), ("hari@yahoo.com", "100012", "a")]
+data = [("mina@gmail.com", "100001", "e"),
+        ("rajiv@yahoo.com", "100002", "c"),
+        ("anusha@gmail.com", "100003", "a"),
+        ("jayendra@yahoo.com", "100004", "e"),
+        ("hema@gmail.com", "100005", "c"),
+        ("mohini@yahoo.com", "100006", "a"),
+        ("amar@gmail.com", "100007", "e"),
+        ("rati@yahoo.com", "100008", "c"),
+        ("sunita@gmail.com", "100009", "a"),
+        ("punit@yahoo.com", "1000010", "e"),
+        ("narasimhan@gmail.com", "100011", "c"),
+        ("shankar@yahoo.com", "100012", "a"),
+        ("durga@gmail.com", "100013", "e"),
+        ("gokul@yahoo.com", "100014", "c"),
+        ("ram@gmail.com", "1000015", "a"),
+        ("sona@yahoo.com", "100004", "e"),
+        ("raj@gmail.com", "100005", "c"),
+        ("yash@yahoo.com", "100006", "a"),
+        ("devansh@gmail.com", "100007", "e"),
+        ("aman@yahoo.com", "100008", "c"),
+        ("kamala@gmail.com", "100009", "a"),
+        ("rohit@yahoo.com", "100010", "e"),
+        ("jagan@gmail.com", "100011", "c"),
+        ("hari@yahoo.com", "100012", "a")
+        ]
 
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(Alogin(email_id)) */  into Alogin values(:1, :2,:3)",
@@ -285,12 +301,15 @@ print(cursor.rowcount, "Rows Inserted")
 
 # Insert
 # ----------------------------------------------------------------
-empdata = [("1001", "mina@gmail.com", "mina", "mandaveli"), ("1002", "jayendra@yahoo.com", "jayendra", "perumbakkam"),
-           ("1003", "aman@gmail.com", "aman", "nandanam"), ("1004",
-                                                            "punit@yahoo.com", "punit", "royapettah"),
-           ("1005", "devansh@gmail.com", "devansh",
-            "mudichur"), ("1006", "sona@yahoo.com", "sona", "porur"),
-           ("1007", "durga@gmail.com", "durga", "perambur"), ("1008", "rohit@yahoo.com", "rohit", "saidapet")]
+empdata = [("1001", "mina@gmail.com", "mina", "mandaveli"),
+           ("1002", "jayendra@yahoo.com", "jayendra", "perumbakkam"),
+           ("1003", "amar@gmail.com", "amar", "nandanam"),
+           ("1004", "punit@yahoo.com", "punit", "royapettah"),
+           ("1005", "devansh@gmail.com", "devansh", "mudichur"),
+           ("1006", "sona@yahoo.com", "sona", "porur"),
+           ("1007", "durga@gmail.com", "durga", "perambur"),
+           ("1008", "rohit@yahoo.com", "rohit", "saidapet")
+           ]
 
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(EMPLOYEE(emp_id)) */ into employee values(:1,:2,:3,:4)",
