@@ -244,29 +244,25 @@ class Admin:
         pro.place(x=25/38*w, y=(h/8)+195)
         pro.bind('<Button-1>', self.remserv)
      # ----------------------------------------------------------------
-        def addemp(self, event):
-            
-            self.hide()
-            addemp = Toplevel(self.parent)
-            AddempWindow = Addemp(addemp)
+    def addemp(self, event):
+        self.hide()
+        addemp = Toplevel(self.parent)
+        AddempWindow = Addemp(addemp)
      # ----------------------------------------------------------------
-        def removeemp(self, event):
-            
-            self.hide()
-            removeemp = Toplevel(self.parent)
-            RemoveempWindow = Removeemp(removeemp)
+    def removeemp(self, event):
+        self.hide()
+        removeemp = Toplevel(self.parent)
+        RemoveempWindow = Removeemp(removeemp)
  # ----------------------------------------------------------------
-        def addserv(self, event):
-            
-            self.hide()
-            addserv = Toplevel(self.parent)
-            AddservWindow = Addserv(addserv)
+    def addserv(self, event):
+        self.hide()
+        addserv = Toplevel(self.parent)
+        AddservWindow = Addserv(addserv)
 # ----------------------------------------------------------------
-        def remserv(self, event):
-            
-            self.hide()
-            remserv = Toplevel(self.parent)
-            RemservWindow = Remserv(remserv)
+    def remserv(self, event):
+        self.hide()
+        remserv = Toplevel(self.parent)
+        RemservWindow = Remserv(remserv)
     
 
     # ----------------------------------------------------------------

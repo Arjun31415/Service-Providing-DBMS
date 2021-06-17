@@ -223,13 +223,14 @@ class Bookservice:
                    cal.get_date()
                )
                ).pack(pady=20)
-
+        a=cal.get_date()
         def destroy_date_window():
             date_window.destroy()
             self.show()
         Button(date_window, text="Confirm",
                command=destroy_date_window).pack(pady=25)
         date.pack(pady=20)
+        return(a)
     # ------------------------------------------------
 
     def hide(self):
