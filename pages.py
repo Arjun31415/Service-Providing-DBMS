@@ -188,10 +188,10 @@ class Login:
         elif(person == "e"):
             self.hide()
             Employee(Toplevel(self.root), self.login_username)
-        # elif(person == "a"):
-        #     self.hide()
-        #     Admin(Toplevel(self.root), self.login_username)
-            # CustomerPage.focus()
+        elif(person == "a"):
+               self.hide()
+               Admin(master=Toplevel(self.root), username=self.login_username)
+            #    CustomerPage.focus()
 
     # ----------------------------------------------------------------
 

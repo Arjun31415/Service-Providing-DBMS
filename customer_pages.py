@@ -357,9 +357,11 @@ class Editinfo:
         reset()
         savech = Button(self.parent, text='Save Changes', command=get_changes)
         savech.place(x=25/41*w, y=(h/8)+130)
+        #savech.bind('<Button-1>', self.on_closing)
 
-        canc = Button(self.parent, text='Cancel', command=reset)
+        canc = Button(self.parent, text='Cancel',command=reset)
         canc.place(x=25/70*w, y=(h/8)+130)
+        #canc.bind('<Button-1>', self.on_closing)
 
     # ------------------------------------------------
 
@@ -382,7 +384,7 @@ class Editinfo:
 
     # ----------------------------------------------------------------
 
-    def on_closing(self):
+    def on_closing(self,arg1=None, arg2=None):
         # if messagebox.askokcancel("Quit", "Do you want to signout?"):
         self.parent.destroy()
         """
