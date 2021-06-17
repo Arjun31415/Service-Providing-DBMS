@@ -769,6 +769,6 @@ def get_services():
 
 
 # ----------------------------------------------------------------------------------------------
-change_empdetails(1001, address="hwaii", mobile=1234567890, name="Ram")
-cursor.execute("""insert into EMPPHONE values(1001,1234567890)""")
+# change_empdetails(1001, address="hwaii", mobile=1234567890, name="Ram")
+# cursor.execute("""insert into EMPPHONE values(1001,1234567890)""")
 connection.commit()
