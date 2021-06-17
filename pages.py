@@ -1,5 +1,6 @@
 from customer_pages import*
 from employee_pages import*
+from admin_pages import*
 ##################################################################################
 #  Height and width of our window
 
@@ -189,8 +190,8 @@ class Login:
             self.hide()
             Employee(Toplevel(self.root), self.login_username)
         elif(person == "a"):
-               self.hide()
-               Admin(master=Toplevel(self.root), username=self.login_username)
+            self.hide()
+            Admin(master=Toplevel(self.root), username=self.login_username)
             #    CustomerPage.focus()
 
     # ----------------------------------------------------------------
