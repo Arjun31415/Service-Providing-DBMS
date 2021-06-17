@@ -424,7 +424,9 @@ bill1data = [("b001", "2001", "1001", "28 mar 20"),
              ("b004", "2007", "1007", "20 apr 21"),
              ("b008", "2008", "1003", "30 jun 2020")]
 cursor.executemany(
-    "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into bill1(bill_id,cust_id,emp_id,service_date) values(:1,:2,:3,:4)",
+    """insert 
+        /*+ IGNORE_ROW_ON_DUPKEY_INDEX(BILL1,PK_BILLID) */ 
+        into bill1(bill_id,cust_id,emp_id,service_date) values(:1,:2,:3,:4)""",
     bill1data)
 print(cursor.rowcount, "Rows Inserted")
 
