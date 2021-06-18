@@ -108,7 +108,7 @@ class Employee:
 
         self.hide()
         enroll = Toplevel(self.parent)
-        EnrollWindow = Enroll(enroll, self.empid)
+        Enroll(enroll, self.empid)
 
     # ----------------------------------------------------------------
 
@@ -116,7 +116,7 @@ class Employee:
 
         self.hide()
         unenroll = Toplevel(self.parent)
-        UnenrollWindow = Unenroll(unenroll, self.empid)
+        Unenroll(unenroll, self.empid)
 
     # ----------------------------------------------------------------
 
@@ -124,7 +124,7 @@ class Employee:
 
         self.hide()
         editinfo = Toplevel(self.parent)
-        EditinfoWindow = Editinfo(
+        Editinfo(
             email=self.email,
             person='e',
             master=editinfo)
