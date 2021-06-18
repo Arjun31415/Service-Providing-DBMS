@@ -230,37 +230,46 @@ class Unenroll:
 
     def __init__(self, master=None, emp_id=None):
         self.parent = master
-        self.parent.title('Combobox')
+        self.parent.title('Unenroll')
         self.parent.geometry('500x250')
 
         # label text for title
         ttk.Label(self.parent, text="Unenroll Your Service",
                   foreground="black",
                   font=("Times New Roman", 12)).grid(row=0, column=1)
-
+        self.emp_id = emp_id
+        self.make_widgets()
         # label
-        ttk.Label(self.parent, text="Select the service :",
-                  font=("Times New Roman", 10)).grid(column=0,
-                                                     row=5, padx=10, pady=25)
 
-        # Combobox creation
-        n = StringVar()
-        service_offered = ttk.Combobox(self.parent, width=27, textvariable=n)
-
-        # Adding combobox drop down list
-        services = tb.get_services_enrolled(emp_id)
-        service_offered['values'] = (services)
-
-        service_offered.grid(column=1, row=5)
-        val = service_offered.get()
-
-        conf = Button(self.parent, text='Confirm')
-        conf.place(x=25/45*w, y=(h/8)+90)
-        conf.bind('<Button-1>', tb.unenroll(emp_id, val))
-        # service_offered.current(0)
         self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
 
      # ----------------------------------------------------------------
+    def make_widgets(self):
+        ttk.Label(self.parent, text="Enter the service name :",
+                  font=("Times New Roman", 10)).grid(column=0,
+                                                     row=5, padx=10, pady=25)
+
+        def remove():
+            self.val = service_unenroll.get()
+            res = tb.unenroll(self.emp_id, self.val)
+            if(res == 0):
+                messagebox.showinfo(
+                    title="Success", message="delete successfull")
+            else:
+                messagebox.showinfo(
+                    title="Failure",
+                    message="Not enrolled in such a service"
+                )
+        service_unenroll = Entry(self.parent, bg='white', font=("Arail", 8))
+        service_unenroll.place(x=25/135 * w, y=(h/8)+45)
+
+        # print("val: ", self.val)
+        conf = Button(self.parent, text='Confirm',
+                      command=remove)
+        #
+        conf.place(x=25/45*w, y=(h/8)+90)
+        # service_offered.current(0)
+
     def hide(self):
         self.parent.withdraw()
 

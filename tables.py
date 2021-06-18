@@ -1007,27 +1007,35 @@ def get_services_enrolled(emp_id, only_name=1):
 
 
 def unenroll(emp_id, service_name):
-    cursor.execute(
-        """select SERVICE_ID from
-            SERVICE
-            where service_name='%s'
-        """
-        % (service_name)
-    )
-    s_id = cursor.fetchone()[0]
-    cursor.execute(
-        """
-        DELETE FROM EMP_PERF_SERVICE
-        WHERE
-            SERVICE_ID = '%s'
-            AND EMP_ID = '%d'
-        """
-        % (s_id, emp_id)
-    )
-    return
+    try:
+        print("service_name : ", service_name)
+        cursor.execute(
+            """select SERVICE_ID from
+                SERVICE
+                where service_name='%s'
+            """
+            % (service_name)
+        )
+        temp = cursor.fetchone()
+        print("temp: ", temp)
+        s_id = temp[0]
+        cursor.execute(
+            """
+            DELETE FROM EMP_PERF_SERVICE
+            WHERE
+                SERVICE_ID = '%s'
+                AND EMP_ID = '%d'
+            """
+            % (s_id, emp_id)
+        )
+        connection.commit()
+        return 0
+    except Exception as e:
+        print(e)
+        return 1
 
 
-get_services_enrolled(1003)
+get_services_enrolled(1001)
 
 # ----------------------------------------------------------------------------------------------
 # remove_emp(emp_id=1001)
