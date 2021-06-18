@@ -966,13 +966,13 @@ def remove_service(serv_id):
         return 1
 
 
-def get_services_enrolled(emp_id):
+def get_services_enrolled(emp_id, only_name=1):
 
-    cursor.execute(
-        """
+    if(only_name):
+        cursor.execute(
+            """
         SELECT
-            B.SERVICE_NAME,
-            SALARY
+            B.SERVICE_NAME
         FROM
             EMP_PERF_SERVICE A,Service B
         WHERE
@@ -980,12 +980,51 @@ def get_services_enrolled(emp_id):
             A.SERVICE_ID=B.SERVICE_ID
         
         """
-        % (emp_id)
-    )
-    temp = cursor.fetchall()
-    print(temp)
+            % (emp_id)
+        )
+        temp = cursor.fetchall()
+        print(temp)
+        return temp
+    else:
+        cursor.execute(
+            """
+            SELECT
+                B.SERVICE_NAME,
+                SALARY
+            FROM
+                EMP_PERF_SERVICE A,Service B
+            WHERE
+                EMP_ID = '%s' AND 
+                A.SERVICE_ID=B.SERVICE_ID
+            
+            """
+            % (emp_id)
+        )
+        temp = cursor.fetchall()
+        print(temp)
 
-    return temp
+        return temp
+
+
+def unenroll(emp_id, service_name):
+    cursor.execute(
+        """select SERVICE_ID from
+            SERVICE
+            where service_name='%s'
+        """
+        % (service_name)
+    )
+    s_id = cursor.fetchone()[0]
+    cursor.execute(
+        """
+        DELETE FROM EMP_PERF_SERVICE
+        WHERE
+            SERVICE_ID = '%s'
+            AND EMP_ID = '%d'
+        """
+        % (s_id, emp_id)
+    )
+    return
 
 
 get_services_enrolled(1003)
