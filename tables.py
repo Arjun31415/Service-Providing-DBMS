@@ -59,7 +59,7 @@ begin
         email_id varchar2(40) ,emp_name varchar2(20),
             address varchar2(50),
         constraint pk_empid primary key(emp_id),
-        constraint fk_email2 foreign key(email_id) 
+        constraint fk_email2 foreign key(email_id)
             references Alogin(email_id) ON DELETE CASCADE
     )';
     end if;
@@ -790,23 +790,26 @@ def get_services():
 
 
 def add_emp(name, address, mobile, email):
-    cursor.execute(
-        """
-        INSERT INTO ALOGIN(
-            EMAIL_ID,
-            PASSWORD,
-            "TYPE"
+    try:
+        cursor.execute(
+            """
+            INSERT INTO ALOGIN(
+                EMAIL_ID,
+                PASSWORD,
+                "TYPE"
+            )
+            VALUES
+            (
+                '%s',
+                'R^Y@WOkLlaeT',
+                'e'
+            )
+            """
+            % (email)
         )
-        VALUES
-        (
-            '%s',
-            'R^Y@WOkLlaeT',
-            'e'
-        )
-        """
-        % (email)
-    )
-    connection.commit()
+    except:
+        return 1
+
     cursor.execute(
         """
         INSERT INTO EMPLOYEE(
@@ -823,9 +826,33 @@ def add_emp(name, address, mobile, email):
         """
         % (email, name, address)
     )
+    cursor.execute(
+        """
+        select emp_id from employee where email_id='%s'
+
+        """
+        % (email)
+    )
+    empid = cursor.fetchone()[0]
+    cursor.execute(
+        """
+        INSERT INTO EMPPHONE(
+            EMP_ID,
+            PHONE_NO
+        )
+        VALUES
+        (
+            '%s',
+            '%d'
+        )
+        
+        """
+        % (empid, mobile)
+    )
+    connection.commit()
 
     # something
-    return
+    return 0
 
 # ----------------------------------------------------------------------------------------------
 
@@ -852,7 +879,7 @@ def remove_emp(emp_id):
     cursor.execute(
         """DELETE FROM EMPLOYEE
             WHERE
-                EMP_ID = '%s' 
+                EMP_ID='%s'
         """
         % (emp_id)
     )
@@ -873,12 +900,14 @@ def add_service(serv_id, name, cost):
             (
                 '%s',
                 '%s',
-                %d
-            )          
+                % d
+            )
             """
             % (serv_id, name, cost)
         )
+        connection.commit()
         return 0
+
     except cx_Oracle.IntegrityError:
         return 1
 
