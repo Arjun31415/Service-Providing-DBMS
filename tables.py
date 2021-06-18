@@ -204,8 +204,15 @@ begin
      select count(table_name) into table_exists from USER_TABLES where table_name='EMP_PERF_SERVICE';
 
     if (table_exists = 0) then
-        execute immediate ' create table emp_perf_service (service_id varchar2(10),emp_id number(7,0) ,salary number(7,0), constraint fk_serviceid1 foreign key(service_id)
-    references service(service_id),constraint fk_empid1 foreign key(emp_id) references employee(emp_id) ON DELETE CASCADE)';
+        execute immediate ' create table emp_perf_service 
+        (service_id varchar2(10),
+        emp_id number(7,0) ,
+        salary number(7,0),
+         constraint fk_serviceid1 foreign key(service_id) references service(service_id),
+         constraint fk_empid1 foreign key(emp_id) references employee(emp_id) ON DELETE CASCADE,
+         constraint pk_emp_id_serv_id primary key(service_id,emp_id)
+         )';
+         
     end if;
 end;
 """)
@@ -225,7 +232,9 @@ begin
         execute immediate 'create table bill1 (bill_id varchar2(10),email_id varchar2(40),cust_id number(7,0),emp_id number(7,0),service_date date ,
          constraint fk_emailid4 foreign key(email_id) references Alogin(email_id),
          constraint fk_custid2 foreign key(cust_id) references Customer(cust_id),
-         constraint pk_billid primary key(bill_id))';
+         constraint pk_billid primary key(bill_id),
+         constraint unq_bill_cust_emp UNIQUE (bill_id,cust_id,emp_id)
+        )';
     end if;
 end;
 """)
@@ -245,7 +254,9 @@ begin
         execute immediate 'create table bill2 (bill_id varchar2(10),service_id varchar2(10),email_id varchar2(40) ,
          constraint fk_serviceid2 foreign key(service_id) references service(service_id),
          constraint fk_emailid5 foreign key(email_id) references Alogin(email_id),
-         constraint fk_billid foreign key(bill_id) references bill1(bill_id))';
+         constraint fk_billid foreign key(bill_id) references bill1(bill_id),
+         constraint pk_billid_serviceid primary key (bill_id,service_id)
+        )';
     end if;
 end;
 """)
@@ -443,10 +454,14 @@ emp_perf_servicedata = [("b101", "1001", "800"), ("c102", "1003", "700"),
                         ("b103", "1002", "500"), ("a101", "1004", "450"),
                         ("a104", "1005", "280"), ("c101", "1006", "300"),
                         ("a102", "1007", "400"), ("b102", "1003", "350")]
-cursor.executemany(
-    "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into emp_perf_service values(:1,:2,:3)",
-    emp_perf_servicedata)
-print(cursor.rowcount, "Rows Inserted")
+try:
+    cursor.executemany(
+        "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(DEMOPYTHON.PK_EMP_ID_SERV_ID) */ into emp_perf_service values(:1,:2,:3)",
+        emp_perf_servicedata)
+    print(cursor.rowcount, "Rows Inserted")
+
+except cx_Oracle.IntegrityError:
+    print("0 Rows inserted\n")
 
 # Insert
 # ----------------------------------------------------------------
@@ -474,10 +489,14 @@ bill2data = [("b001", "b101"), ("b005", "c102"),
              ("b002", "b103"), ("b006", "a101"),
              ("b003", "a104"), ("b007", "a104"),
              ("b004", "a102"), ("b008", "b102")]
-cursor.executemany(
-    "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into bill2(bill_id,service_id) values(:1,:2)",
-    bill2data)
-print(cursor.rowcount, "Rows Inserted")
+try:
+    cursor.executemany(
+        "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into bill2(bill_id,service_id) values(:1,:2)",
+        bill2data)
+    print(cursor.rowcount, "Rows Inserted")
+
+except cx_Oracle.IntegrityError:
+    print("0 Rows inserted\n")
 
 # ----------------------------------------------------------------
 
@@ -947,11 +966,35 @@ def remove_service(serv_id):
         return 1
 
 
-    # ----------------------------------------------------------------------------------------------
-    # remove_emp(emp_id=1001)
-    # change_empdetails(1001, address="hwaii", mobile=1234567890, name="Ram")
-    # cursor.execute("""insert into EMPPHONE values(1001, 1234567890)""")
-    # print(add_service("b10001", "ooga", 100000))
-    # add_emp(name="Shyma", address="2nd wolf street",
-    #         mobile=1234567890, email="memem@gmail.com")
+def get_services_enrolled(emp_id):
+
+    cursor.execute(
+        """
+        SELECT
+            B.SERVICE_NAME,
+            SALARY
+        FROM
+            EMP_PERF_SERVICE A,Service B
+        WHERE
+            EMP_ID = '%s' AND 
+            A.SERVICE_ID=B.SERVICE_ID
+        
+        """
+        % (emp_id)
+    )
+    temp = cursor.fetchall()
+    print(temp)
+
+    return temp
+
+
+get_services_enrolled(1003)
+
+# ----------------------------------------------------------------------------------------------
+# remove_emp(emp_id=1001)
+# change_empdetails(1001, address="hwaii", mobile=1234567890, name="Ram")
+# cursor.execute("""insert into EMPPHONE values(1001, 1234567890)""")
+# print(add_service("b10001", "ooga", 100000))
+# add_emp(name="Shyma", address="2nd wolf street",
+#         mobile=1234567890, email="memem@gmail.com")
 connection.commit()
