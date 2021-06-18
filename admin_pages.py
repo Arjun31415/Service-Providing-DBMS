@@ -224,10 +224,10 @@ class Addemp:
             self.phn.place(x=25/108 * w, y=(h/8)+86)
 
         def get_changes():
-            tb.change_custdetails(cust_id=self.data["ID"],
-                                  name=self.nam.get(),
-                                  address=self.addr.get(),
-                                  mobile=self.phn.get())
+            tb.add_emp(emp_id=self.id.get(),
+                       name=self.nam.get(),
+                       address=self.addr.get(),
+                       mobile=self.phn.get())
             self.data = tb.get_customer_details(str(self.email))
 
         reset()
@@ -291,13 +291,13 @@ class Removeemp:
 
         def reset():
             # Email
-            usr_label = Label(self.parent, text="Email:",
-                              font=("Times", 11),
-                              anchor='center'
-                              )
-            usr_label.place(x=25/400*w, y=(h/8))
-            self.mail = Entry(self.parent, bg='white', font=("Arail", 8))
-            self.mail.place(x=25/135 * w, y=(h/8)+2)
+            # usr_label = Label(self.parent, text="Email:",
+            #                   font=("Times", 11),
+            #                   anchor='center'
+            #                   )
+            # usr_label.place(x=25/400*w, y=(h/8))
+            # self.mail = Entry(self.parent, bg='white', font=("Arail", 8))
+            # self.mail.place(x=25/135 * w, y=(h/8)+2)
             # emp id
             id_label = Label(self.parent, text="Identification No: ",
                              font=("Times", 11),
@@ -308,11 +308,7 @@ class Removeemp:
             self.id.place(x=25/110 * w, y=(h/8)+25)
 
         def get_changes():
-            tb.change_custdetails(cust_id=self.data["ID"],
-                                  name=self.nam.get(),
-                                  address=self.addr.get(),
-                                  mobile=self.phn.get())
-            self.data = tb.get_customer_details(str(self.email))
+            tb.remove_emp(emp_id=self.id.get())
 
         reset()
         savech = Button(self.parent, text='ADD', command=get_changes)
@@ -372,13 +368,13 @@ class Addserv:
 
         def reset():
             # serv name
-            usr_label = Label(self.parent, text="Service Name:",
-                              font=("Times", 11),
-                              anchor='center'
-                              )
-            usr_label.place(x=25/400*w, y=(h/8))
-            self.mail = Entry(self.parent, bg='white', font=("Arail", 8))
-            self.mail.place(x=25/135 * w, y=(h/8)+2)
+            ser_lbl = Label(self.parent, text="Service Name:",
+                            font=("Times", 11),
+                            anchor='center'
+                            )
+            ser_lbl.place(x=25/400*w, y=(h/8))
+            self.serv_name = Entry(self.parent, bg='white', font=("Arail", 8))
+            self.serv_name.place(x=25/135 * w, y=(h/8)+2)
             # serv_id
             id_label = Label(self.parent, text="Service ID ",
                              font=("Times", 11),
@@ -399,11 +395,20 @@ class Addserv:
             self.cost.place(x=25/135 * w, y=(h/8)+45)
 
         def get_changes():
-            tb.change_custdetails(cust_id=self.data["ID"],
-                                  name=self.nam.get(),
-                                  address=self.addr.get(),
-                                  mobile=self.phn.get())
-            self.data = tb.get_customer_details(str(self.email))
+            res = tb.add_service(name=self.serv_name.get(),
+                                 serv_id=self.id.get(),
+                                 cost=self.cost.get(),
+                                 )
+            if(res == 1):
+                messagebox.showerror(
+                    title="Primary Key violated",
+                    message="Another service with same service-id already exists"
+                )
+            elif res == 0:
+                messagebox.showinfo(
+                    title="Success",
+                    message="Service successfull added"
+                )
 
         reset()
         savech = Button(self.parent, text='ADD', command=get_changes)
