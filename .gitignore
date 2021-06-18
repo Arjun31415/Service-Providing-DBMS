@@ -5,3 +5,4 @@ database-user.txt
 __pycache__/entity_pages_1.cpython-39.pyc
 __pycache__/
 temp.sql
+.vscode/
