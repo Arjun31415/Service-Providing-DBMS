@@ -475,31 +475,29 @@ class Remserv:
         self.parent.title("remove serv")
         heading = Label(self.parent, text="DELETE SERVICE", font=("Arial", 16))
         heading.pack()
+        id_label = Label(self.parent, text="Service ID ",
+                         font=("Times", 11),
+                         anchor='center'
+                         )
+        id_label.place(x=25/400*w, y=(h/8)+23)
 
         def reset():
-            # NAme
-            usr_label = Label(self.parent, text="Service Name:",
-                              font=("Times", 11),
-                              anchor='center'
-                              )
-            usr_label.place(x=25/400*w, y=(h/8))
-            self.mail = Entry(self.parent, bg='white', font=("Arail", 8))
-            self.mail.place(x=25/135 * w, y=(h/8)+2)
             # Cust_id
-            id_label = Label(self.parent, text="Service ID ",
-                             font=("Times", 11),
-                             anchor='center'
-                             )
-            id_label.place(x=25/400*w, y=(h/8)+23)
             self.id = Entry(self.parent, bg='white', font=("Arail", 8))
             self.id.place(x=25/110 * w, y=(h/8)+25)
 
         def get_changes():
-            tb.change_custdetails(cust_id=self.data["ID"],
-                                  name=self.nam.get(),
-                                  address=self.addr.get(),
-                                  mobile=self.phn.get())
-            self.data = tb.get_customer_details(str(self.email))
+            res = tb.remove_service(self.id.get())
+            if(res == 1):
+                messagebox.showerror(
+                    title="Error",
+                    message="No such service exists"
+                )
+            elif res == 0:
+                messagebox.showinfo(
+                    title="Success",
+                    message="Service successfull removed"
+                )
 
         reset()
         savech = Button(self.parent, text='ADD', command=get_changes)
