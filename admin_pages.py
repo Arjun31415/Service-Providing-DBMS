@@ -68,7 +68,7 @@ class Admin:
                          anchor='center'
                          )
         ad_label.place(x=25/260*w, y=(h/8)+95)
-        ad = Button(self.parent, text='Book')
+        ad = Button(self.parent, text='Add')
         ad.place(x=25/150*w, y=(h/8)+120)
         ad.bind('<Button-1>', self.addemp)
 
@@ -78,7 +78,7 @@ class Admin:
                           anchor='center'
                           )
         idk_label.place(x=25/43*w, y=(h/8)+95)
-        idk = Button(self.parent, text='View')
+        idk = Button(self.parent, text='Remove')
         idk.place(x=25/38*w, y=(h/8)+120)
         idk.bind('<Button-1>', self.removeemp)
 
@@ -88,7 +88,7 @@ class Admin:
                            anchor='center'
                            )
         serv_label.place(x=25/185*w, y=(h/8)+170)
-        ser = Button(self.parent, text='View')
+        ser = Button(self.parent, text='Add')
         ser.place(x=25/150*w, y=(h/8)+195)
         ser.bind('<Button-1>', self.addserv)
 
@@ -98,7 +98,7 @@ class Admin:
                           anchor='center'
                           )
         pro_label.place(x=25/42*w, y=(h/8)+170)
-        pro = Button(self.parent, text='Edit')
+        pro = Button(self.parent, text='Remove')
         pro.place(x=25/38*w, y=(h/8)+195)
         pro.bind('<Button-1>', self.remserv)
      # ----------------------------------------------------------------
@@ -106,25 +106,24 @@ class Admin:
     def addemp(self, event):
         self.hide()
         addemp = Toplevel(self.parent)
-        AddempWindow = Addemp(master=addemp)
+        Addemp(master=addemp)
      # ----------------------------------------------------------------
 
     def removeemp(self, event):
         self.hide()
         removeemp = Toplevel(self.parent)
-        RemoveempWindow = Removeemp(master=removeemp)
+        Removeemp(master=removeemp)
  # ----------------------------------------------------------------
 
     def addserv(self, event):
         self.hide()
         addserv = Toplevel(self.parent)
-        AddservWindow = Addserv(master=addserv)
+        Addserv(master=addserv)
 # ----------------------------------------------------------------
 
     def remserv(self, event):
         self.hide()
-        remserv = Toplevel(self.parent)
-        RemservWindow = Remserv(master=remserv)
+        Remserv(master=Toplevel(self.parent))
 
     # ----------------------------------------------------------------
 
@@ -188,14 +187,6 @@ class Addemp:
             usr_label.place(x=25/400*w, y=(h/8))
             self.mail = Entry(self.parent, bg='white', font=("Arail", 8))
             self.mail.place(x=25/135 * w, y=(h/8)+2)
-            # Emp_id
-            id_label = Label(self.parent, text="Email Id: ",
-                             font=("Times", 11),
-                             anchor='center'
-                             )
-            id_label.place(x=25/400*w, y=(h/8)+23)
-            self.email = Entry(self.parent, bg='white', font=("Arail", 8))
-            self.email.place(x=25/110 * w, y=(h/8)+25)
 
             # Name
             name_label = Label(self.parent, text="Name:",
@@ -228,13 +219,22 @@ class Addemp:
         # ----------------------------------------------------------------
 
         def get_changes():
-            tb.add_emp(
+            res = tb.add_emp(
                 name=self.nam.get(),
                 address=self.addr.get(),
                 mobile=self.phn.get(),
-                email=self.email.get()
+                email=self.mail.get()
             )
-            self.data = tb.get_customer_details(str(self.email))
+            if(res == 1):
+                messagebox.showerror(
+                    title="Primary Key violated",
+                    message="Another employee with same email-id already exists"
+                )
+            elif res == 0:
+                messagebox.showinfo(
+                    title="Success",
+                    message="Employee successfull enrolled"
+                )
 
         # ----------------------------------------------------------------
 
@@ -298,15 +298,7 @@ class Removeemp:
         heading.pack()
 
         def reset():
-            # Email
-            # usr_label = Label(self.parent, text="Email:",
-            #                   font=("Times", 11),
-            #                   anchor='center'
-            #                   )
-            # usr_label.place(x=25/400*w, y=(h/8))
-            # self.mail = Entry(self.parent, bg='white', font=("Arail", 8))
-            # self.mail.place(x=25/135 * w, y=(h/8)+2)
-            # emp id
+
             id_label = Label(self.parent, text="Identification No: ",
                              font=("Times", 11),
                              anchor='center'
@@ -319,7 +311,7 @@ class Removeemp:
             tb.remove_emp(emp_id=self.id.get())
 
         reset()
-        savech = Button(self.parent, text='ADD', command=get_changes)
+        savech = Button(self.parent, text='Confirm', command=get_changes)
         savech.place(x=25/41*w, y=(h/8)+130)
 
         canc = Button(self.parent, text='Cancel', command=reset)
@@ -500,7 +492,7 @@ class Remserv:
                 )
 
         reset()
-        savech = Button(self.parent, text='ADD', command=get_changes)
+        savech = Button(self.parent, text='Remove', command=get_changes)
         savech.place(x=25/41*w, y=(h/8)+130)
 
         canc = Button(self.parent, text='Cancel', command=reset)
@@ -528,7 +520,7 @@ class Remserv:
     # ----------------------------------------------------------------
 
     def on_closing(self, arg1=None, arg2=None):
-        # if messagebox.askokcancel("Quit", "Do you want to signout?"):
+
         self.parent.destroy()
         """
             closes the window and sends a message to the main window
