@@ -331,12 +331,15 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 
-custdata = [("2001", "rajiv@yahoo.com", "rajiv", "addb", "101"), ("2002", "hema@gmail.com", "hema", "addh", "102"),
-            ("2003", "rati@yahoo.com", "rati", "addn", "103"), ("2004",
-                                                                "narasimhan@gmail.com", "narasimhan", "addt", "101"),
-            ("2005", "gokul@yahoo.com", "gokul", "adde",
-             "102"), ("2006", "raj@gmail.com", "raj", "addk", "103"),
-            ("2007", "aman@yahoo.com", "aman", "addq", "101"), ("2008", "jagan@gmail.com", "jagan", "addw", "101")]
+custdata = [("2001", "rajiv@yahoo.com", "rajiv", "addb", "101"),
+            ("2002", "hema@gmail.com", "hema", "addh", "102"),
+            ("2003", "rati@yahoo.com", "rati", "addn", "103"),
+            ("2004", "narasimhan@gmail.com", "narasimhan", "addt", "101"),
+            ("2005", "gokul@yahoo.com", "gokul", "adde", "102"),
+            ("2006", "raj@gmail.com", "raj", "addk", "103"),
+            ("2007", "aman@yahoo.com", "aman", "addq", "101"),
+            ("2008", "jagan@gmail.com", "jagan", "addw", "101")
+            ]
 
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into Customer values(:1,:2,:3,:4,:5)",
@@ -369,10 +372,14 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 
-adminphonedata = [("3001", "9392246754"), ("3002", "8966450921"),
-                  ("3003", "7977234510"), ("3004", "9932140076"),
-                  ("3005", "9850457389"), ("3006", "9126076732"),
-                  ("3007", "9650123497"), ("3008", "8935412765")]
+adminphonedata = [("3001", "9392246754"),
+                  ("3002", "8966450921"),
+                  ("3003", "7977234510"),
+                  ("3004", "9932140076"),
+                  ("3005", "9850457389"),
+                  ("3006", "9126076732"),
+                  ("3007", "9650123497"),
+                  ("3008", "8935412765")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(ADMIN(admin_id)) */  into adminphone values(:1,:2)",
     adminphonedata)
@@ -382,10 +389,14 @@ print(cursor.rowcount, "Rows Inserted")
 
 # Insert
 # ----------------------------------------------------------------
-empphonedata = [("1001", "9766345483"), ("1002", "7893784629"),
-                ("1003", "9352647251"), ("1004", "9083737721"),
-                ("1005", "9874636263"), ("1006", "9352632752"),
-                ("1007", "9463846010"), ("1008", "8637226377")]
+empphonedata = [("1001", "9766345483"),
+                ("1002", "7893784629"),
+                ("1003", "9352647251"),
+                ("1004", "9083737721"),
+                ("1005", "9874636263"),
+                ("1006", "9352632752"),
+                ("1007", "9463846010"),
+                ("1008", "8637226377")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(EMPLOYEE(emp_id)) */ into empphone values(:1,:2)",
     empphonedata)
@@ -395,10 +406,14 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 
-custphonedata = [("2001", "9036373238"), ("2002", "8736361190"),
-                 ("2003", "7474939238"), ("2004", "9473188765"),
-                 ("2005", "9144537827"), ("2006", "9772621900"),
-                 ("2007", "8936211028"), ("2008", "9836271263")]
+custphonedata = [("2001", "9036373238"),
+                 ("2002", "8736361190"),
+                 ("2003", "7474939238"),
+                 ("2004", "9473188765"),
+                 ("2005", "9144537827"),
+                 ("2006", "9772621900"),
+                 ("2007", "8936211028"),
+                 ("2008", "9836271263")]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into Custphone values(:1,:2)",
     custphonedata)
@@ -847,7 +862,7 @@ def add_emp(name, address, mobile, email):
         )
         
         """
-        % (empid, mobile)
+        % (empid, int(mobile))
     )
     connection.commit()
 
@@ -883,6 +898,7 @@ def remove_emp(emp_id):
         """
         % (emp_id)
     )
+    connection.commit()
 
 # ----------------------------------------------------------------------------------------------
 
@@ -900,10 +916,10 @@ def add_service(serv_id, name, cost):
             (
                 '%s',
                 '%s',
-                % d
+                 %d
             )
             """
-            % (serv_id, name, cost)
+            % (serv_id, name, int(cost))
         )
         connection.commit()
         return 0
@@ -912,11 +928,30 @@ def add_service(serv_id, name, cost):
         return 1
 
 
-# ----------------------------------------------------------------------------------------------
-# remove_emp(emp_id=1001)
-# change_empdetails(1001, address="hwaii", mobile=1234567890, name="Ram")
-# cursor.execute("""insert into EMPPHONE values(1001, 1234567890)""")
-# print(add_service("b10001", "ooga", 100000))
-# add_emp(name="Shyma", address="2nd wolf street",
-#         mobile=1234567890, email="memem@gmail.com")
+def remove_service(serv_id):
+    try:
+        cursor.execute(
+            """
+            DELETE FROM SERVICE
+            WHERE
+                SERVICE_ID = '%s'
+       
+        """
+            % (serv_id)
+        )
+        connection.commit()
+        return 0
+
+    except Exception as e:
+        print(e)
+        return 1
+
+
+    # ----------------------------------------------------------------------------------------------
+    # remove_emp(emp_id=1001)
+    # change_empdetails(1001, address="hwaii", mobile=1234567890, name="Ram")
+    # cursor.execute("""insert into EMPPHONE values(1001, 1234567890)""")
+    # print(add_service("b10001", "ooga", 100000))
+    # add_emp(name="Shyma", address="2nd wolf street",
+    #         mobile=1234567890, email="memem@gmail.com")
 connection.commit()
