@@ -1035,7 +1035,47 @@ def unenroll(emp_id, service_name):
         return 1
 
 
-get_services_enrolled(1001)
+def enroll_service(emp_id, service_name):
+    try:
+        print("emp_id: ", emp_id)
+        print("service_name : ", service_name)
+        cursor.execute(
+            """select SERVICE_ID from
+                SERVICE
+                where service_name='%s'
+            """
+            % (service_name)
+        )
+        temp = cursor.fetchone()
+        print("temp: ", temp)
+        s_id = temp[0]
+        print("service_id : ", s_id)
+        cursor.execute(
+            """
+            INSERT INTO EMP_PERF_SERVICE(
+                SERVICE_ID,
+                EMP_ID,
+                SALARY
+            )
+            VALUES
+            (
+                '%s',
+                '%s',
+                '100'
+            )
+           
+            """
+            % (s_id, emp_id)
+        )
+        connection.commit()
+        return 0
+    except Exception as e:
+        print(e)
+        return 1
+
+
+# enroll_service(1001, "disinfecting")
+# get_services_enrolled(1001)
 
 # ----------------------------------------------------------------------------------------------
 # remove_emp(emp_id=1001)

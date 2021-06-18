@@ -182,7 +182,7 @@ class Login:
         print("Person= ", person)
         if(person == "c"):
             self.hide()
-            CustomerWindow = Customer(Toplevel(self.root), self.login_username)
+            Customer(Toplevel(self.root), self.login_username)
         elif(person == "e"):
             self.hide()
             Employee(Toplevel(self.root), self.login_username)

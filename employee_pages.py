@@ -168,7 +168,7 @@ class Enroll:
     def __init__(self, master=None, emp_id=None):
         self.parent = master
         self.parent.title('Combobox')
-        self.parent.geometry('500x250')
+        self.parent.geometry('700x700')
 
         # label text for title
         ttk.Label(self.parent, text="Enroll Your Service",
@@ -179,27 +179,47 @@ class Enroll:
         ttk.Label(self.parent, text="Select the service :",
                   font=("Times New Roman", 10)).grid(column=0,
                                                      row=5, padx=10, pady=25)
+        self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
+        self.create_widget(emp_id)
 
-        # Combobox creation
+     # ----------------------------------------------------------------
+    def create_widget(self, emp_id):
+        services = tb.get_services()
+
         n = StringVar()
-        service_offered = ttk.Combobox(self.parent, width=27, textvariable=n)
+        self.service_offered = ttk.Combobox(
+            self.parent, width=27, textvariable=n)
 
         # Adding combobox drop down list
         services = tb.get_services()
-        service_offered['values'] = (services)
+        self.service_offered['values'] = (services)
 
-        service_offered.grid(column=1, row=5)
+        self.service_offered.grid(column=1, row=5)
+        # self.service_offered = Entry(
+        #     self.parent,
+        #     width=30,
+        #     font=('Arial', 16)
+        # )
+        # self.service_offered.place(x=25/100 * w, y=(h/8)+100)
 
-        conf = Button(self.parent, text='Confirm')
-        conf.place(x=25/45*w, y=(h/8)+90)
-        conf.bind('<Button-1>', self.on_closing)
-        # service_offered.current(0)
-        self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
+        Button(self.parent,
+               text='Confirm',
+               command=lambda: self.enroll_service(emp_id=emp_id)).place(x=25/45*w, y=(h/8)+90)
 
-     # ----------------------------------------------------------------
     def hide(self):
         self.parent.withdraw()
 
+    def enroll_service(self, emp_id):
+        self.val = self.service_offered.get()
+        res = tb.enroll_service(emp_id, self.val)
+        if(res == 0):
+            messagebox.showinfo(
+                title="Success", message="enroll successfull")
+        else:
+            messagebox.showinfo(
+                title="Failure",
+                message="Already enrolled in such a service/service does not exist"
+            )
     # ----------------------------------------------------------------
 
     def show(self):
