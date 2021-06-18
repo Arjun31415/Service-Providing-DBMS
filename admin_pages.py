@@ -181,40 +181,40 @@ class Addemp:
         def reset():
             # Email
             usr_label = Label(self.parent, text="Email:",
-                              font=("Times", 11),
+                              font=("Times", 12),
                               anchor='center'
                               )
             usr_label.place(x=25/400*w, y=(h/8))
-            self.mail = Entry(self.parent, bg='white', font=("Arail", 8))
+            self.mail = Entry(self.parent, bg='white', font=("Arail", 12))
             self.mail.place(x=25/135 * w, y=(h/8)+2)
 
             # Name
             name_label = Label(self.parent, text="Name:",
-                               font=("Times", 11),
+                               font=("Times", 12),
                                anchor='center'
                                )
-            name_label.place(x=25/400*w, y=(h/8)+43)
+            name_label.place(x=25/400*w, y=(h/8)+23)
 
-            self.nam = Entry(self.parent, bg='white', font=("Arail", 8))
-            self.nam.place(x=25/135 * w, y=(h/8)+45)
+            self.nam = Entry(self.parent, bg='white', font=("Arail", 12))
+            self.nam.place(x=25/135 * w, y=(h/8)+25)
 
             # Address
             add_label = Label(self.parent, text="Address: ",
-                              font=("Times", 11),
+                              font=("Times", 12),
                               anchor='center'
                               )
-            add_label.place(x=25/400*w, y=(h/8)+63)
-            self.addr = Entry(self.parent, bg='white', font=("Arail", 8))
-            self.addr.place(x=25/120 * w, y=(h/8)+66)
+            add_label.place(x=25/400*w, y=(h/8)+43)
+            self.addr = Entry(self.parent, bg='white', font=("Arail", 12))
+            self.addr.place(x=25/120 * w, y=(h/8)+46)
 
             # Mobile Number
             Phone_label = Label(self.parent, text="Phone No:",
-                                font=("Times", 11),
+                                font=("Times", 12),
                                 anchor='center'
                                 )
-            Phone_label.place(x=25/400*w, y=(h/8)+83)
-            self.phn = Entry(self.parent, bg='white', font=("Arail", 8))
-            self.phn.place(x=25/108 * w, y=(h/8)+86)
+            Phone_label.place(x=25/400*w, y=(h/8)+63)
+            self.phn = Entry(self.parent, bg='white', font=("Arail", 12))
+            self.phn.place(x=25/106 * w, y=(h/8)+66)
 
         # ----------------------------------------------------------------
 
@@ -240,7 +240,7 @@ class Addemp:
 
         reset()
         savech = Button(self.parent, text='ADD', command=get_changes)
-        savech.place(x=25/41*w, y=(h/8)+130)
+        savech.place(x=25/40*w, y=(h/8)+130)
 
         canc = Button(self.parent, text='Cancel', command=reset)
         canc.place(x=25/70*w, y=(h/8)+130)
@@ -304,8 +304,8 @@ class Removeemp:
                              anchor='center'
                              )
             id_label.place(x=25/400*w, y=(h/8)+23)
-            self.id = Entry(self.parent, bg='white', font=("Arail", 8))
-            self.id.place(x=25/110 * w, y=(h/8)+25)
+            self.id = Entry(self.parent, bg='white', font=("Arail", 14))
+            self.id.place(x=25/68 * w, y=(h/8)+25)
 
         def get_changes():
             tb.remove_emp(emp_id=self.id.get())
@@ -373,26 +373,26 @@ class Addserv:
                             anchor='center'
                             )
             ser_lbl.place(x=25/400*w, y=(h/8))
-            self.serv_name = Entry(self.parent, bg='white', font=("Arail", 8))
-            self.serv_name.place(x=25/135 * w, y=(h/8)+2)
+            self.serv_name = Entry(self.parent, bg='white', font=("Arail", 12))
+            self.serv_name.place(x=25/86 * w, y=(h/8)+2)
             # serv_id
-            id_label = Label(self.parent, text="Service ID ",
+            id_label = Label(self.parent, text="Service ID:      ",
                              font=("Times", 11),
                              anchor='center'
                              )
-            id_label.place(x=25/400*w, y=(h/8)+23)
-            self.id = Entry(self.parent, bg='white', font=("Arail", 8))
-            self.id.place(x=25/110 * w, y=(h/8)+25)
+            id_label.place(x=25/400*w, y=(h/8)+25)
+            self.id = Entry(self.parent, bg='white', font=("Arail", 12))
+            self.id.place(x=25/100 * w, y=(h/8)+27)
 
             # cost
             cost_label = Label(self.parent, text="Cost:",
                                font=("Times", 11),
                                anchor='center'
                                )
-            cost_label.place(x=25/400*w, y=(h/8)+43)
+            cost_label.place(x=25/400*w, y=(h/8)+48)
 
-            self.cost = Entry(self.parent, bg='white', font=("Arail", 8))
-            self.cost.place(x=25/135 * w, y=(h/8)+45)
+            self.cost = Entry(self.parent, bg='white', font=("Arail", 12))
+            self.cost.place(x=25/145 * w, y=(h/8)+50)
 
         def get_changes():
             res = tb.add_service(name=self.serv_name.get(),
@@ -467,7 +467,7 @@ class Remserv:
         self.parent.title("remove serv")
         heading = Label(self.parent, text="DELETE SERVICE", font=("Arial", 16))
         heading.pack()
-        id_label = Label(self.parent, text="Service ID ",
+        id_label = Label(self.parent, text="Service ID:",
                          font=("Times", 11),
                          anchor='center'
                          )
@@ -475,8 +475,8 @@ class Remserv:
 
         def reset():
             # Cust_id
-            self.id = Entry(self.parent, bg='white', font=("Arail", 8))
-            self.id.place(x=25/110 * w, y=(h/8)+25)
+            self.id = Entry(self.parent, bg='white', font=("Arail", 12))
+            self.id.place(x=25/100 * w, y=(h/8)+25)
 
         def get_changes():
             res = tb.remove_service(self.id.get())
