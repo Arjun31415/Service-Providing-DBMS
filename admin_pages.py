@@ -177,6 +177,8 @@ class Addemp:
         heading = Label(self.parent, text="NEW EMPLOYEE", font=("Arial", 16))
         heading.pack()
 
+        # ----------------------------------------------------------------
+
         def reset():
             # Email
             usr_label = Label(self.parent, text="Email:",
@@ -223,6 +225,8 @@ class Addemp:
             self.phn = Entry(self.parent, bg='white', font=("Arail", 8))
             self.phn.place(x=25/108 * w, y=(h/8)+86)
 
+        # ----------------------------------------------------------------
+
         def get_changes():
             tb.add_emp(
                 name=self.nam.get(),
@@ -232,6 +236,8 @@ class Addemp:
             )
             self.data = tb.get_customer_details(str(self.email))
 
+        # ----------------------------------------------------------------
+
         reset()
         savech = Button(self.parent, text='ADD', command=get_changes)
         savech.place(x=25/41*w, y=(h/8)+130)
@@ -239,7 +245,7 @@ class Addemp:
         canc = Button(self.parent, text='Cancel', command=reset)
         canc.place(x=25/70*w, y=(h/8)+130)
 
-    # ------------------------------------------------
+    # ----------------------------------------------------------------
 
     def hide(self):
         self.parent.withdraw()
@@ -261,7 +267,7 @@ class Addemp:
     # ----------------------------------------------------------------
 
     def on_closing(self, arg1=None, arg2=None):
-        # if messagebox.askokcancel("Quit", "Do you want to signout?"):
+
         self.parent.destroy()
         """
             closes the window and sends a message to the main window
@@ -269,8 +275,8 @@ class Addemp:
         pub.sendMessage("AddempWindowClosed", arg1="data")
     # ----------------------------------------------------------------
 
-################################################################################
 
+################################################################################
 
 class Removeemp:
 
@@ -415,11 +421,9 @@ class Addserv:
         reset()
         savech = Button(self.parent, text='ADD', command=get_changes)
         savech.place(x=25/41*w, y=(h/8)+130)
-        savech.bind('<Button-1>', self.on_closing)
 
         canc = Button(self.parent, text='Cancel', command=reset)
         canc.place(x=25/70*w, y=(h/8)+130)
-        canc.bind('<Button-1>', self.on_closing)
 
     # ------------------------------------------------
 
@@ -500,11 +504,9 @@ class Remserv:
         reset()
         savech = Button(self.parent, text='ADD', command=get_changes)
         savech.place(x=25/41*w, y=(h/8)+130)
-        savech.bind('<Button-1>', self.on_closing)
 
         canc = Button(self.parent, text='Cancel', command=reset)
         canc.place(x=25/70*w, y=(h/8)+130)
-        canc.bind('<Button-1>', self.on_closing)
 
     # ------------------------------------------------
 
