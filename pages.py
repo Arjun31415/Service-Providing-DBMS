@@ -113,9 +113,6 @@ class Login:
         pub.subscribe(self.force_close, "CustomerWindowClosed")
         pub.subscribe(self.force_close, "EmployeeWindowClosed")
         pub.subscribe(self.force_close, "AdminWindowClosed")
-        # pub.subscribe(self.listner, "CustomerWindowClosed")
-        # pub.subscribe(self.listner, "EmployeeWindowClosed")
-        # pub.subscribe(self.listner, "AdminWindowClosed")
 
     # ----------------------------------------------------------------
     def listner(self, arg1, arg2=None):
