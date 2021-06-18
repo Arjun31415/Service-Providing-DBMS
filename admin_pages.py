@@ -1,12 +1,12 @@
 import sys
 from tkinter import*
 from customer_pages import w, h
-from customer_pages import Editinfo
 from tkinter import messagebox
-from tkinter import ttk
 from tkcalendar import *
 from pubsub import pub
 import tables as tb
+
+#####################################################################################
 
 
 class Admin:

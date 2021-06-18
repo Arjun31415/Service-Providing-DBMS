@@ -83,7 +83,7 @@ class WelcomeWindow:
         if not login:
             self.hide()
             login = Toplevel(self.parent)
-            LoginWindow = Login(login)
+            Login(login)
         else:
             login.focus()
 
@@ -95,7 +95,7 @@ class WelcomeWindow:
         if not signup:
             self.hide()
             signup = Toplevel(self.parent)
-            SignupWindow = Signup(signup)
+            Signup(signup)
         else:
             signup.focus()
 
