@@ -104,7 +104,7 @@ class Customer:
 
         self.hide()
         bookservice = Toplevel(self.parent)
-        BookserviceWindow = Bookservice(bookservice)
+        Bookservice(bookservice)
 
     # ----------------------------------------------------------------
 
@@ -145,6 +145,7 @@ class Customer:
         """
         self.show()
     # ----------------------------------------------------------------
+
 #####################################################################################
 
 
@@ -152,9 +153,6 @@ class Bookservice:
 
     def __init__(self, master=None):
         self.parent = master
-
-        # Creating tkinter window
-
         self.parent.title('Combobox')
         self.parent.geometry('500x250')
 
@@ -177,7 +175,7 @@ class Bookservice:
         service_offered['values'] = (services)
 
         service_offered.grid(column=1, row=5)
-        ################################
+
         conf = Button(self.parent, text='Confirm')
         conf.place(x=25/45*w, y=(h/8)+90)
         conf.bind('<Button-1>', self.on_closing)
@@ -223,7 +221,8 @@ class Bookservice:
                    cal.get_date()
                )
                ).pack(pady=20)
-        a=cal.get_date()
+        a = cal.get_date()
+
         def destroy_date_window():
             date_window.destroy()
             self.show()
@@ -253,7 +252,6 @@ class Bookservice:
     # ----------------------------------------------------------------
 
     def on_closing(self, arg1=None, arg2=None):
-        # if messagebox.askokcancel("Quit", "Do you want to signout?"):
         self.parent.destroy()
         """
             closes the window and sends a message to the main window
@@ -358,11 +356,9 @@ class Editinfo:
         reset()
         savech = Button(self.parent, text='Save Changes', command=get_changes)
         savech.place(x=25/41*w, y=(h/8)+130)
-        #savech.bind('<Button-1>', self.on_closing)
 
-        canc = Button(self.parent, text='Cancel',command=reset)
+        canc = Button(self.parent, text='Cancel', command=reset)
         canc.place(x=25/70*w, y=(h/8)+130)
-        #canc.bind('<Button-1>', self.on_closing)
 
     # ------------------------------------------------
 
@@ -385,8 +381,7 @@ class Editinfo:
 
     # ----------------------------------------------------------------
 
-    def on_closing(self,arg1=None, arg2=None):
-        # if messagebox.askokcancel("Quit", "Do you want to signout?"):
+    def on_closing(self, arg1=None, arg2=None):
         self.parent.destroy()
         """
             closes the window and sends a message to the main window
