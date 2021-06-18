@@ -57,7 +57,7 @@ def set_prefs(prefs):
 
     # Shows whether to save history across sessions.
     prefs['save_history'] = True
-    prefs['compress_history'] = False
+    prefs['compress_history'] = True
 
     # Set the number spaces used for indenting.  According to
     # :PEP:`8`, it is best to use 4 spaces.  Since most of rope's
