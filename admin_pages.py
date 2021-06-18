@@ -186,14 +186,14 @@ class Addemp:
             usr_label.place(x=25/400*w, y=(h/8))
             self.mail = Entry(self.parent, bg='white', font=("Arail", 8))
             self.mail.place(x=25/135 * w, y=(h/8)+2)
-            # Cust_id
-            id_label = Label(self.parent, text="Identification No: ",
+            # Emp_id
+            id_label = Label(self.parent, text="Email Id: ",
                              font=("Times", 11),
                              anchor='center'
                              )
             id_label.place(x=25/400*w, y=(h/8)+23)
-            self.id = Entry(self.parent, bg='white', font=("Arail", 8))
-            self.id.place(x=25/110 * w, y=(h/8)+25)
+            self.email = Entry(self.parent, bg='white', font=("Arail", 8))
+            self.email.place(x=25/110 * w, y=(h/8)+25)
 
             # Name
             name_label = Label(self.parent, text="Name:",
@@ -224,10 +224,12 @@ class Addemp:
             self.phn.place(x=25/108 * w, y=(h/8)+86)
 
         def get_changes():
-            tb.add_emp(emp_id=self.id.get(),
-                       name=self.nam.get(),
-                       address=self.addr.get(),
-                       mobile=self.phn.get())
+            tb.add_emp(
+                name=self.nam.get(),
+                address=self.addr.get(),
+                mobile=self.phn.get(),
+                email=self.email.get()
+            )
             self.data = tb.get_customer_details(str(self.email))
 
         reset()
