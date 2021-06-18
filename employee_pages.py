@@ -108,15 +108,15 @@ class Employee:
 
         self.hide()
         enroll = Toplevel(self.parent)
-        EnrollWindow = Enroll(enroll)
+        EnrollWindow = Enroll(enroll, self.empid)
 
     # ----------------------------------------------------------------
-    
+
     def unenroll(self, event):
 
         self.hide()
         unenroll = Toplevel(self.parent)
-        UnenrollWindow = Unenroll(unenroll)
+        UnenrollWindow = Unenroll(unenroll, self.empid)
 
     # ----------------------------------------------------------------
 
@@ -161,12 +161,11 @@ class Employee:
     # ----------------------------------------------------------------
 
 ####################################################################################################################################
-<<<<<<< Updated upstream
-=======
+
 
 class Enroll:
 
-    def __init__(self, master=None):
+    def __init__(self, master=None, emp_id=None):
         self.parent = master
         self.parent.title('Combobox')
         self.parent.geometry('500x250')
@@ -194,9 +193,9 @@ class Enroll:
         conf = Button(self.parent, text='Confirm')
         conf.place(x=25/45*w, y=(h/8)+90)
         conf.bind('<Button-1>', self.on_closing)
-         # service_offered.current(0)
+        # service_offered.current(0)
         self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
-    
+
      # ----------------------------------------------------------------
     def hide(self):
         self.parent.withdraw()
@@ -225,9 +224,11 @@ class Enroll:
         pub.sendMessage("EnrollWindowClosed", arg1="data")
 
 ########################################################################################################
+
+
 class Unenroll:
 
-    def __init__(self, master=None):
+    def __init__(self, master=None, emp_id=None):
         self.parent = master
         self.parent.title('Combobox')
         self.parent.geometry('500x250')
@@ -247,19 +248,18 @@ class Unenroll:
         service_offered = ttk.Combobox(self.parent, width=27, textvariable=n)
 
         # Adding combobox drop down list
-        services = tb.get_services()
+        services = tb.get_services_enrolled(emp_id)
         service_offered['values'] = (services)
 
         service_offered.grid(column=1, row=5)
-        val= service_offered.get()
-          
+        val = service_offered.get()
 
         conf = Button(self.parent, text='Confirm')
         conf.place(x=25/45*w, y=(h/8)+90)
-        conf.bind('<Button-1>', self.on_closing)
-         # service_offered.current(0)
+        conf.bind('<Button-1>', tb.unenroll(emp_id, val))
+        # service_offered.current(0)
         self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
-    
+
      # ----------------------------------------------------------------
     def hide(self):
         self.parent.withdraw()
@@ -288,4 +288,3 @@ class Unenroll:
         pub.sendMessage("UnenrollWindowClosed", arg1="data")
 
 ########################################################################################################
->>>>>>> Stashed changes
