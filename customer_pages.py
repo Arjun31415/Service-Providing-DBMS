@@ -37,30 +37,49 @@ class Customer:
                           font=("Times", 11),
                           anchor='center'
                           )
-        usr_label.place(x=25/400*w, y=(h/8))
+        usr_label.place(x=25/400*w, y=(h/8)-2)
 
         # Cust_id
         id_label = Label(self.parent, text="Identification No: %s" % (data1["ID"]),
                          font=("Times", 11),
                          anchor='center'
                          )
-        id_label.place(x=25/400*w, y=(h/8)+20)
+        id_label.place(x=25/400*w, y=(h/8)+18)
 
         # address
         Add_label = Label(self.parent, text="Address:  %s" % (data1["Address"]),
                           font=("Times", 11),
                           anchor='center'
                           )
-        Add_label.place(x=25/400*w, y=(h/8)+40)
+        Add_label.place(x=25/400*w, y=(h/8)+38)
 
         # Phone NUmmber
         Phone_label = Label(self.parent, text="Phone No:  %s" % (data1["Mobile"]),
                             font=("Times", 11),
                             anchor='center'
                             )
-        Phone_label.place(x=25/400*w, y=(h/8)+60)
+        Phone_label.place(x=25/400*w, y=(h/8)+58)
+        # loyalty
+        a=0
+        if data1["Loyalty_id"]==101:
+            a=20
+            
+        elif data1["Loyalty_id"]==102:
+            a=30
+        elif data1["Loyalty_id"]==103:
+            a=40
+        else:
+            a=0   
+        loyal_label = Label(self.parent, text="Loyalty: " +str(a),
+                            font=("Times", 11),
+                            anchor='center'
+                            )
+        loyal_label.place(x=25/400*w, y=(h/8)+75)    
 
-        # for service
+
+
+        
+       # for service
         book_label = Label(self.parent, text="Book a Service:",
                            font=("Times", 11),
                            anchor='center'
@@ -70,33 +89,33 @@ class Customer:
         Book.place(x=25/150*w, y=(h/8)+120)
         Book.bind('<Button-1>', self.bookservice)
 
-        # for
-        idk_label = Label(self.parent, text="Booking Details:",
-                          font=("Times", 11),
-                          anchor='center'
-                          )
-        idk_label.place(x=25/43*w, y=(h/8)+95)
-        idk = Button(self.parent, text='View')
-        idk.place(x=25/38*w, y=(h/8)+120)
-        # idk.bind('<Button-1>', self.authenticate)
+        # # for
+        # idk_label = Label(self.parent, text="Booking Details:",
+        #                   font=("Times", 11),
+        #                   anchor='center'
+        #                   )
+        # idk_label.place(x=25/43*w, y=(h/8)+95)
+        # idk = Button(self.parent, text='View')
+        # idk.place(x=25/38*w, y=(h/8)+120)
+        # # idk.bind('<Button-1>', self.authenticate)
 
-        # payment
-        pay_label = Label(self.parent, text="Payment:",
-                          font=("Times", 11),
-                          anchor='center'
-                          )
-        pay_label.place(x=25/185*w, y=(h/8)+170)
-        pay = Button(self.parent, text='View')
-        pay.place(x=25/150*w, y=(h/8)+195)
+        # # payment
+        # pay_label = Label(self.parent, text="Payment:",
+        #                   font=("Times", 11),
+        #                   anchor='center'
+        #                   )
+        # pay_label.place(x=25/185*w, y=(h/8)+170)
+        # pay = Button(self.parent, text='View')
+        # pay.place(x=25/150*w, y=(h/8)+195)
 
-        # details
+        # # details
         pro_label = Label(self.parent, text="Edit Profile:",
                           font=("Times", 11),
                           anchor='center'
                           )
-        pro_label.place(x=25/42*w, y=(h/8)+170)
+        pro_label.place(x=25/43*w, y=(h/8)+95)
         pro = Button(self.parent, text='Edit')
-        pro.place(x=25/38*w, y=(h/8)+195)
+        pro.place(x=25/38*w, y=(h/8)+120)
         pro.bind('<Button-1>', self.editinfo)
      # ----------------------------------------------------------------
 
@@ -181,13 +200,13 @@ class Bookservice:
         conf.bind('<Button-1>', self.on_closing)
         # service_offered.current(0)
         self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
-
+        
         pick = Button(self.parent, text='Pick Data')
         pick.place(x=25/400*w, y=(h/8)+28)
         pick.bind('<Button-1>', self.pickdate)
-
-        pro_label = Label(self.parent, text=":",
-                          font=("Times", 14),
+        
+        pro_label = Label(self.parent, text=": ",
+                          font=("Arial", 12),
                           anchor='center'
                           )
         pro_label.place(x=25/100*w, y=(h/8)+28)
@@ -196,7 +215,7 @@ class Bookservice:
 
     # ----------------------------------------------------------------
 
-    def pickdate(self, event):
+    def pickdate(self,event):
 
         self.hide()
         date_window = Tk()
@@ -221,7 +240,7 @@ class Bookservice:
                    cal.get_date()
                )
                ).pack(pady=20)
-        a = cal.get_date()
+      
 
         def destroy_date_window():
             date_window.destroy()
@@ -229,7 +248,7 @@ class Bookservice:
         Button(date_window, text="Confirm",
                command=destroy_date_window).pack(pady=25)
         date.pack(pady=20)
-        return(a)
+     
     # ------------------------------------------------
 
     def hide(self):

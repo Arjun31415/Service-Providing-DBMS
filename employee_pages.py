@@ -7,6 +7,7 @@ from tkinter import ttk
 from tkcalendar import *
 from pubsub import pub
 import tables as tb
+#import tabulate
 
 
 class Employee:
@@ -20,6 +21,7 @@ class Employee:
         pub.subscribe(self.listner, "EditinfoWindowClosed")
         pub.subscribe(self.listner, "EnrollWindowClosed")
         pub.subscribe(self.listner, "UnenrollWindowClosed")
+        pub.subscribe(self.listner, "ViewdetWindowClosed")
         # Make the page widgets
         self.make_widgets()
 
@@ -62,6 +64,12 @@ class Employee:
                             )
         Phone_label.place(x=25/400*w, y=(h/8)+60)
 
+        # Phone NUmmber
+        name_label = Label(self.parent, text="Name:  %s" % (data1["Name"]),
+                            font=("Times", 11),
+                            anchor='center'
+                            )
+        name_label.place(x=25/400*w, y=(h/8)+78)
         # for service
         book_label = Label(self.parent, text="Enroll a Service:",
                            font=("Times", 11),
@@ -81,7 +89,7 @@ class Employee:
         idk_label.place(x=25/43*w, y=(h/8)+95)
         idk = Button(self.parent, text='View')
         idk.place(x=25/38*w, y=(h/8)+120)
-        # idk.bind('<Button-1>', self.authenticate)
+        idk.bind('<Button-1>', self.viewdet)
 
         # payment
         pay_label = Label(self.parent, text="Unenroll serivce:",
@@ -119,6 +127,13 @@ class Employee:
         Unenroll(unenroll, self.empid)
 
     # ----------------------------------------------------------------
+    def viewdet(self, event):
+
+        self.hide()
+        viewdet = Toplevel(self.parent)
+        Viewdet(viewdet, self.empid)
+
+    # ----------------------------------------------------------------
 
     def editinfo(self, event):
 
@@ -128,8 +143,8 @@ class Employee:
             email=self.email,
             person='e',
             master=editinfo)
-
-# ----------------------------------------------------------------
+    # ----------------------------------------------------------------
+    
     def on_closing(self):
 
         if messagebox.askokcancel("Quit", "Do you want to signout?"):
@@ -168,7 +183,7 @@ class Enroll:
     def __init__(self, master=None, emp_id=None):
         self.parent = master
         self.parent.title('Combobox')
-        self.parent.geometry('700x700')
+        self.parent.geometry('500x250')
 
         # label text for title
         ttk.Label(self.parent, text="Enroll Your Service",
@@ -317,3 +332,61 @@ class Unenroll:
         pub.sendMessage("UnenrollWindowClosed", arg1="data")
 
 ########################################################################################################
+class Viewdet:
+
+    def __init__(self, master=None, emp_id=None):
+        self.parent = master
+        
+        self.emp_id = emp_id
+        self.make_widgets()
+        # label
+
+        self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
+
+     # ----------------------------------------------------------------
+    def make_widgets(self):
+        lst=[("service Name","Cost","Employee ID"),(1,2,3),(4,5,6),(7,8,9)]
+        total_rows = len(lst)
+        total_columns = len(lst[0])
+        for i in range(total_rows):
+            for j in range(total_columns):
+                self.e = Entry(self.parent, width=20, fg='Black',
+                               font=('Arial',12,'bold'))
+                  
+                self.e.grid(row=i, column=j)
+                self.e.insert(END, lst[i][j])
+# ----------------------------------------------------------------
+        
+        # print("val: ", self.val)
+        conf = Button(self.parent, text='Done')
+        #
+        conf.place(x=25/45*w, y=(h/8)+90)
+        # service_offered.current(0)
+    
+    #_____________________________________________
+    def hide(self):
+        self.parent.withdraw()
+
+    # ----------------------------------------------------------------
+
+    def show(self):
+        self.parent.update()
+        self.parent.deiconify()
+
+    # ----------------------------------------------------------------
+
+    def listner(self, arg1, arg2=None):
+        """
+        pubsub listener - opens main frame when otherFrame closes
+        """
+        self.show()
+
+    # ----------------------------------------------------------------
+
+    def on_closing(self, arg1=None, arg2=None):
+        self.parent.destroy()
+        """
+            closes the window and sends a message to the main window
+        """
+        pub.sendMessage("ViewdetWindowClosed", arg1="data")
+

@@ -28,7 +28,7 @@ class Admin:
     def make_widgets(self):
         # put the widgets
         self.parent.title("Admin Page")
-        heading = Label(self.parent, text="Admin Dashboard",
+        heading = Label(self.parent, text="Welcome",
                         font=("Arial", 16))
         heading.pack()
 
