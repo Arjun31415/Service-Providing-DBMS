@@ -305,12 +305,15 @@ print(cursor.rowcount, "Rows Inserted")
 # Insert
 # ----------------------------------------------------------------
 
-admindata = [("3001", "anusha@gmail.com", "anusha", "alwarpet"), ("3002", "mohini@yahoo.com", "mohini", "chetpet"),
-             ("3003", "sunita@gmail.com", "sunitha", "nungambakam"), ("3004",
-                                                                      "shankar@yahoo.com", "shankar", "egmore"),
-             ("3005", "ram@gmail.com", "ram", "anna nagar"), ("3006",
-                                                              "yash@yahoo.com", "yash", "guindy"),
-             ("3007", "kamala@gmail.com", "kamala", "adyar"), ("3008", "hari@yahoo.com", "hari", "kilpauk")]
+admindata = [("3001", "anusha@gmail.com", "anusha", "alwarpet"),
+             ("3002", "mohini@yahoo.com", "mohini", "chetpet"),
+             ("3003", "sunita@gmail.com", "sunitha", "nungambakam"),
+             ("3004", "shankar@yahoo.com", "shankar", "egmore"),
+             ("3005", "ram@gmail.com", "ram", "anna nagar"),
+             ("3006", "yash@yahoo.com", "yash", "guindy"),
+             ("3007", "kamala@gmail.com", "kamala", "adyar"),
+             ("3008", "hari@yahoo.com", "hari", "kilpauk")
+             ]
 
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(ADMIN(admin_id)) */  into admin values(:1,:2,:3,:4)",
