@@ -1107,6 +1107,20 @@ def get_services_to_be_done(emp_id):
         temp[i] = tuple(temp[i])
     return temp
 
+
+def book_serv(cust_id, date, service_name):
+    cursor.execute(
+        "select service_id from SERVICE where service_name='%s'" % (service_name))
+    serv_id = cursor.fetchone()[0]
+    cursor.execute(
+        """
+        insert into CUST_AVAILS_SERVICE
+        values('%s','%s')
+         """
+        % (serv_id, cust_id))
+    connection.commit()
+    print("successfull booked service")
+    return
 # enroll_service(1001, "disinfecting")
 # get_services_enrolled(1001)
 

@@ -40,6 +40,7 @@ class Customer:
         usr_label.place(x=25/400*w, y=(h/8)-2)
 
         # Cust_id
+        self.id = data1["ID"]
         id_label = Label(self.parent, text="Identification No: %s" % (data1["ID"]),
                          font=("Times", 11),
                          anchor='center'
@@ -120,7 +121,7 @@ class Customer:
 
         self.hide()
         bookservice = Toplevel(self.parent)
-        Bookservice(bookservice)
+        Bookservice(bookservice, self.id)
 
     # ----------------------------------------------------------------
 
@@ -167,10 +168,11 @@ class Customer:
 
 class Bookservice:
 
-    def __init__(self, master=None):
+    def __init__(self, master=None, cust_id=None):
         self.parent = master
         self.parent.title('Combobox')
         self.parent.geometry('500x250')
+        self.cust_id = cust_id
 
         # label text for title
         ttk.Label(self.parent, text="BooK Your Service",
@@ -194,7 +196,13 @@ class Bookservice:
 
         conf = Button(self.parent, text='Confirm')
         conf.place(x=25/45*w, y=(h/8)+90)
-        conf.bind('<Button-1>', self.on_closing)
+
+        def book(x=None):
+            tb.book_serv(cust_id=self.cust_id,
+                         date=self.booked_date,
+                         service_name=service_offered.get())
+
+        conf.bind('<Button-1>', book)
         # service_offered.current(0)
         self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
 
@@ -231,10 +239,14 @@ class Bookservice:
         # Add Button and Label
         date = Label(date_window, text="")
 
+        def get_date():
+            self.booked_date = cal.get_date()
+            print(self.booked_date)
+            return self.booked_date
         Button(date_window, text="Get Date",
                command=lambda: date.config(
                    text="Selected Date is: " +
-                   cal.get_date()
+                   get_date()
                )
                ).pack(pady=20)
 

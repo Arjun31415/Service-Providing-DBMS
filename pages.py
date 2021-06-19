@@ -127,9 +127,9 @@ class Login:
         heading.pack()
         self.username = Entry(self.root, bg='white', font=("Arail", 14))
 
-        # username Entry field
+        # Email Entry field
         self.username.place(x=160/400 * w, y=h/6)
-        usr_label = Label(self.root, text="Enter Username:",
+        usr_label = Label(self.root, text="Enter Email:",
                           font=("Times", 14),
                           anchor='center'
                           )
