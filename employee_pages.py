@@ -338,7 +338,7 @@ class Viewdet:
 
     def __init__(self, master=None, emp_id=None):
         self.parent = master
-        self.parent.geometry('1500x500')
+        self.parent.geometry('500x250')
         self.emp_id = emp_id
 
         # label
@@ -366,7 +366,7 @@ class Viewdet:
         conf = Button(self.parent, text='Done')
         #
         conf.place(x=25/45*w, y=(h/8)+90)
-        # service_offered.current(0)
+        conf.bind('<Button-1>', self.on_closing)
 
     # _____________________________________________
     def hide(self):
