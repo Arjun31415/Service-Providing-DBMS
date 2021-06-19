@@ -714,6 +714,11 @@ def auth_signup(email, password, Type="c"):
         cursor.execute(
             "insert into CUSTOMER(email_id) values(:EMAIL) ", EMAIL=email)
         print(cursor.rowcount, "Rows Inserted")
+        cursor.execute(
+            "select cust_id from CUSTOMER where email_id='%s'" % (email))
+        cust_id = cursor.fetchone()[0]
+        cursor.execute(
+            "insert into CUSTPHONE(cust_id) values('%s')" % (cust_id))
         connection.commit()
     return 1
 

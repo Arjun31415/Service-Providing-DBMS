@@ -60,25 +60,22 @@ class Customer:
                             )
         Phone_label.place(x=25/400*w, y=(h/8)+58)
         # loyalty
-        a=0
-        if data1["Loyalty_id"]==101:
-            a=20
-            
-        elif data1["Loyalty_id"]==102:
-            a=30
-        elif data1["Loyalty_id"]==103:
-            a=40
+        a = 0
+        if data1["Loyalty_id"] == 101:
+            a = 20
+
+        elif data1["Loyalty_id"] == 102:
+            a = 30
+        elif data1["Loyalty_id"] == 103:
+            a = 40
         else:
-            a=0   
-        loyal_label = Label(self.parent, text="Loyalty: " +str(a),
+            a = 0
+        loyal_label = Label(self.parent, text="Loyalty: " + str(a),
                             font=("Times", 11),
                             anchor='center'
                             )
-        loyal_label.place(x=25/400*w, y=(h/8)+75)    
+        loyal_label.place(x=25/400*w, y=(h/8)+75)
 
-
-
-        
        # for service
         book_label = Label(self.parent, text="Book a Service:",
                            font=("Times", 11),
@@ -200,11 +197,11 @@ class Bookservice:
         conf.bind('<Button-1>', self.on_closing)
         # service_offered.current(0)
         self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
-        
+
         pick = Button(self.parent, text='Pick Data')
         pick.place(x=25/400*w, y=(h/8)+28)
         pick.bind('<Button-1>', self.pickdate)
-        
+
         pro_label = Label(self.parent, text=": ",
                           font=("Arial", 12),
                           anchor='center'
@@ -215,7 +212,7 @@ class Bookservice:
 
     # ----------------------------------------------------------------
 
-    def pickdate(self,event):
+    def pickdate(self, event):
 
         self.hide()
         date_window = Tk()
@@ -240,7 +237,6 @@ class Bookservice:
                    cal.get_date()
                )
                ).pack(pady=20)
-      
 
         def destroy_date_window():
             date_window.destroy()
@@ -248,7 +244,7 @@ class Bookservice:
         Button(date_window, text="Confirm",
                command=destroy_date_window).pack(pady=25)
         date.pack(pady=20)
-     
+
     # ------------------------------------------------
 
     def hide(self):
@@ -319,6 +315,10 @@ class Editinfo:
 
         def reset():
             # Name
+            if(person == 'c'):
+                self.data = tb.get_customer_details(str(self.email))
+            elif(person == 'e'):
+                self.data = tb.get_employee_details(str(self.email))
             name_label = Label(self.parent, text="Name:",
                                font=("Times", 11),
                                anchor='center'
@@ -359,11 +359,13 @@ class Editinfo:
                 self.phn.insert(END, self.data["Mobile"])
 
         def get_changes():
+            name = self.nam.get()
             if(person == 'c'):
-                tb.change_custdetails(cust_id=self.data["ID"],
-                                      name=self.nam.get(),
-                                      address=self.addr.get(),
-                                      mobile=self.phn.get())
+                print(name)
+                tb.change_custdetails(self.data["ID"],
+                                      name,
+                                      (self.addr.get()),
+                                      (self.phn.get()))
                 self.data = tb.get_customer_details(str(self.email))
             elif(person == 'e'):
                 tb.change_empdetails(emp_id=self.data["ID"],
