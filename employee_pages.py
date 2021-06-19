@@ -338,7 +338,7 @@ class Viewdet:
 
     def __init__(self, master=None, emp_id=None):
         self.parent = master
-
+        self.parent.geometry('1500x500')
         self.emp_id = emp_id
 
         # label
@@ -349,7 +349,8 @@ class Viewdet:
      # ----------------------------------------------------------------
     def make_widgets(self):
         lst = tb.get_services_to_be_done(self.emp_id)
-        lst.insert(0, ("service Name", "Customer ID", "Date", "Cost"))
+        lst.insert(0, ("service Name", "Customer Name",
+                   "Address", "Phone No.", "Date", "Cost"))
         total_rows = len(lst)
         total_columns = len(lst[0])
         for i in range(total_rows):

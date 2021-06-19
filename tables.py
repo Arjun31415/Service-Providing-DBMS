@@ -153,8 +153,11 @@ begin
      select count(table_name) into table_exists from USER_TABLES where table_name='CUSTPHONE';
 
     if (table_exists = 0) then
-        execute immediate 'create table custphone (cust_id number(7,0),phone_no number(10,0),constraint fk_custid
-        foreign key(cust_id) references Customer(cust_id) ON DELETE CASCADE ) ';
+        execute immediate 'create table custphone (cust_id number(7,0),phone_no number(10,0),
+        constraint fk_custid foreign key(cust_id) 
+            references Customer(cust_id) ON DELETE CASCADE,
+        constraint uq_id_no UNIQUE(cust_id,phone_no) )
+         ';
     end if;
 end;
 """)
@@ -427,10 +430,13 @@ custphonedata = [("2001", "9036373238"),
                  ("2006", "9772621900"),
                  ("2007", "8936211028"),
                  ("2008", "9836271263")]
-cursor.executemany(
-    "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into Custphone values(:1,:2)",
-    custphonedata)
-print(cursor.rowcount, "Rows Inserted")
+try:
+    cursor.executemany(
+        "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into Custphone values(:1,:2)",
+        custphonedata)
+    print(cursor.rowcount, "Rows Inserted")
+except cx_Oracle.IntegrityError:
+    print("0 Rows inserted")
 connection.commit()
 # ----------------------------------------------------------------
 # Insert
@@ -1079,10 +1085,12 @@ def enroll_service(emp_id, service_name):
 def get_services_to_be_done(emp_id):
     cursor.execute(
         """
-            select A.service_name ,B.cust_id,B.service_date,A.service_cost
-            from service A,Bill1 B,Bill2 C
+            select A.service_name ,D.cust_name,D.address,E.phone_no,B.service_date,A.service_cost
+            from service A,Bill1 B,Bill2 C,Customer D,Custphone E
             where B.bill_id=C.bill_id and
             C.service_id=A.service_id and 
+            D.cust_id=B.cust_id and
+            D.cust_id=E.cust_id and
             B.emp_id='%s'
         """
         % (emp_id)
@@ -1090,7 +1098,7 @@ def get_services_to_be_done(emp_id):
     temp = cursor.fetchall()
     for i in range(len(temp)):
         temp[i] = list(temp[i])
-        temp[i][2] = temp[i][2].strftime("%d %B, %Y")
+        temp[i][4] = temp[i][4].strftime("%d %B, %Y")
         temp[i] = tuple(temp[i])
     return temp
 
