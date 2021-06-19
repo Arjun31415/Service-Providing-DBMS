@@ -66,9 +66,9 @@ class Employee:
 
         # Phone NUmmber
         name_label = Label(self.parent, text="Name:  %s" % (data1["Name"]),
-                            font=("Times", 11),
-                            anchor='center'
-                            )
+                           font=("Times", 11),
+                           anchor='center'
+                           )
         name_label.place(x=25/400*w, y=(h/8)+78)
         # for service
         book_label = Label(self.parent, text="Enroll a Service:",
@@ -144,7 +144,7 @@ class Employee:
             person='e',
             master=editinfo)
     # ----------------------------------------------------------------
-    
+
     def on_closing(self):
 
         if messagebox.askokcancel("Quit", "Do you want to signout?"):
@@ -332,38 +332,42 @@ class Unenroll:
         pub.sendMessage("UnenrollWindowClosed", arg1="data")
 
 ########################################################################################################
+
+
 class Viewdet:
 
     def __init__(self, master=None, emp_id=None):
         self.parent = master
-        
+
         self.emp_id = emp_id
-        self.make_widgets()
+
         # label
 
         self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
+        self.make_widgets()
 
      # ----------------------------------------------------------------
     def make_widgets(self):
-        lst=[("service Name","Cost","Employee ID"),(1,2,3),(4,5,6),(7,8,9)]
+        lst = tb.get_services_to_be_done(self.emp_id)
+        lst.insert(0, ("service Name", "Customer ID", "Date", "Cost"))
         total_rows = len(lst)
         total_columns = len(lst[0])
         for i in range(total_rows):
             for j in range(total_columns):
                 self.e = Entry(self.parent, width=20, fg='Black',
-                               font=('Arial',12,'bold'))
-                  
+                               font=('Arial', 12, 'bold'))
+
                 self.e.grid(row=i, column=j)
                 self.e.insert(END, lst[i][j])
 # ----------------------------------------------------------------
-        
+
         # print("val: ", self.val)
         conf = Button(self.parent, text='Done')
         #
         conf.place(x=25/45*w, y=(h/8)+90)
         # service_offered.current(0)
-    
-    #_____________________________________________
+
+    # _____________________________________________
     def hide(self):
         self.parent.withdraw()
 
@@ -389,4 +393,3 @@ class Viewdet:
             closes the window and sends a message to the main window
         """
         pub.sendMessage("ViewdetWindowClosed", arg1="data")
-

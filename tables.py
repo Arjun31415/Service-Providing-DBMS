@@ -1,4 +1,6 @@
 import cx_Oracle
+from datetime import datetime
+
 f = open("database-user.txt", "r")
 connection = cx_Oracle.connect(
     user=((f.readline()).strip('\n')),
@@ -1074,9 +1076,29 @@ def enroll_service(emp_id, service_name):
         return 1
 
 
+def get_services_to_be_done(emp_id):
+    cursor.execute(
+        """
+            select A.service_name ,B.cust_id,B.service_date,A.service_cost
+            from service A,Bill1 B,Bill2 C
+            where B.bill_id=C.bill_id and
+            C.service_id=A.service_id and 
+            B.emp_id='%s'
+        """
+        % (emp_id)
+    )
+    temp = cursor.fetchall()
+    for i in range(len(temp)):
+        temp[i] = list(temp[i])
+        temp[i][2] = temp[i][2].strftime("%d %B, %Y")
+        temp[i] = tuple(temp[i])
+    return temp
+
 # enroll_service(1001, "disinfecting")
 # get_services_enrolled(1001)
 
+
+print(get_services_to_be_done(1001))
 # ----------------------------------------------------------------------------------------------
 # remove_emp(emp_id=1001)
 # change_empdetails(1001, address="hwaii", mobile=1234567890, name="Ram")
