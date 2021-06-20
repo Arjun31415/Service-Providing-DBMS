@@ -120,6 +120,7 @@ class Login:
         pubsub listener - opens main frame when otherFrame closes
         """
         self.show()
+    # -----------------------------------------------------------------
 
     def make_widgets(self):
         self.root.title("Login")

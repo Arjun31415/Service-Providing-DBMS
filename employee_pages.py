@@ -224,6 +224,7 @@ class Enroll:
     def hide(self):
         self.parent.withdraw()
 
+    # ----------------------------------------------------------------
     def enroll_service(self, emp_id):
         self.val = self.service_offered.get()
         res = tb.enroll_service(emp_id, self.val)
@@ -278,7 +279,8 @@ class Unenroll:
 
         self.parent.protocol("WM_DELETE_WINDOW", self.on_closing)
 
-     # ----------------------------------------------------------------
+    # ----------------------------------------------------------------
+
     def make_widgets(self):
         ttk.Label(self.parent, text="Enter the service name :",
                   font=("Times New Roman", 10)).grid(column=0,
@@ -360,7 +362,6 @@ class Viewdet:
 
                 self.e.grid(row=i, column=j)
                 self.e.insert(END, lst[i][j])
-# ----------------------------------------------------------------
 
         # print("val: ", self.val)
         conf = Button(self.parent, text='Done')
@@ -369,6 +370,7 @@ class Viewdet:
         conf.bind('<Button-1>', self.on_closing)
 
     # _____________________________________________
+
     def hide(self):
         self.parent.withdraw()
 
@@ -394,3 +396,5 @@ class Viewdet:
             closes the window and sends a message to the main window
         """
         pub.sendMessage("ViewdetWindowClosed", arg1="data")
+
+##################################################################################################
