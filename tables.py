@@ -12,6 +12,7 @@ print("Successfully connected to Oracle Database")
 
 cursor = connection.cursor()
 
+# ----------------------------------------------------------------
 
 # Create Alogin table if it doesn't already exist
 # ----------------------------------------------------------------
@@ -28,9 +29,11 @@ begin
     end if;
 end;
 """)
+
 # ----------------------------------------------------------------
 
 # Create Admin table if it does not already exist
+# ----------------------------------------------------------------------------------------------
 cursor.execute("""
 declare
     table_exists number:=0;
@@ -67,6 +70,7 @@ begin
     end if;
 end;
 """)
+
 # ----------------------------------------------------------------
 
 # Create the loyalty table if it does not already exist
@@ -84,6 +88,7 @@ begin
     end if;
 end;
 """)
+
 # ----------------------------------------------------------------
 
 # Create the Customer table if it does not already exist
@@ -125,6 +130,7 @@ begin
     end if;
 end;
 """)
+
 # ----------------------------------------------------------------
 
 # Create the empphone table if it does not already exist
@@ -142,6 +148,7 @@ begin
     end if;
 end;
 """)
+
 # ----------------------------------------------------------------
 
 # Create the table custphone if it does not already exist
@@ -161,6 +168,7 @@ begin
     end if;
 end;
 """)
+
 # ----------------------------------------------------------------
 
 # Create the Service table if it does not already exist
@@ -179,6 +187,7 @@ begin
     end if;
 end;
 """)
+
 # ----------------------------------------------------------------
 
 # Create cust_avails_service table if it does not already exist
@@ -197,6 +206,7 @@ begin
     end if;
 end;
 """)
+
 # ----------------------------------------------------------------
 
 # Create the EMPLOYEE PERFORMS SERVICE TABLE if it does not already exist
@@ -320,8 +330,10 @@ cursor.executemany(
     admindata)
 print(cursor.rowcount, "Rows Inserted")
 
+# ----------------------------------------------------------------------------------------------
+
 # Insert
-# ----------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------
 empdata = [("1001", "mina@gmail.com", "mina", "mandaveli"),
            ("1002", "jayendra@yahoo.com", "jayendra", "perumbakkam"),
            ("1003", "amar@gmail.com", "amar", "nandanam"),
@@ -340,7 +352,11 @@ print(cursor.rowcount, "Rows Inserted")
 
 # Insert
 # ----------------------------------------------------------------
-loyaltydata = [("101", "gold"), ("102", "silver"), ("103", "bronze")]
+loyaltydata = [
+    ("101", "gold"),
+    ("102", "silver"),
+    ("103", "bronze")
+]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(LOYALTY(loyalty_id)) */into loyalty (loyalty_id,loyalty_name) values(:1,:2)",
     loyaltydata)
@@ -378,7 +394,8 @@ servicedata = [("a101", "office cleaning", 2000),
                ("b102", "plumbing", 2200),
                ("a104", "household cleaning", 5000),
                ("c102", "appliance repair", 1600),
-               ('b103', 'pest control', 3700)]
+               ('b103', 'pest control', 3700)
+               ]
 
 cursor.executemany(
     """insert
@@ -398,7 +415,8 @@ adminphonedata = [("3001", "9392246754"),
                   ("3005", "9850457389"),
                   ("3006", "9126076732"),
                   ("3007", "9650123497"),
-                  ("3008", "8935412765")]
+                  ("3008", "8935412765")
+                  ]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(ADMIN(admin_id)) */  into adminphone values(:1,:2)",
     adminphonedata)
@@ -415,7 +433,8 @@ empphonedata = [("1001", "9766345483"),
                 ("1005", "9874636263"),
                 ("1006", "9352632752"),
                 ("1007", "9463846010"),
-                ("1008", "8637226377")]
+                ("1008", "8637226377")
+                ]
 cursor.executemany(
     "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(EMPLOYEE(emp_id)) */ into empphone values(:1,:2)",
     empphonedata)
@@ -432,7 +451,8 @@ custphonedata = [("2001", "9036373238"),
                  ("2005", "9144537827"),
                  ("2006", "9772621900"),
                  ("2007", "8936211028"),
-                 ("2008", "9836271263")]
+                 ("2008", "9836271263")
+                 ]
 try:
     cursor.executemany(
         "insert /*+ IGNORE_ROW_ON_DUPKEY_INDEX(CUSTOMER(cust_id)) */ into Custphone values(:1,:2)",
@@ -606,6 +626,7 @@ def get_customer_details(email):
     data["Mobile"] = (phone_no[0][0])
     print(data)
     return data
+# ----------------------------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------------------------
 
@@ -643,6 +664,10 @@ def get_employee_details(email):
     print(data)
     return data
 
+# ----------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------
+
 
 def get_admin_details(email):
 
@@ -677,6 +702,8 @@ def get_admin_details(email):
     return data
 # ----------------------------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------------------------
+
 
 def get_loyalty(email):
     cursor.execute(
@@ -695,9 +722,6 @@ def get_loyalty(email):
     IF an employee or admin account is to be made
     then it will be done by the existing admin account
 """
-# ----------------------------------------------------------------------------------------------
-
-# ----------------------------------------------------------------------------------------------
 
 
 def auth_signup(email, password, Type="c"):
@@ -783,6 +807,8 @@ def change_custdetails(cust_id, name=None, address=None, mobile=None):
 
 # ----------------------------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------------------------
+
 
 def change_empdetails(emp_id, name=None, address=None, mobile=None):
     """
@@ -832,8 +858,14 @@ def change_empdetails(emp_id, name=None, address=None, mobile=None):
         return "update successfull"
 # ----------------------------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------------------------
+
 
 def get_services():
+    """
+        get the list of services available as a list of tuples
+
+    """
     cursor.execute(
         """select service_name from service"""
     )
@@ -843,8 +875,14 @@ def get_services():
 
 # ----------------------------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------------------------
+
 
 def add_emp(name, address, mobile, email):
+    """
+        given details of a new employee, 
+        add the employee if he already does not exist
+    """
     try:
         cursor.execute(
             """
@@ -911,6 +949,8 @@ def add_emp(name, address, mobile, email):
 
 # ----------------------------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------------------------
+
 
 def remove_emp(emp_id):
 
@@ -942,6 +982,8 @@ def remove_emp(emp_id):
 
 # ----------------------------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------------------------
+
 
 def add_service(serv_id, name, cost):
     try:
@@ -967,6 +1009,10 @@ def add_service(serv_id, name, cost):
     except cx_Oracle.IntegrityError:
         return 1
 
+# ----------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------
+
 
 def remove_service(serv_id):
     try:
@@ -985,6 +1031,10 @@ def remove_service(serv_id):
     except Exception as e:
         print(e)
         return 1
+
+# ----------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------
 
 
 def get_services_enrolled(emp_id, only_name=1):
@@ -1026,6 +1076,10 @@ def get_services_enrolled(emp_id, only_name=1):
 
         return temp
 
+# ----------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------
+
 
 def unenroll(emp_id, service_name):
     try:
@@ -1054,6 +1108,10 @@ def unenroll(emp_id, service_name):
     except Exception as e:
         print(e)
         return 1
+
+# ----------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------
 
 
 def enroll_service(emp_id, service_name):
@@ -1094,6 +1152,10 @@ def enroll_service(emp_id, service_name):
         print(e)
         return 1
 
+# ----------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------
+
 
 def get_services_to_be_done(emp_id):
     cursor.execute(
@@ -1115,6 +1177,10 @@ def get_services_to_be_done(emp_id):
         temp[i] = tuple(temp[i])
     return temp
 
+# ----------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------
+
 
 def book_serv(cust_id, date, service_name):
     cursor.execute(
@@ -1129,16 +1195,10 @@ def book_serv(cust_id, date, service_name):
     connection.commit()
     print("successfull booked service")
     return
-# enroll_service(1001, "disinfecting")
-# get_services_enrolled(1001)
 
-
-print(get_services_to_be_done(1001))
 # ----------------------------------------------------------------------------------------------
-# remove_emp(emp_id=1001)
-# change_empdetails(1001, address="hwaii", mobile=1234567890, name="Ram")
-# cursor.execute("""insert into EMPPHONE values(1001, 1234567890)""")
-# print(add_service("b10001", "ooga", 100000))
-# add_emp(name="Shyma", address="2nd wolf street",
-#         mobile=1234567890, email="memem@gmail.com")
+
+
 connection.commit()
+
+#################################################################################################
